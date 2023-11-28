@@ -1,5 +1,10 @@
 export default function TestUI(props) {
     console.log('Update TestUI!')
+    
+    async function createSessionACB() {
+        // Call the getDeckID function on the model
+        await props.model.getDeckID();
+    }
     return (
         <div>
             <h1>UI Tester</h1>
@@ -7,6 +12,7 @@ export default function TestUI(props) {
             <h3>players (type Array): {`${props.model.players}`}</h3>
             <p>numberOfPlayer: { } </p>
             <p>yourTurn (a playerID type String): {props.model.numberOfPlayer}</p>
+            <button onClick={createSessionACB}>Create session on API</button>   {/*Added by Albin & Martin to test session from API*/}
             <div>{props.model.players.map(playersRendering)}</div>
         </div>);
 
