@@ -1,11 +1,12 @@
 import { createApp, reactive } from 'vue'
 import './style.css'
 import App from './App.jsx'
-
+import { initializeApp } from "firebase/app";
+import firebaseConfig from './firebaseConfig.js';
 //* ----------------------------- Updates
 // main.js changed to main.jsx to use <App> syntaxis
 //* ----------------------------- 
-
+const firebaseApp = initializeApp(firebaseConfig);
 //! ----------------------------- Test
 const miniModel = { //! You can remove this once you connect the real model
     sessionID: 'd5x0uw65g416',
