@@ -1,6 +1,7 @@
 import { createApp, reactive } from 'vue'
 import './style.css'
 import App from './App.jsx'
+import * as model from './SessionModel.js'
 
 //* ----------------------------- Updates
 // main.js changed to main.jsx to use <App> syntaxis
@@ -8,7 +9,7 @@ import App from './App.jsx'
 
 //! ----------------------------- Test
 const miniModel = { //! You can remove this once you connect the real model
-    sessionID: 'd5x0uw65g416',
+    sessionID: model.sessionID,
     players: [{
         playerID: 'someID1',
         isHost: true,
