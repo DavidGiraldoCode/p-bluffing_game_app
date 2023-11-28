@@ -38,14 +38,15 @@ class Player {
 
 
 // -------------The model-------------
-export default{
+export const sessionModel = {
     sessionID: null, // the deck_id defined by the API
     players: [], // array of player objects
-    yourTurn: 1, // a playerID
-    numberOfPlayers: 3, // players.length()
+    yourTurn: null, // a playerID
+    numberOfPlayers: null, // players.length()
     newDeckPromiseState : {},
 
     async getDeckID(){
+        console.log("Created a sessionID")
         //Gets a new deck from the API and sets the sessionID from the model. Data is the whole respons.
         const API_URL = `${BASE_URL}/deck/new/shuffle/`;
         const response = await fetch(API_URL).then(response => response.json());
@@ -102,9 +103,6 @@ export default{
     async removeCard(playerID, selectedCard){
         // Removes a card from the players pile in the API. The selectedCard is an argument of the cardCode.
         // The selectedCard as argument will be passed from the player class attribute selectedCard.
-        //! NOT DONE
-        //https://deckofcardsapi.com/api/deck/<<deck_id>>/pile/<<pile_name>>/draw/?cards=AS
-
         const API_URL = `${BASE_URL}/deck/${this.sessionID}/pile/${playerID}/draw/?cards=${selectedCard}`;
         const response = await fetch(API_URL).then(response => response.json());
         console.log(response);
