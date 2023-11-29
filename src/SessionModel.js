@@ -26,7 +26,7 @@ class Player {
         this.playerName = playerName;
         this.isHost = isHost;
         this.pileOfCards = []; //Local copy of the API pile. To be able to render
-        this.selectedCard = null;
+        this.selectedCard = null; // example: 'KD'
     }
 
     createPlayerID() {
@@ -74,31 +74,36 @@ export const sessionModel = {
         this.players.push(newPlayer);   // adds newPlayer to players array
         this.playerOrder.push(newPlayer.playerID);
         this.numberOfPlayers = this.players.length;
+        return newPlayer;
     },
 
-    async drawCard(amountOfCards){
-        // Returns an array of the card codes eg. ['QD', 'KS', '8D'], depending of the amount of cards drawn.
-        function drawCardCodeCB(card){
-            return card.code;
-        }
-        const API_URL = `${BASE_URL}/deck/${this.sessionID}/draw/?count=${amountOfCards}`;
-        const response = await fetch(API_URL).then(response => response.json());
-        return response.cards.map(drawCardCodeCB);
-    },
+
 
     async dealCards(playerID, amountOfCards){
         // Draws amount of cards using the drawCard function. Adds these cards to a pile called playerID on the API.
         // This function will be used for example when clicking Create session or Join Session or if a player needs to draw a new card.
-        const arrayOfCardCodes = await this.drawCard(amountOfCards)
+        const arrayOfCardCodes = await drawCard()
         const queryString = arrayOfCardCodes.join(',');
         const API_URL = `${BASE_URL}/deck/${this.sessionID}/pile/${playerID}/add/?cards=${queryString}`;
         const response = await fetch(API_URL).then(response => response.json());
-        // TODO Call getPileOfCards here (in the Player class )
         const player = this.players.find(p => p.playerID == playerID);
         console.log("fick vi ut rätt spelare? ", player);
         await player.getPileOfCards();
 
+        async function drawCard(){
+            // help function to dealCards
+            // Returns an array of the card codes eg. ['QD', 'KS', '8D'], depending of the amount of cards drawn.
+            function drawCardCodeCB(card){
+                return card.code;
+            }
+            const API_URL = `${BASE_URL}/deck/${sessionModel.sessionID}/draw/?count=${amountOfCards}`;
+            const response = await fetch(API_URL).then(response => response.json());
+            return response.cards.map(drawCardCodeCB);
+        }
+
     },
+
+
 
     nextPlayer(){
         // This function will be called while creating a session to initilize yourTurn
@@ -108,8 +113,11 @@ export const sessionModel = {
             this.yourTurn = this.playerOrder[0];
         } else{
             const justPlayed = this.yourTurn;
-            const index = this.playerTurn.indexOf(this.yourTurn);
-            const nextIndex = ((index + 1) % this.playerOrder.length());
+            console.log("this.yourTurn :", this.yourTurn); // undefined
+            
+            const index = this.playerOrder.indexOf(this.yourTurn);
+            console.log(index);
+            const nextIndex = ((index + 1) % this.playerOrder.length);
             if(nextIndex !== 0){
                 this.yourTurn = this.playerOrder[nextIndex]
             } else{
@@ -141,12 +149,12 @@ export const sessionModel = {
     },
 
     async removeCard(playerID, selectedCard){
-        // Removes a card from the players pile in the API. The selectedCard is an argument of the cardCode.
+        // Removes a card from the players pile in the API.
         // The selectedCard as argument will be passed from the player class attribute selectedCard.
         const API_URL = `${BASE_URL}/deck/${this.sessionID}/pile/${playerID}/draw/?cards=${selectedCard}`;
-        const response = await fetch(API_URL).then(response => response.json());
-        console.log(response);
-        // TODO when done, refresh getPileOfCards via the API
+        await fetch(API_URL).then(response => response.json());
+        const player = this.players.find(p => p.playerID == playerID);
+        await player.getPileOfCards();
     }
 
 
