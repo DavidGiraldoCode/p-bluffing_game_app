@@ -41,6 +41,7 @@ class Player {
 export const sessionModel = {
     sessionID: null, // the deck_id defined by the API
     players: [], // array of player objects
+    playerOrder: [], // array of playerIDs stating the plaing order of the game
     yourTurn: null, // a playerID
     numberOfPlayers: null, // players.length()
     newDeckPromiseState : {},
@@ -57,7 +58,8 @@ export const sessionModel = {
     createPlayer(playerName, isHost){
         // Creates an object from the player class and adds to the players array.
         const newPlayer = new Player(playerName, isHost);
-        this.players.push(newPlayer);   //
+        this.players.push(newPlayer);   // adds newPlayer to players array
+        this.playerOrder.push(newPlayer.playerID);
         this.numberOfPlayers = this.players.length;
     },
 
@@ -81,8 +83,27 @@ export const sessionModel = {
         const response = await fetch(API_URL).then(response => response.json());
     },
 
+    nextPlayer(){
+        // This function will be called while creating a session to initilize yourTurn
+        // Assigns the next player in the playerOrder
+        // If its the last player of a round the playerOrder will be shuffled and yourTurn = playerOrder[0]
+        if(this.yourTurn === null){
+            this.yourTurn = this.playerOrder[0];
+        } else{
+            const justPlayed = this.yourTurn;
+            const index = this.playerTurn.indexOf(this.yourTurn);
+            const nextIndex = ((index + 1) % this.playerOrder.length());
+            if(nextIndex !== 0){
+                this.yourTurn = this.playerOrder[nextIndex]
+            } else{
+                this.shufflePlayers();
+                this.yourTurn = this.playerOrder[0]
+            }
+        }
+    },
+
     shufflePlayers(){
-        // Shuffles the players array using the Fisher-Yates Shuffle Algorithm.
+        // Shuffles the playerOrder array using the Fisher-Yates Shuffle Algorithm.
         function shuffleArray(array) {
             // Fisher-Yates (Knuth) Shuffle Algorithm. Not our implementation.
             for (let i = array.length - 1; i > 0; i--) {
@@ -90,14 +111,16 @@ export const sessionModel = {
                 [array[i], array[j]] = [array[j], array[i]];
             }
         }
-        shuffleArray(this.players);
+        shuffleArray(this.playerOrder);
     },
 
     removePlayer(playerIdToRemove){
         // Removes player from players array. The playerIDToRemove of the parameter is the player that will be removed.
         this.players = this.players.filter(player => player.playerID !== playerIdToRemove);
-        console.log("Is it removed?")
-        console.log(this.players);
+        this.playerOrder = this.playerOrder.filter(playerID => playerID !== playerIdToRemove);
+        console.log("Is it removed?");
+        console.log("players : " , this.players);
+        console.log("playerOrder : " , this.playerOrder);
     },
 
     async removeCard(playerID, selectedCard){
