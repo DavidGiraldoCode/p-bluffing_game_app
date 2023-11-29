@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, set, get, onValue } from "firebase/database";
-import firebaseConfig from '../firebaseConfig.js';
+import firebaseConfig from "./firebaseConfig.js";
 
 console.log('Inside firebaseModel.js');
 const firebaseApp = initializeApp(firebaseConfig);
