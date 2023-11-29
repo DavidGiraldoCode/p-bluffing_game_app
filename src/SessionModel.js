@@ -36,11 +36,16 @@ class Player {
     }
 
     async getPileOfCards(){
-        // https://www.deckofcardsapi.com/api/deck/<<deck_id>>/pile/<<pile_name>>/list/
-        //const queryString = arrayOfCardCodes.join(',');
+        // Gets the card codes from the piles of the player (from the API)
+        // Example: pileOfCards = ['9H', 'AH', 'JH', '3H', 'AS']
+        function listingCardCodeCB(card){
+            return card.code;
+        }
         const API_URL = `${BASE_URL}/deck/${sessionModel.sessionID}/pile/${this.playerID}/list/`;
         const response = await fetch(API_URL).then(response => response.json());
         console.log(response);
+        const id = this.playerID;
+        this.pileOfCards = response.piles[id].cards.map(listingCardCodeCB);
     }
 }
 
@@ -89,7 +94,10 @@ export const sessionModel = {
         const API_URL = `${BASE_URL}/deck/${this.sessionID}/pile/${playerID}/add/?cards=${queryString}`;
         const response = await fetch(API_URL).then(response => response.json());
         // TODO Call getPileOfCards here (in the Player class )
-        
+        const player = this.players.find(p => p.playerID == playerID);
+        console.log("fick vi ut rätt spelare? ", player);
+        await player.getPileOfCards();
+
     },
 
     nextPlayer(){
