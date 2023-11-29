@@ -3,6 +3,7 @@ export default function TestUI(props) {
 
     const data = {
         newPlayerName: "",
+        dealPlayerID: "",
     };
     
     async function createSessionACB() {
@@ -22,6 +23,12 @@ export default function TestUI(props) {
         props.model.createPlayer(data.newPlayerName, true); // Assuming the player is not the host
         // Clear the input field after adding the player
         data.newPlayerName = "";
+    }
+
+    function dealFiveCardsACB(){
+        //dealCards(playerID, amountOfCards)
+        props.model.dealCards(data.dealPlayerID, 5)
+        data.dealPlayerID = "";
     }
 
     return (
@@ -44,6 +51,16 @@ export default function TestUI(props) {
             <div>
                 <button onClick={addNewPlayerACB}>Add new player</button>
                 <button onClick={addNewHostPlayerACB}>Add new host player</button>
+            </div>
+            <div>
+                <input
+                    value={data.dealPlayerID}
+                    onInput={(e) => (data.dealPlayerID = e.target.value)}
+                    placeholder="Enter playerID"
+                />
+            </div>
+            <div>
+                <button onClick={dealFiveCardsACB}>Deal 5 cards to</button>
             </div>
             <div>{props.model.players.map(playersRendering)}</div>
         </div>);

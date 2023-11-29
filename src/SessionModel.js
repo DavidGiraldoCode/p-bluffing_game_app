@@ -25,7 +25,7 @@ class Player {
         this.playerID = this.createPlayerID();
         this.playerName = playerName;
         this.isHost = isHost;
-        this.pileOfCards = null; //Local copy of the API pile. To be able to render
+        this.pileOfCards = []; //Local copy of the API pile. To be able to render
         this.selectedCard = null;
     }
 
@@ -33,6 +33,14 @@ class Player {
         // Creates a random playerID between 0 and 999.
         //! This may result in bugs if we are extremely unlucky. Could need some rework of how it works.
         return Math.floor(Math.random() * 1000);
+    }
+
+    async getPileOfCards(){
+        // https://www.deckofcardsapi.com/api/deck/<<deck_id>>/pile/<<pile_name>>/list/
+        //const queryString = arrayOfCardCodes.join(',');
+        const API_URL = `${BASE_URL}/deck/${sessionModel.sessionID}/pile/${this.playerID}/list/`;
+        const response = await fetch(API_URL).then(response => response.json());
+        console.log(response);
     }
 }
 
@@ -70,7 +78,6 @@ export const sessionModel = {
         }
         const API_URL = `${BASE_URL}/deck/${this.sessionID}/draw/?count=${amountOfCards}`;
         const response = await fetch(API_URL).then(response => response.json());
-        console.log(response)
         return response.cards.map(drawCardCodeCB);
     },
 
@@ -81,6 +88,8 @@ export const sessionModel = {
         const queryString = arrayOfCardCodes.join(',');
         const API_URL = `${BASE_URL}/deck/${this.sessionID}/pile/${playerID}/add/?cards=${queryString}`;
         const response = await fetch(API_URL).then(response => response.json());
+        // TODO Call getPileOfCards here (in the Player class )
+        
     },
 
     nextPlayer(){
@@ -129,6 +138,7 @@ export const sessionModel = {
         const API_URL = `${BASE_URL}/deck/${this.sessionID}/pile/${playerID}/draw/?cards=${selectedCard}`;
         const response = await fetch(API_URL).then(response => response.json());
         console.log(response);
+        // TODO when done, refresh getPileOfCards via the API
     }
 
 
