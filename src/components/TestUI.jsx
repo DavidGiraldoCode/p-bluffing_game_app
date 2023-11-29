@@ -8,20 +8,22 @@ export default function TestUI(props) {
     async function createSessionACB() {
         // Call the getDeckID function on the model
         await props.model.getDeckID();
+        // Call the createPlayer function on the model with the input value
+        const player = props.model.createPlayer(data.newPlayerName, true); // Assuming the player is not the host
+        // Clear the input field after adding the player
+        data.newPlayerName = "";
+        // TODO change 5 cards into a attribute in the model that can be changed
+        props.model.dealCards(player.playerID, 5); // always deals five cards
+        props.model.nextPlayer(); // sets the host to start the first round
     }
 
     function addNewPlayerACB() {
         // Call the createPlayer function on the model with the input value. Not host
-        props.model.createPlayer(data.newPlayerName, false); // Assuming the player is not the host
+        const player = props.model.createPlayer(data.newPlayerName, false); // Assuming the player is not the host
         // Clear the input field after adding the player
         data.newPlayerName = "";
-    }
-
-    function addNewHostPlayerACB() {
-        // Call the createPlayer function on the model with the input value
-        props.model.createPlayer(data.newPlayerName, true); // Assuming the player is not the host
-        // Clear the input field after adding the player
-        data.newPlayerName = "";
+        // TODO change 5 cards into a attribute in the model that can be changed
+        props.model.dealCards(player.playerID, 5);
     }
 
     return (
@@ -31,8 +33,16 @@ export default function TestUI(props) {
             <h3>players (type Array): {`${props.model.players}`}</h3>
             <p>numberOfPlayer: {props.model.numberOfPlayers} </p>
             <p>yourTurn (a playerID type String): {props.model.yourTurn}</p>
+
             <div>
-                <button onClick={createSessionACB}>Create session on API</button>   {/*Added by Albin & Martin to test session from API*/}
+                <input
+                    value={data.newPlayerName}
+                    onInput={(e) => (data.newPlayerName = e.target.value)}
+                    placeholder="Enter host name"
+                />
+            </div>
+            <div>
+                <button onClick={createSessionACB}>Create Session</button>
             </div>
             <div>
                 <input
@@ -40,10 +50,9 @@ export default function TestUI(props) {
                     onInput={(e) => (data.newPlayerName = e.target.value)}
                     placeholder="Enter new player name"
                 />
-            </div>
+            </div>                        
             <div>
-                <button onClick={addNewPlayerACB}>Add new player</button>
-                <button onClick={addNewHostPlayerACB}>Add new host player</button>
+                <button onClick={addNewPlayerACB}>Add new player/Join Session</button>
             </div>
             <div>{props.model.players.map(playersRendering)}</div>
         </div>);
@@ -55,11 +64,49 @@ export default function TestUI(props) {
                 <h4>playerID (type String): {player.playerID}</h4>
                 <p>playerName (type String): {player.playerName}</p>
                 <p>isHost (type Boolean): {`${player.isHost}`}</p>
-                {/*<p>pileOfCards (type Array): {player.pileOfCards.reduce(concatenateCardCodes)}</p>   Removed since reduce wont work on null variable.*/}
+                {player.pileOfCards.length > 0 && (
+                    <p>pileOfCards (type Array): {player.pileOfCards.reduce(concatenateCardCodesCB)}</p>
+                    )}      
                 <p>selectedCard (type String): {`${player.selectedCard}`}</p>
-                {/*<div>{player.pileOfCards.map(cardsRendering)}</div>  Removed since map wont work on null variable.*/}
+                {player.pileOfCards.length > 0 && (
+                    <div>{player.pileOfCards.map(cardsRendering)}</div>
+                    )}
+                <p>Did you manage to bluff your way out?</p>
+                <div>
+                    <button 
+                    onClick={successfulBluffACB} 
+                    disabled={player.selectedCard === null || player.playerID !== props.model.yourTurn}>
+                        Yes
+                    </button>
+                    <button 
+                    onClick={failedBluffACB} 
+                    disabled={player.selectedCard === null || player.playerID !== props.model.yourTurn}>
+                        No
+                    </button>
+                </div>
             </div>
         )
+
+        async function successfulBluffACB(){
+            // player managed to bluff its apponents
+            // 1. removes the selected card
+            // 2. sessionModel yourTurn should change to th next player
+            // 3. selectedCard = null
+            // 4. if (round is done ) -> update leaderboard
+            await props.model.removeCard(player.playerID, player.selectedCard);
+            player.selectedCard = null;
+            props.model.nextPlayer();
+        }
+
+        async function failedBluffACB(){
+            // player managed not to bluff its apponents
+            // 1. draw ONE new card
+            // 2. sessionModel yourTurn should change to the next player
+            // 3. selectedCard = null
+            await props.model.dealCards(player.playerID, 1);
+            player.selectedCard = null;
+            props.model.nextPlayer();
+        }
 
         function cardsRendering(card) {
             return (
@@ -72,7 +119,7 @@ export default function TestUI(props) {
 
     }
 
-    function concatenateCardCodes(accumulator, currentCardCode) {
+    function concatenateCardCodesCB(accumulator, currentCardCode) {
         return `${accumulator}, ${currentCardCode}`;
     }
 }
