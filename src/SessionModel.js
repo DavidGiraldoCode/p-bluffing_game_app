@@ -19,6 +19,12 @@ import {BASE_URL} from "/src/apiConfig.js";
 source: https://github.com/rhysd
 */
 
+/*
+! Known issues/bugs:
+    - If 1000 uesers join, no more IDs are available and app will crash.
+    - If deck is empty (0 cards left) new player that will join will automatically win since no cards can be deald to that player.
+*/
+
 //-------------Player class-------------
 class Player {
     constructor(playerName, isHost) {
@@ -56,8 +62,9 @@ export const sessionModel = {
     playerOrder: [], // array of playerIDs stating the plaing order of the game
     yourTurn: null, // a playerID
     numberOfPlayers: null, // players.length()
-    newDeckPromiseState : {},
     gameOver: false,
+    winner: null,
+    newDeckPromiseState : {},
  
     async getDeckID(){
         //Gets a new deck from the API and sets the sessionID from the model. Data is the whole respons.
@@ -106,8 +113,6 @@ export const sessionModel = {
         if(this.yourTurn === null){
             this.yourTurn = this.playerOrder[0];
         } else{
-            const justPlayed = this.yourTurn;
-            
             const index = this.playerOrder.indexOf(this.yourTurn);
             const nextIndex = ((index + 1) % this.playerOrder.length);
             if(nextIndex !== 0){
@@ -158,7 +163,10 @@ export const sessionModel = {
     gameOverCheck(playerID){
         // Checks if the player is out of cards. If someone is out of cards, change the model variable gameOver to True
         const player = this.players.find(p => p.playerID == playerID);
-        if(player.pileOfCards.length == 0){this.gameOver = true;};
+        if(player.pileOfCards.length == 0){
+            this.gameOver = true;
+            this.winner = playerID;
+        };
     },
 
     generateUniquePlayerID() {
@@ -171,6 +179,4 @@ export const sessionModel = {
 
         return ID;
     },
-
-
 }
