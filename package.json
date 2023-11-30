@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@vitejs/plugin-vue-jsx": "^3.1.0",
+    "dotenv": "^16.3.1",
     "firebase": "^10.7.0",
     "vue": "^3.3.8"
   },

@@ -1,6 +1,5 @@
-import "./firebaseModel.js"; //? Runs the firebase instance
-import connectToFirebase from "./firebaseModel.js";
-import { observeValue } from "./firebaseModel.js";
+import { initializeApp } from "firebase/app";
+import firebaseConfig from './firebaseConfig.js';
 import { createApp, reactive } from 'vue'
 import './style.css'
 import App from './App.jsx'
@@ -9,10 +8,10 @@ import { sessionModel } from './SessionModel.js';
 //* ----------------------------- Updates
 // main.js changed to main.jsx to use <App> syntaxis
 //* ----------------------------- 
-
+const firebaseApp = initializeApp(firebaseConfig);
 //! ----------------------------- Test
-/*const miniModel = { //! You can remove this once you connect the real model
-    sessionID: "test1",
+const miniModel = { //! You can remove this once you connect the real model
+    sessionID: "test",
     players: [{
         playerID: 'someID1',
         isHost: true,
@@ -29,14 +28,11 @@ import { sessionModel } from './SessionModel.js';
         pileOfCards: ['KH', '8C', '6H'],
         selectedCard: null,
     }],
-    numberOfPlayers: 3,
-}*/
-const testReactiveModel = reactive(sessionModel)
+    numberOfPlayer: 3,
+}
+const testReactiveModel= reactive(sessionModel)
 //! -----------------------------
 
-const rootJSX = <App model={testReactiveModel} />
+const rootJSX = <App model={testReactiveModel}/>
 const app = createApp(rootJSX);
-app.mount('#app');
-
-//? Connection to Firebase, missing the reactiveModel and reaction
-connectToFirebase(null, null);
+app.mount('#app')
