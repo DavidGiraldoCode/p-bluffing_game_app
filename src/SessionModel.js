@@ -43,7 +43,6 @@ class Player {
         }
         const API_URL = `${BASE_URL}/deck/${sessionModel.sessionID}/pile/${this.playerID}/list/`;
         const response = await fetch(API_URL).then(response => response.json());
-        console.log(response);
         const id = this.playerID;
         this.pileOfCards = response.piles[id].cards.map(listingCardCodeCB);
     }
@@ -61,7 +60,6 @@ export const sessionModel = {
     gameOver: false,
  
     async getDeckID(){
-        console.log("Created a sessionID")
         //Gets a new deck from the API and sets the sessionID from the model. Data is the whole respons.
         const API_URL = `${BASE_URL}/deck/new/shuffle/`;
         const response = await fetch(API_URL).then(response => response.json());
@@ -86,7 +84,6 @@ export const sessionModel = {
         const API_URL = `${BASE_URL}/deck/${this.sessionID}/pile/${playerID}/add/?cards=${queryString}`;
         const response = await fetch(API_URL).then(response => response.json());
         const player = this.players.find(p => p.playerID == playerID);
-        console.log("fick vi ut rätt spelare? ", player);
         await player.getPileOfCards();
         this.gameOverCheck(playerID); //Might be a bit redundant to call gameOverCheck from here. You cannot get out of cards when dealing?
 
@@ -100,7 +97,6 @@ export const sessionModel = {
             const response = await fetch(API_URL).then(response => response.json());
             return response.cards.map(drawCardCodeCB);
         }
-
     },
 
     nextPlayer(){
@@ -111,10 +107,8 @@ export const sessionModel = {
             this.yourTurn = this.playerOrder[0];
         } else{
             const justPlayed = this.yourTurn;
-            console.log("this.yourTurn :", this.yourTurn); // undefined
             
             const index = this.playerOrder.indexOf(this.yourTurn);
-            console.log(index);
             const nextIndex = ((index + 1) % this.playerOrder.length);
             if(nextIndex !== 0){
                 this.yourTurn = this.playerOrder[nextIndex]
@@ -139,11 +133,16 @@ export const sessionModel = {
 
     removePlayer(playerIdToRemove){
         // Removes player from players array. The playerIDToRemove of the parameter is the player that will be removed.
-        this.players = this.players.filter(player => player.playerID !== playerIdToRemove);
-        this.playerOrder = this.playerOrder.filter(playerID => playerID !== playerIdToRemove);
-        console.log("Is it removed?");
-        console.log("players : " , this.players);
-        console.log("playerOrder : " , this.playerOrder);
+        // If the playerID is the host. Nothing will happen.
+        // If the playerID to be removed also is yourTurn: nextPlayer() is called.
+        const player = this.players.find(player => player.playerID === playerIdToRemove);
+        if(!player.isHost){
+            this.players = this.players.filter(player => player.playerID !== playerIdToRemove);
+            this.playerOrder = this.playerOrder.filter(playerID => playerID !== playerIdToRemove);
+            if(playerIdToRemove == this.yourTurn){
+                this.nextPlayer();
+            }
+        }
     },
 
     async removeCard(playerID, selectedCard){
@@ -158,9 +157,7 @@ export const sessionModel = {
 
     gameOverCheck(playerID){
         // Checks if the player is out of cards. If someone is out of cards, change the model variable gameOver to True
-        console.log("GameOverCheck playerID : ", playerID)
         const player = this.players.find(p => p.playerID == playerID);
-        console.log("GameOverCheck player pile length : ", player.pileOfCards.length)
         if(player.pileOfCards.length == 0){this.gameOver = true;};
     },
 

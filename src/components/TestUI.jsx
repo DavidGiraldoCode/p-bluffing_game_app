@@ -59,10 +59,10 @@ export default function TestUI(props) {
         </div>);
 
     function playersRendering(player) {
-
         return (
             <div class="players-container">
                 <h4>playerID (type String): {player.playerID}</h4>
+                <button onClick={removePlayerACB} disabled={player.isHost}>Remove player</button>
                 <p>playerName (type String): {player.playerName}</p>
                 <p>isHost (type Boolean): {`${player.isHost}`}</p>
                 {player.pileOfCards.length > 0 && (
@@ -87,6 +87,10 @@ export default function TestUI(props) {
                 </div>
             </div>
         )
+
+        async function removePlayerACB(){
+            await props.model.removePlayer(player.playerID);
+        }
 
         async function successfulBluffACB(){
             // player managed to bluff its apponents
