@@ -33,6 +33,7 @@ export default function TestUI(props) {
             <h3>players (type Array): {`${props.model.players}`}</h3>
             <p>numberOfPlayer: {props.model.numberOfPlayers} </p>
             <p>yourTurn (a playerID type String): {props.model.yourTurn}</p>
+            <p>gameOver (type Boolean): {`${props.model.gameOver}`}</p>
 
             <div>
                 <input
