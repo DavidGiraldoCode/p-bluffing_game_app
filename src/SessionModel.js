@@ -25,8 +25,8 @@ class Player {
         this.playerID = this.createPlayerID();
         this.playerName = playerName;
         this.isHost = isHost;
-        this.pileOfCards = null; //Local copy of the API pile. To be able to render
-        this.selectedCard = null;
+        this.pileOfCards = []; //Local copy of the API pile. To be able to render
+        this.selectedCard = null; // example: 'KD'
     }
 
     createPlayerID() {
@@ -34,17 +34,31 @@ class Player {
         //! This may result in bugs if we are extremely unlucky. Could need some rework of how it works.
         return Math.floor(Math.random() * 1000);
     }
+
+    async getPileOfCards(){
+        // Gets the card codes from the piles of the player (from the API)
+        // Example: pileOfCards = ['9H', 'AH', 'JH', '3H', 'AS']
+        function listingCardCodeCB(card){
+            return card.code;
+        }
+        const API_URL = `${BASE_URL}/deck/${sessionModel.sessionID}/pile/${this.playerID}/list/`;
+        const response = await fetch(API_URL).then(response => response.json());
+        console.log(response);
+        const id = this.playerID;
+        this.pileOfCards = response.piles[id].cards.map(listingCardCodeCB);
+    }
 }
 
 
-// -------------The model-------------
+// -------------The model--------------
 export const sessionModel = {
     sessionID: null, // the deck_id defined by the API
     players: [], // array of player objects
+    playerOrder: [], // array of playerIDs stating the plaing order of the game
     yourTurn: null, // a playerID
     numberOfPlayers: null, // players.length()
     newDeckPromiseState : {},
-
+ 
     async getDeckID(){
         console.log("Created a sessionID")
         //Gets a new deck from the API and sets the sessionID from the model. Data is the whole respons.
@@ -57,32 +71,64 @@ export const sessionModel = {
     createPlayer(playerName, isHost){
         // Creates an object from the player class and adds to the players array.
         const newPlayer = new Player(playerName, isHost);
-        this.players.push(newPlayer);   //
+        this.players.push(newPlayer);   // adds newPlayer to players array
+        this.playerOrder.push(newPlayer.playerID);
         this.numberOfPlayers = this.players.length;
+        return newPlayer;
     },
 
-    async drawCard(amountOfCards){
-        // Returns an array of the card codes eg. ['QD', 'KS', '8D'], depending of the amount of cards drawn.
-        function drawCardCodeCB(card){
-            return card.code;
-        }
-        const API_URL = `${BASE_URL}/deck/${this.sessionID}/draw/?count=${amountOfCards}`;
-        const response = await fetch(API_URL).then(response => response.json());
-        console.log(response)
-        return response.cards.map(drawCardCodeCB);
-    },
+
 
     async dealCards(playerID, amountOfCards){
         // Draws amount of cards using the drawCard function. Adds these cards to a pile called playerID on the API.
         // This function will be used for example when clicking Create session or Join Session or if a player needs to draw a new card.
-        const arrayOfCardCodes = await this.drawCard(amountOfCards)
+        const arrayOfCardCodes = await drawCard()
         const queryString = arrayOfCardCodes.join(',');
         const API_URL = `${BASE_URL}/deck/${this.sessionID}/pile/${playerID}/add/?cards=${queryString}`;
         const response = await fetch(API_URL).then(response => response.json());
+        const player = this.players.find(p => p.playerID == playerID);
+        console.log("fick vi ut rätt spelare? ", player);
+        await player.getPileOfCards();
+
+        async function drawCard(){
+            // help function to dealCards
+            // Returns an array of the card codes eg. ['QD', 'KS', '8D'], depending of the amount of cards drawn.
+            function drawCardCodeCB(card){
+                return card.code;
+            }
+            const API_URL = `${BASE_URL}/deck/${sessionModel.sessionID}/draw/?count=${amountOfCards}`;
+            const response = await fetch(API_URL).then(response => response.json());
+            return response.cards.map(drawCardCodeCB);
+        }
+
+    },
+
+
+
+    nextPlayer(){
+        // This function will be called while creating a session to initilize yourTurn
+        // Assigns the next player in the playerOrder
+        // If its the last player of a round the playerOrder will be shuffled and yourTurn = playerOrder[0]
+        if(this.yourTurn === null){
+            this.yourTurn = this.playerOrder[0];
+        } else{
+            const justPlayed = this.yourTurn;
+            console.log("this.yourTurn :", this.yourTurn); // undefined
+            
+            const index = this.playerOrder.indexOf(this.yourTurn);
+            console.log(index);
+            const nextIndex = ((index + 1) % this.playerOrder.length);
+            if(nextIndex !== 0){
+                this.yourTurn = this.playerOrder[nextIndex]
+            } else{
+                this.shufflePlayers();
+                this.yourTurn = this.playerOrder[0]
+            }
+        }
     },
 
     shufflePlayers(){
-        // Shuffles the players array using the Fisher-Yates Shuffle Algorithm.
+        // Shuffles the playerOrder array using the Fisher-Yates Shuffle Algorithm.
         function shuffleArray(array) {
             // Fisher-Yates (Knuth) Shuffle Algorithm. Not our implementation.
             for (let i = array.length - 1; i > 0; i--) {
@@ -90,22 +136,25 @@ export const sessionModel = {
                 [array[i], array[j]] = [array[j], array[i]];
             }
         }
-        shuffleArray(this.players);
+        shuffleArray(this.playerOrder);
     },
 
     removePlayer(playerIdToRemove){
         // Removes player from players array. The playerIDToRemove of the parameter is the player that will be removed.
         this.players = this.players.filter(player => player.playerID !== playerIdToRemove);
-        console.log("Is it removed?")
-        console.log(this.players);
+        this.playerOrder = this.playerOrder.filter(playerID => playerID !== playerIdToRemove);
+        console.log("Is it removed?");
+        console.log("players : " , this.players);
+        console.log("playerOrder : " , this.playerOrder);
     },
 
     async removeCard(playerID, selectedCard){
-        // Removes a card from the players pile in the API. The selectedCard is an argument of the cardCode.
+        // Removes a card from the players pile in the API.
         // The selectedCard as argument will be passed from the player class attribute selectedCard.
         const API_URL = `${BASE_URL}/deck/${this.sessionID}/pile/${playerID}/draw/?cards=${selectedCard}`;
-        const response = await fetch(API_URL).then(response => response.json());
-        console.log(response);
+        await fetch(API_URL).then(response => response.json());
+        const player = this.players.find(p => p.playerID == playerID);
+        await player.getPileOfCards();
     }
 
 
