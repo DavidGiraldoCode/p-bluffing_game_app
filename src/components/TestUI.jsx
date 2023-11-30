@@ -1,10 +1,12 @@
+import Swiper from "./Swiper.jsx";
+
 export default function TestUI(props) {
     console.log('Update TestUI!')
 
     const data = {
         newPlayerName: "",
     };
-    
+
     async function createSessionACB() {
         // Call the getDeckID function on the model
         await props.model.getDeckID();
@@ -50,7 +52,7 @@ export default function TestUI(props) {
                     onInput={(e) => (data.newPlayerName = e.target.value)}
                     placeholder="Enter new player name"
                 />
-            </div>                        
+            </div>
             <div>
                 <button onClick={addNewPlayerACB}>Add new player/Join Session</button>
             </div>
@@ -58,7 +60,10 @@ export default function TestUI(props) {
         </div>);
 
     function playersRendering(player) {
-
+        function selectCardSpriteHandler(code) {
+            console.log(code);
+            player.selectedCard = code;
+        }
         return (
             <div class="players-container">
                 <h4>playerID (type String): {player.playerID}</h4>
@@ -66,28 +71,29 @@ export default function TestUI(props) {
                 <p>isHost (type Boolean): {`${player.isHost}`}</p>
                 {player.pileOfCards.length > 0 && (
                     <p>pileOfCards (type Array): {player.pileOfCards.reduce(concatenateCardCodesCB)}</p>
-                    )}      
+                )}
                 <p>selectedCard (type String): {`${player.selectedCard}`}</p>
                 {player.pileOfCards.length > 0 && (
                     <div>{player.pileOfCards.map(cardsRendering)}</div>
-                    )}
+                )}
+                <Swiper pileOfCards={player.pileOfCards.reduce(concatenateCardCodesCB).split(", ")} onSelectCardSprite={selectCardSpriteHandler}/>
                 <p>Did you manage to bluff your way out?</p>
                 <div>
-                    <button 
-                    onClick={successfulBluffACB} 
-                    disabled={player.selectedCard === null || player.playerID !== props.model.yourTurn}>
+                    <button
+                        onClick={successfulBluffACB}
+                        disabled={player.selectedCard === null || player.playerID !== props.model.yourTurn}>
                         Yes
                     </button>
-                    <button 
-                    onClick={failedBluffACB} 
-                    disabled={player.selectedCard === null || player.playerID !== props.model.yourTurn}>
+                    <button
+                        onClick={failedBluffACB}
+                        disabled={player.selectedCard === null || player.playerID !== props.model.yourTurn}>
                         No
                     </button>
                 </div>
             </div>
         )
 
-        async function successfulBluffACB(){
+        async function successfulBluffACB() {
             // player managed to bluff its apponents
             // 1. removes the selected card
             // 2. sessionModel yourTurn should change to th next player
@@ -98,7 +104,7 @@ export default function TestUI(props) {
             props.model.nextPlayer();
         }
 
-        async function failedBluffACB(){
+        async function failedBluffACB() {
             // player managed not to bluff its apponents
             // 1. draw ONE new card
             // 2. sessionModel yourTurn should change to the next player
@@ -114,6 +120,7 @@ export default function TestUI(props) {
             )
         }
         function selectCardHandler(event) {
+            console.log('selectCardHandler')
             player.selectedCard = event.target.value;
         }
 
