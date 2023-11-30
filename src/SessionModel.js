@@ -64,14 +64,18 @@ export const sessionModel = {
     numberOfPlayers: null, // players.length()
     gameOver: false,
     winner: null,
-    newDeckPromiseState : {},
  
     async getDeckID(){
         //Gets a new deck from the API and sets the sessionID from the model. Data is the whole respons.
-        const API_URL = `${BASE_URL}/deck/new/shuffle/`;
-        const response = await fetch(API_URL).then(response => response.json());
-        const deck_id = response.deck_id;
-        this.sessionID = deck_id;
+        const API_URL = `${BASE_URL}/deck/new/shufle/`;
+        //const response = await fetch(API_URL).then(response => response.json()).catch(error => console.log(error));
+        try {
+            const response = await fetch(API_URL);
+            const data = await response.json();
+            this.sessionID = data.deck_id;
+          } catch (error) {
+            console.error('Error getting new Deck from API:', error.message);
+          }
     },
 
     createPlayer(playerName, isHost){
