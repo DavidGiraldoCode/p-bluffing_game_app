@@ -101,10 +101,14 @@ export let sessionModel = {
  
     async getDeckID(){
         //Gets a new deck from the API and sets the sessionID from the model. Data is the whole respons.
-        const API_URL = `${BASE_URL}/deck/new/shuffle/`;
-        const data = await this.getDataFromAPI(API_URL);
-        const deck_id = data.deck_id;
-        this.sessionID = deck_id;
+        if(this.sessionID == null){
+            const API_URL = `${BASE_URL}/deck/new/shuffle/`;
+            const data = await this.getDataFromAPI(API_URL);
+            const deck_id = data.deck_id;
+            this.sessionID = deck_id;
+        }else{
+            throw Error("Cannot create a new session, since one is already active!")
+        }
     },
 
     async getRemaningCardsOfDeck(){
@@ -115,16 +119,21 @@ export let sessionModel = {
 
     async createPlayer(playerName, isHost){
         // Creates an object from the player class and adds to the players array.
+        // If no sessionID is active, no player will be added and an error is thrown
         // If there is less than 5 cards in the deck, no player will be added and an error is thrown
-        const remaining = await this.getRemaningCardsOfDeck();
-        if(remaining > 4){
-            const newPlayer = new Player(playerName, isHost);
-            this.players.push(newPlayer);   // adds newPlayer to players array
-            this.playerOrder.push(newPlayer.playerID);
-            this.numberOfPlayers = this.players.length;
-        return newPlayer;
-        } else {
-            throw Error('Not enough cards in the deck to add a new player.');
+        if(this.sessionID !== null){
+            const remaining = await this.getRemaningCardsOfDeck();
+            if(remaining > 4){
+                const newPlayer = new Player(playerName, isHost);
+                this.players.push(newPlayer);   // adds newPlayer to players array
+                this.playerOrder.push(newPlayer.playerID);
+                this.numberOfPlayers = this.players.length;
+            return newPlayer;
+            } else {
+                throw Error('Not enough cards in the deck to add a new player.');
+            }
+        }else{
+            throw Error('Cannot create a non-host player without a SessionID');
         }
     },
 
