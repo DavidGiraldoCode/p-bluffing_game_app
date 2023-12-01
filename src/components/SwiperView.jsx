@@ -1,6 +1,6 @@
 import { register } from 'swiper/element/bundle';
 
-register();
+register(); //thirparty component
 
 // Import Swiper styles
 import 'swiper/css';
