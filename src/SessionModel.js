@@ -16,6 +16,13 @@ import {BASE_URL} from "/src/apiConfig.js";
         *      \___/      *       *
 
           Merry Christmas!
+source: https://github.com/rhysd
+*/
+
+/*
+! Known issues/bugs:
+    - If 1000 uesers join, no more IDs are available and app will crash.
+    - If deck is empty (0 cards left) new player that will join will automatically win since no cards can be deald to that player.
 */
 
 //-------------Player class-------------
@@ -30,9 +37,8 @@ class Player {
     }
 
     createPlayerID() {
-        // Creates a random playerID between 0 and 999.
-        //! This may result in bugs if we are extremely unlucky. Could need some rework of how it works.
-        return Math.floor(Math.random() * 1000);
+        // Creates a random playerID between 0 and 999. If any other player has the same ID. A new one will be created.
+        return sessionModel.generateUniquePlayerID();
     }
 
     async getPileOfCards(){
@@ -43,24 +49,24 @@ class Player {
         }
         const API_URL = `${BASE_URL}/deck/${sessionModel.sessionID}/pile/${this.playerID}/list/`;
         const response = await fetch(API_URL).then(response => response.json());
-        console.log(response);
         const id = this.playerID;
         this.pileOfCards = response.piles[id].cards.map(listingCardCodeCB);
     }
 }
 
 
-// -------------The model-------------
+// -------------The model--------------
 export const sessionModel = {
     sessionID: null, // the deck_id defined by the API
     players: [], // array of player objects
     playerOrder: [], // array of playerIDs stating the plaing order of the game
     yourTurn: null, // a playerID
     numberOfPlayers: null, // players.length()
+    gameOver: false,
+    winner: null,
     newDeckPromiseState : {},
-
+ 
     async getDeckID(){
-        console.log("Created a sessionID")
         //Gets a new deck from the API and sets the sessionID from the model. Data is the whole respons.
         const API_URL = `${BASE_URL}/deck/new/shuffle/`;
         const response = await fetch(API_URL).then(response => response.json());
@@ -77,18 +83,16 @@ export const sessionModel = {
         return newPlayer;
     },
 
-
-
     async dealCards(playerID, amountOfCards){
-        // Draws amount of cards using the drawCard function. Adds these cards to a pile called playerID on the API.
+        // Draws amount of cards using the drawCard function. Adds these cards to a pile called playerID on the API.  When cards is removed, calls gameOverCheck to check if the player is out of cards.
         // This function will be used for example when clicking Create session or Join Session or if a player needs to draw a new card.
         const arrayOfCardCodes = await drawCard()
         const queryString = arrayOfCardCodes.join(',');
         const API_URL = `${BASE_URL}/deck/${this.sessionID}/pile/${playerID}/add/?cards=${queryString}`;
         const response = await fetch(API_URL).then(response => response.json());
         const player = this.players.find(p => p.playerID == playerID);
-        console.log("fick vi ut rätt spelare? ", player);
         await player.getPileOfCards();
+        this.gameOverCheck(playerID); //Might be a bit redundant to call gameOverCheck from here. You cannot get out of cards when dealing?
 
         async function drawCard(){
             // help function to dealCards
@@ -100,10 +104,7 @@ export const sessionModel = {
             const response = await fetch(API_URL).then(response => response.json());
             return response.cards.map(drawCardCodeCB);
         }
-
     },
-
-
 
     nextPlayer(){
         // This function will be called while creating a session to initilize yourTurn
@@ -112,11 +113,7 @@ export const sessionModel = {
         if(this.yourTurn === null){
             this.yourTurn = this.playerOrder[0];
         } else{
-            const justPlayed = this.yourTurn;
-            console.log("this.yourTurn :", this.yourTurn); // undefined
-            
             const index = this.playerOrder.indexOf(this.yourTurn);
-            console.log(index);
             const nextIndex = ((index + 1) % this.playerOrder.length);
             if(nextIndex !== 0){
                 this.yourTurn = this.playerOrder[nextIndex]
@@ -141,21 +138,45 @@ export const sessionModel = {
 
     removePlayer(playerIdToRemove){
         // Removes player from players array. The playerIDToRemove of the parameter is the player that will be removed.
-        this.players = this.players.filter(player => player.playerID !== playerIdToRemove);
-        this.playerOrder = this.playerOrder.filter(playerID => playerID !== playerIdToRemove);
-        console.log("Is it removed?");
-        console.log("players : " , this.players);
-        console.log("playerOrder : " , this.playerOrder);
+        // If the playerID is the host. Nothing will happen.
+        // If the playerID to be removed also is yourTurn: nextPlayer() is called.
+        const player = this.players.find(player => player.playerID === playerIdToRemove);
+        if(!player.isHost){
+            this.players = this.players.filter(player => player.playerID !== playerIdToRemove);
+            this.playerOrder = this.playerOrder.filter(playerID => playerID !== playerIdToRemove);
+            if(playerIdToRemove == this.yourTurn){
+                this.nextPlayer();
+            }
+        }
     },
 
     async removeCard(playerID, selectedCard){
-        // Removes a card from the players pile in the API.
+        // Removes a card from the players pile in the API. When card is removed. When cards is removed, calls gameOverCheck to check if the player is out of cards.
         // The selectedCard as argument will be passed from the player class attribute selectedCard.
         const API_URL = `${BASE_URL}/deck/${this.sessionID}/pile/${playerID}/draw/?cards=${selectedCard}`;
         await fetch(API_URL).then(response => response.json());
         const player = this.players.find(p => p.playerID == playerID);
         await player.getPileOfCards();
-    }
+        this.gameOverCheck(playerID);
+    },
 
+    gameOverCheck(playerID){
+        // Checks if the player is out of cards. If someone is out of cards, change the model variable gameOver to True
+        const player = this.players.find(p => p.playerID == playerID);
+        if(player.pileOfCards.length == 0){
+            this.gameOver = true;
+            this.winner = playerID;
+        };
+    },
 
+    generateUniquePlayerID() {
+        // Help function to the player class. Gives a randon number to the player. If another player has the same number. It will try to give another one.
+        //! If we create 1000 users. This will result in a infinity loop since no more numbers are available.
+        let ID;
+        do {
+            ID = Math.floor(Math.random() * 1000);
+        } while (this.players.some(player => player.playerID === ID));
+
+        return ID;
+    },
 }
