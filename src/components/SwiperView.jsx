@@ -8,7 +8,9 @@ import 'swiper/css/effect-cards';
 import './SwiperView.css';
 
 export default function SwiperView(props) {
+  console.log('props.cardCodes.length: ',props.cardCodes.length);
   function arrayRendering(card) {
+    console.log('arrayRendering: ', props.cardCodes);
     const CARD_SPRITE = `https://deckofcardsapi.com/static/img/${card}.png`;
     return (
       <swiper-slide class="swiper-slide" >
@@ -20,7 +22,7 @@ export default function SwiperView(props) {
     props.onSelected(e.target.id);
   }
   return (
-    <swiper-container class="swiper" effect="cards" grab-cursor="true">
+    <swiper-container class="swiper" effect="cards" grab-cursor="true" loop="true">
       {props.cardCodes.map(arrayRendering)}
     </swiper-container>
   );

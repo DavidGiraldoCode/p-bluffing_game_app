@@ -6,7 +6,7 @@ export default function Swiper(props) {
         props.onSelectCardSprite(value);
     }
     //cardCodes={['AC', '5S', 'KS', '2D', 'KH']}
-    console.log(props.pileOfCards);
+    console.log('props.pileOfCards: ',props.pileOfCards);
     return (
         <div>
             <SwiperView
