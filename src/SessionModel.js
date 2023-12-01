@@ -23,7 +23,7 @@ source: https://github.com/rhysd
 
 /*
 ! Known issues/bugs:
-    - If deck is empty (0 cards left) new player that will join will automatically win since no cards can be dealed to that player.
+    None known bug atm
 */
 
 // =============================================================================
@@ -107,17 +107,24 @@ export let sessionModel = {
         this.sessionID = deck_id;
     },
 
-    createPlayer(playerName, isHost){
+    async getRemaningCardsOfDeck(){
+        const API_URL = `${BASE_URL}/deck/${this.sessionID}/`;
+        const data = await this.getDataFromAPI(API_URL);
+        return data.remaining;
+    },
+
+    async createPlayer(playerName, isHost){
         // Creates an object from the player class and adds to the players array.
-        // Game is limited to 10 players.
-        if(this.numberOfPlayers < 10){
+        // If there is less than 5 cards in the deck, no player will be added and an error is thrown
+        const remaining = await this.getRemaningCardsOfDeck();
+        if(remaining > 4){
             const newPlayer = new Player(playerName, isHost);
             this.players.push(newPlayer);   // adds newPlayer to players array
             this.playerOrder.push(newPlayer.playerID);
             this.numberOfPlayers = this.players.length;
         return newPlayer;
         } else {
-            throw Error('Player limit reached. The game can only have 10 players.');
+            throw Error('Not enough cards in the deck to add a new player.');
         }
     },
 

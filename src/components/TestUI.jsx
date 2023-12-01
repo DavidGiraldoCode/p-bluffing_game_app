@@ -9,21 +9,21 @@ export default function TestUI(props) {
         // Call the getDeckID function on the model
         await props.model.getDeckID();
         // Call the createPlayer function on the model with the input value
-        const player = props.model.createPlayer(data.newPlayerName, true); // Assuming the player is not the host
+        const player = await props.model.createPlayer(data.newPlayerName, true); // Assuming the player is not the host
         // Clear the input field after adding the player
         data.newPlayerName = "";
         // TODO change 5 cards into a attribute in the model that can be changed
-        props.model.dealCards(player.playerID, 5); // always deals five cards
-        props.model.nextPlayer(); // sets the host to start the first round
+        await props.model.dealCards(player.playerID, 5); // always deals five cards
+        await props.model.nextPlayer(); // sets the host to start the first round
     }
 
-    function addNewPlayerACB() {
+    async function addNewPlayerACB() {
         // Call the createPlayer function on the model with the input value. Not host
-        const player = props.model.createPlayer(data.newPlayerName, false); // Assuming the player is not the host
+        const player = await props.model.createPlayer(data.newPlayerName, false); // Assuming the player is not the host
         // Clear the input field after adding the player
         data.newPlayerName = "";
         // TODO change 5 cards into a attribute in the model that can be changed
-        props.model.dealCards(player.playerID, 5);
+        await props.model.dealCards(player.playerID, 5);
     }
 
     return (
