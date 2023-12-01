@@ -1,14 +1,19 @@
-import { register } from 'swiper/element/bundle';
-
-register(); //thirparty component
-
 // Import Swiper styles
+//import Swiper from 'swiper';
+
 import 'swiper/css';
 import 'swiper/css/effect-cards';
 import './SwiperView.css';
 
 export default function SwiperView(props) {
   console.log('props.cardCodes.length: ',props.cardCodes.length);
+
+  /*const swiper = new Swiper ('.swiper', {
+    effect: 'cards',
+    grabCursor: true,
+    loop: true
+  })*/
+
   function arrayRendering(card) {
     console.log('arrayRendering: ', props.cardCodes);
     const CARD_SPRITE = `https://deckofcardsapi.com/static/img/${card}.png`;
