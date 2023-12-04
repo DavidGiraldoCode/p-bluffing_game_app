@@ -1,10 +1,11 @@
 import "./firebaseModel.js"; //? Runs the firebase instance
 import connectToFirebase from "./firebaseModel.js";
 import { observeValue } from "./firebaseModel.js";
-import { createApp, reactive } from 'vue'
-import './style.css'
-import App from './App.jsx'
+import { createApp, reactive, watch } from 'vue';
+import './style.css';
+import App from './App.jsx';
 import { sessionModel } from './SessionModel.js';
+
 
 //* ----------------------------- Updates
 // main.js changed to main.jsx to use <App> syntaxis
@@ -31,12 +32,12 @@ import { sessionModel } from './SessionModel.js';
     }],
     numberOfPlayers: 3,
 }*/
-const testReactiveModel = reactive(sessionModel)
+const ReactiveModel = reactive(sessionModel)
 //! -----------------------------
 
-const rootJSX = <App model={testReactiveModel} />
+const rootJSX = <App model={ReactiveModel} />
 const app = createApp(rootJSX);
 app.mount('#app');
 
 //? Connection to Firebase, missing the reactiveModel and reaction
-connectToFirebase(null, null);
+connectToFirebase(ReactiveModel, watch);

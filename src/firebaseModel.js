@@ -2,12 +2,12 @@ import { initializeApp } from "firebase/app";
 import { getDatabase, ref, set, get, onValue } from "firebase/database";
 
 import firebaseConfig from "./firebaseConfig.js";
-
+import { sessionModel } from "./SessionModel.js";
 
 console.log('Inside firebaseModel.js');
 const firebaseApp = initializeApp(firebaseConfig);
 const realTimeDB = getDatabase(firebaseApp);
-const PATH = "sessionTest";
+const PATH = sessionModel.sessionID;
 const refDB = ref(realTimeDB, PATH);
 
 //! ----------------------------- Test
@@ -34,16 +34,21 @@ const miniModel = { //! You can remove this once you connect the real model
 //! ----------------------------- Test
 
 function modelToPersistance(model) {
-    //TODO
+    return {
+        playerOrderFB: model.playerOrder,
+        yourTurnFB: model.yourTurn,
+        gameOverFB: model.gameOver,
+    };
 }
 
 function persistanceToModel(firebaseData, model) {
-    //TODO
-    //console.log(firebaseData);
+    // TODO
 }
 
 function saveToFirebase(model) {
-    //TODO
+    if(model.ready){    //saves to firebase
+        set(refDB, modelToPersistence(model)); //refDB defined above
+    };
 }
 
 function readFromFirebase(model) {
@@ -85,11 +90,21 @@ function observeValue(model, valueToObserve) {
     return onValue(refValue, resolveSnapshotACB);
 }
 
-function connectToFirebase(model, watchFuntion) {
+function connectToFirebase(model, watchFunctionACB) {
     readFromFirebase({});
-    observeValue({}, "numberOfPlayers");
-    observeValue({}, "players/0/pileOfCards");
-    set(refDB, miniModel);
+    watchFunctionACB(modelChangeCheckACB, updateFirebaseACB)
+    function modelChangeCheckACB(){
+        console.log("modelChangeCheckACB");
+        // TODO implement the numberOfCards attribute. is it even possible?
+        return [model.playerOrder, model.yourTurn, model.gameOver];
+    }
+    function updateFirebaseACB(){
+        console.log("sideEffect triggered, model: ", model);
+        saveToFirebase(model);
+    }
+    //observeValue({}, "numberOfPlayers");
+    //observeValue({}, "players/0/pileOfCards");
+    //set(refDB, miniModel);
 }
 
 
