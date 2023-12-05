@@ -62,6 +62,7 @@ class Player {
         const data = await sessionModel.getDataFromAPI(API_URL);
         const id = this.playerID;
         this.pileOfCards = data.piles[id].cards.map(listingCardCodeCB);
+        this.numberOfCards = this.pileOfCards.length;
     }
 }
 
