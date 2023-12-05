@@ -7,7 +7,7 @@ import { sessionModel } from "./SessionModel.js";
 console.log('Inside firebaseModel.js');
 const firebaseApp = initializeApp(firebaseConfig);
 const realTimeDB = getDatabase(firebaseApp);
-const PATH = sessionModel.sessionID;
+const PATH = 'sessions';
 const refDB = ref(realTimeDB, PATH);
 
 //! ----------------------------- Test
@@ -35,9 +35,19 @@ const miniModel = { //! You can remove this once you connect the real model
 
 function modelToPersistance(model) {
     return {
-        playerOrderFB: model.playerOrder,
-        yourTurnFB: model.yourTurn,
-        gameOverFB: model.gameOver,
+        [model.sessionID]: {
+
+            sessionIDFB: model.sessionID, 
+            playersFB: model.players.map(player => ({
+            playerIDFB: player.playerID,
+            playerNameFB: player.playerName,
+            isHostFB: player.isHost,
+            numberOfCardsFB: player.numberOfCards,
+                })),
+            playerOrderFB: model.playerOrder,
+            yourTurnFB: model.yourTurn,
+            gameOverFB: model.gameOver,
+        }
     };
 }
 
@@ -47,7 +57,7 @@ function persistanceToModel(firebaseData, model) {
 
 function saveToFirebase(model) {
     if(model.ready){    //saves to firebase
-        set(refDB, modelToPersistence(model)); //refDB defined above
+        set(refDB, modelToPersistance(model)); //refDB defined above
     };
 }
 
@@ -91,12 +101,13 @@ function observeValue(model, valueToObserve) {
 }
 
 function connectToFirebase(model, watchFunctionACB) {
-    readFromFirebase({});
+    readFromFirebase(model);
     watchFunctionACB(modelChangeCheckACB, updateFirebaseACB)
     function modelChangeCheckACB(){
         console.log("modelChangeCheckACB");
         // TODO implement the numberOfCards attribute. is it even possible?
-        return [model.playerOrder, model.yourTurn, model.gameOver];
+        // players: model.players.map(player => ({playerID: player.playerID, ....}))
+        return [model.players.map(player => ({playerID: player.playerID, numberOfCards: player.numberOfCards})), model.playerOrder, model.yourTurn, model.gameOver];
     }
     function updateFirebaseACB(){
         console.log("sideEffect triggered, model: ", model);

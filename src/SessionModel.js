@@ -38,6 +38,7 @@ class Player {
         this.isHost = isHost;
         this.pileOfCards = []; //Local copy of the API pile. To be able to render
         this.selectedCard = null; // example: 'KD'
+        this.numberOfCards = this.pileOfCards.length;
     }
 
     createPlayerID() {
