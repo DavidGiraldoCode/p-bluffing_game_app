@@ -31,9 +31,13 @@ function modelToPersistance(model) {
 
 function persistanceToModel(firebaseData, model) {
     // TODO
-    model.playerOrder = firebaseData?.playerOrderFB;
-    model.yourTurn = firebaseData?.yourTurnFB;
-    model.gameOver = firebaseData?.gameOverFB;
+    //model.playerOrder = firebaseData?.playerOrderFB;
+    //model.yourTurn = firebaseData?.yourTurnFB;
+    //model.gameOver = firebaseData[model.sessionID]?.gameOverFB;   
+    console.log("inside persistanceToModel");
+    console.log(firebaseData);
+    // When I change the gameOverFB value in firebase the console.log above writes out the value
+    // This differs from how we did it in the lab (Albin). We got the snapshot as an object which we then accessed the variable of interest.
     // TODO leaderboard should be implemented here
     // The thought is to "convert" the firebaseData to a leaderboard object.
 }
