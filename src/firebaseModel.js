@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, set, get, onValue, update, child } from "firebase/database";
+import { getDatabase, ref, set, get, onValue, update, child, push } from "firebase/database";
 
 import firebaseConfig from "./firebaseConfig.js";
 import { sessionModel } from "./SessionModel.js";
@@ -11,11 +11,9 @@ const refDB = ref(realTimeDB, PATH);
 
 
 function modelToPersistance(model) {
-    // Converts the model into the data that will be stored in firebase. Returns this data.
-    
+    // Converts the model into the data that will be stored in Firebase. Returns this data.
     return {
         sessionIDFB: model.sessionID, 
-        playersFB: model.players,
         playerOrderFB: model.playerOrder,
         yourTurnFB: model.yourTurn,
         gameOverFB: model.gameOver,
@@ -23,44 +21,54 @@ function modelToPersistance(model) {
 }
 
 function persistanceToModel(firebaseData, model) {
-    // Converts the data from firebase and saves to the model
+    // Converts the data from Firebase and saves to the model
     if (firebaseData) {
         model.gameOver = firebaseData?.gameOverFB;
         model.yourTurn = firebaseData?.yourTurnFB || null;
         model.playerOrder = firebaseData.playerOrderFB || [];
-        
-        // Build leaderboard dictionary
-        const leaderboard = Object.values(firebaseData.playersFB).reduce((acc, playerData) => {
-            const playerName = playerData.playerNameFB;
-            const numberOfCards = playerData.numberOfCardsFB;
-            
-            acc[playerName] = numberOfCards;
-            
-            return acc;
-        }, {});
-        model.leaderboard = leaderboard;
+
+        // Check if firebaseData.playersFB exists before using Object.values
+        if (firebaseData.playersFB) {
+            // Build leaderboard dictionary
+            const leaderboard = Object.values(firebaseData.playersFB).reduce((acc, playerData) => {
+                const playerName = playerData.playerNameFB;
+                const numberOfCards = playerData.numberOfCardsFB;
+
+                acc[playerName] = numberOfCards;
+
+                return acc;
+            }, {});
+
+            model.leaderboard = leaderboard;
+        }
     }
 }
 
+
 //! TESTING
 async function saveToFirebase(model) {
+    // Checks that the model is ready to be saved and then calls modelToPersistance and saves that data to Firebase.
     if (model.ready && model.readyToWriteFB) {
-        const sessionUpdate = {
-            [`sessions/${model.sessionID}`]: modelToPersistance(model),
-        };
+        const refDB = ref(realTimeDB, PATH + "/" + model.sessionID);
+        update(refDB, modelToPersistance(model));
+        // Get the current playersFB array from Firebase
+        const playersSnapshot = await get(child(refDB, "playersFB"));
+        const currentPlayers = playersSnapshot.val() || {};
 
-        const playersUpdate = {};
+        // Add new players from model.players to the current playersFB array
         model.players.forEach(player => {
-            playersUpdate[`sessions/${model.sessionID}/playersFB/${player.playerID}`] = {
-                playerID: player.playerID,
-                playerName: player.playerName,
-                isHost: player.isHost,
-                numberOfCards: player.numberOfCards,
+            currentPlayers[player.playerID] = {
+                playerNameFB: player.playerName,
+                numberOfCardsFB: player.numberOfCards,
+                // Add other properties as needed
             };
         });
 
-        await update(refDB, sessionUpdate);
-        await update(refDB, playersUpdate);
+        // Save the updated playersFB array back to Firebase
+        set(child(refDB, "playersFB"), currentPlayers);
+
+        // Update the rest of the model data
+        
     }
 }
 //! END OF TESTING
