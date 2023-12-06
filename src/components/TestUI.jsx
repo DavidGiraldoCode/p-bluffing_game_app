@@ -16,15 +16,17 @@ export default function TestUI(props) {
         // TODO change 5 cards into a attribute in the model that can be changed
         await props.model.dealCards(player.playerID, 5); // always deals five cards
         await props.model.nextPlayer(); // sets the host to start the first round
+        props.model.readyToWriteFB = true;
     }
 
     async function addNewPlayerACB() {
         // Call the createPlayer function on the model with the input value. Not host
-        const player = await props.model.joinSession(data.sessionIdFromUI, data.newPlayerName); // Assuming the player is not the host
+        await props.model.joinSession(data.sessionIdFromUI); // Assuming the player is not the host
+        const player = await props.model.createPlayer(data.newPlayerName, false)
+        await props.model.dealCards(player.playerID, 5); // always deals five cards
         // Clear the input field after adding the player
         data.newPlayerName = "";
-        // TODO change 5 cards into a attribute in the model that can be changed
-        await props.model.dealCards(player.playerID, 5);
+        props.model.readyToWriteFB = true;
     }
 
     return (
