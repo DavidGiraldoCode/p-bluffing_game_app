@@ -80,6 +80,18 @@ export let sessionModel = {
     winner: null,
     leaderboard: {},
 
+    // =================================== New multiplayer functions ==========================================
+    joinSession(sessionIdFromUI, playerName){
+        // Recives a sessionID from the UI. Sets this sessionID to the models sessionID.
+        // Creates a new player.
+        //! What happens if the sessionID is not valid on the firebase?
+        this.sessionID = sessionIdFromUI;
+        //this.createPlayer(playerName, false);
+    },
+
+
+    // =================================== Singeplayer functions ==========================================
+
     async getDataFromAPI(API_URL){
         // Fetches data from the API in accordance to the API_URL as parameter. This function handles errors: response not OK, general errors from fetch and network offline specific error.
         try {

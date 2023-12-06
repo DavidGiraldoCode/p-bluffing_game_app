@@ -11,6 +11,7 @@ const refDB = ref(realTimeDB, PATH);
 
 
 function modelToPersistance(model) {
+    // Converts the model into the data that will be stored in firebase. Returns this data.
     return {
         sessionIDFB: model.sessionID, 
         playersFB: model.players.reduce((acc, player) => {
@@ -29,6 +30,7 @@ function modelToPersistance(model) {
 }
 
 function persistanceToModel(firebaseData, model) {
+    // Converts the data from firebase and saves to the model
     if (firebaseData) {
         model.gameOver = firebaseData?.gameOverFB;
         model.yourTurn = firebaseData?.yourTurnFB || null;
@@ -48,6 +50,7 @@ function persistanceToModel(firebaseData, model) {
 }
 
 function saveToFirebase(model) {
+    // Checks that the model is ready to be saved and then calls modelToPersistance and saves that data to firebase.
     if(model.ready){    //saves to firebase
         const refDB = ref(realTimeDB, PATH+"/"+model.sessionID);
         set(refDB, modelToPersistance(model)); //refDB defined above
@@ -55,6 +58,7 @@ function saveToFirebase(model) {
 }
 
 async function readFromFirebase(model) {
+    // If a snapshot from firebase is valid, calls for persistanceToModel. Then sets the model to ready.
     model.ready = false;
     //? check for child( path, string)
     const PATH = `sessions/${model.sessionID}`;
@@ -77,6 +81,7 @@ async function readFromFirebase(model) {
 }
 
 function observeFirebaseModel(model) {
+    // Observse the model for changes. When a change has been noticed on firebase, persistanceToModel is called.
     model.ready = false;
     const SESSION_PATH = `sessions/${model.sessionID}`;
     const refSession = ref(realTimeDB, SESSION_PATH);
@@ -95,6 +100,7 @@ function observeFirebaseModel(model) {
 }
 
 function connectToFirebase(model, watchFunctionACB) {
+    // Checks so that the model has a valid sessionID. When that is the case, setupFirebase is called.
     if (model.sessionID) {
         // If a sessionID exists, proceed with Firebase setup
         setupFirebase(model, watchFunctionACB);
@@ -109,11 +115,12 @@ function connectToFirebase(model, watchFunctionACB) {
 }
 
 function setupFirebase(model, watchFunctionACB) {
+    // Calls readFromFirebase to set model to ready. Always observing changes from the model on players, playerOrder, yourTurn, gameOver. If a change has been made on the model
+    // saveToFirebase is called. Lastely calls observeFirebaseModel to check for changes on the database.
     readFromFirebase(model);
     watchFunctionACB(modelChangeCheckACB, updateFirebaseACB);
 
     function modelChangeCheckACB() {
-        // TODO implement the numberOfCards attribute. is it even possible?
         // players: model.players.map(player => ({playerID: player.playerID, ....}))
         return [
             model.players.map(player => ({ playerID: player.playerID, numberOfCards: player.numberOfCards })),
