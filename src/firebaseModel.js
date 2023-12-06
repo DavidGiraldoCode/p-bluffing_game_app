@@ -117,22 +117,32 @@ function connectToFirebase(model, watchFunctionACB) {
 function setupFirebase(model, watchFunctionACB) {
     // Calls readFromFirebase to set model to ready. Always observing changes from the model on players, playerOrder, yourTurn, gameOver. If a change has been made on the model
     // saveToFirebase is called. Lastely calls observeFirebaseModel to check for changes on the database.
+
+    let updatingFirebase = false;
+
     readFromFirebase(model);
     watchFunctionACB(modelChangeCheckACB, updateFirebaseACB);
 
     function modelChangeCheckACB() {
         // players: model.players.map(player => ({playerID: player.playerID, ....}))
-        return [
-            model.players.map(player => ({ playerID: player.playerID, numberOfCards: player.numberOfCards })),
-            model.playerOrder,
-            model.yourTurn,
-            model.gameOver
-        ];
+        if (!updatingFirebase) {
+            return [
+                model.players.map(player => ({ playerID: player.playerID, numberOfCards: player.numberOfCards })),
+                model.playerOrder,
+                model.yourTurn,
+                model.gameOver
+            ];
+        }
     }
 
-    function updateFirebaseACB() {
-        //console.log("sideEffect triggered, model: ", model);
-        saveToFirebase(model);
+    async function updateFirebaseACB() {
+        // Set the flag to prevent further updates until this one completes
+        updatingFirebase = true;
+
+        await saveToFirebase(model);
+
+        // Reset the flag after the update is complete
+        updatingFirebase = false;
     }
     observeFirebaseModel(model);
 }

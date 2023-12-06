@@ -71,10 +71,10 @@ class Player {
 //                                 The model
 // =============================================================================
 export let sessionModel = {
-    sessionID: null, // the deck_id defined by the API
+    sessionID: "null", // the deck_id defined by the API
     players: [], // array of player objects
     playerOrder: [], // array of playerIDs stating the plaing order of the game
-    yourTurn: null, // a playerID
+    yourTurn: "null", // a playerID
     numberOfPlayers: null, // players.length()
     gameOver: false,
     winner: null,
@@ -86,7 +86,7 @@ export let sessionModel = {
         // Creates a new player.
         //! What happens if the sessionID is not valid on the firebase?
         this.sessionID = sessionIdFromUI;
-        //this.createPlayer(playerName, false);
+        this.createPlayer(playerName, false);
     },
 
 
@@ -116,7 +116,7 @@ export let sessionModel = {
  
     async getDeckID(){
         //Gets a new deck from the API and sets the sessionID from the model. Data is the whole respons.
-        if(this.sessionID == null){
+        if(this.sessionID == "null"){
             const API_URL = `${BASE_URL}/deck/new/shuffle/`;
             const data = await this.getDataFromAPI(API_URL);
             const deck_id = data.deck_id;
@@ -136,7 +136,7 @@ export let sessionModel = {
         // Creates an object from the player class and adds to the players array.
         // If no sessionID is active, no player will be added and an error is thrown
         // If there is less than 5 cards in the deck, no player will be added and an error is thrown
-        if(this.sessionID !== null){
+        if(this.sessionID !== "null"){
             const remaining = await this.getRemaningCardsOfDeck();
             if(remaining > 4){
                 const newPlayer = new Player(playerName, isHost);
