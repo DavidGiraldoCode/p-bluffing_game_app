@@ -35,6 +35,7 @@ export default function TestUI(props) {
             <p>yourTurn (a playerID type String): {props.model.yourTurn}</p>
             <p>gameOver (type Boolean): {`${props.model.gameOver}`}</p>
             <p>winner (a playerID type String): {props.model.winner}</p>
+            <p>leaderBoard (type Object): {JSON.stringify(props.model.leaderboard)}</p>
 
             <div>
                 <input

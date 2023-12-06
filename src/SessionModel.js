@@ -78,6 +78,7 @@ export let sessionModel = {
     numberOfPlayers: null, // players.length()
     gameOver: false,
     winner: null,
+    leaderboard: {},
 
     async getDataFromAPI(API_URL){
         // Fetches data from the API in accordance to the API_URL as parameter. This function handles errors: response not OK, general errors from fetch and network offline specific error.

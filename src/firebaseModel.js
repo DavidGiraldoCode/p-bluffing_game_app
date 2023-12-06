@@ -4,7 +4,6 @@ import { getDatabase, ref, set, get, onValue } from "firebase/database";
 import firebaseConfig from "./firebaseConfig.js";
 import { sessionModel } from "./SessionModel.js";
 
-console.log('Inside firebaseModel.js');
 const firebaseApp = initializeApp(firebaseConfig);
 const realTimeDB = getDatabase(firebaseApp);
 const PATH = 'sessions/';
@@ -30,16 +29,22 @@ function modelToPersistance(model) {
 }
 
 function persistanceToModel(firebaseData, model) {
-    // TODO
-    //model.playerOrder = firebaseData?.playerOrderFB;
-    //model.yourTurn = firebaseData?.yourTurnFB;
-    //model.gameOver = firebaseData[model.sessionID]?.gameOverFB;   
-    console.log("inside persistanceToModel");
-    console.log(firebaseData);
-    // When I change the gameOverFB value in firebase the console.log above writes out the value
-    // This differs from how we did it in the lab (Albin). We got the snapshot as an object which we then accessed the variable of interest.
-    // TODO leaderboard should be implemented here
-    // The thought is to "convert" the firebaseData to a leaderboard object.
+    if (firebaseData) {
+        model.gameOver = firebaseData?.gameOverFB;
+        model.yourTurn = firebaseData?.yourTurnFB || null;
+        model.playerOrder = firebaseData.playerOrderFB || [];
+        
+        // Build leaderboard dictionary
+        const leaderboard = Object.values(firebaseData.playersFB).reduce((acc, playerData) => {
+            const playerName = playerData.playerNameFB;
+            const numberOfCards = playerData.numberOfCardsFB;
+            
+            acc[playerName] = numberOfCards;
+            
+            return acc;
+        }, {});
+        model.leaderboard = leaderboard;
+    }
 }
 
 function saveToFirebase(model) {
@@ -49,15 +54,17 @@ function saveToFirebase(model) {
     };
 }
 
-function readFromFirebase(model) {
+async function readFromFirebase(model) {
     model.ready = false;
     //? check for child( path, string)
+    const PATH = `sessions/${model.sessionID}`;
+    const refDB = ref(realTimeDB, PATH);
 
     function resolveSnapshotACB(snapshot) {
         if (snapshot.exists())
             persistanceToModel(snapshot.val(), model);
         if (!snapshot.exists())
-            console.error('No Data on RealTime Database');
+            console.log('No Data on RealTime Database');
     }
 
     function setModelToReadyACB() {
@@ -69,23 +76,22 @@ function readFromFirebase(model) {
         .then(setModelToReadyACB);
 }
 
-function observeValue(model, valueToObserve) {
-    console.log(`Observing changes in: ${valueToObserve}`);
+function observeFirebaseModel(model) {
     model.ready = false;
-    const VALUE_PATH = valueToObserve;
-    const refValue = ref(realTimeDB, `${VALUE_PATH}`);
+    const SESSION_PATH = `sessions/${model.sessionID}`;
+    const refSession = ref(realTimeDB, SESSION_PATH);
 
     function resolveSnapshotACB(snapshot) {
-        if (!snapshot.exists())
-            console.error('No Data on RealTime Database');
-
-        if (snapshot.exists()) {
-            console.log(`New value of ${valueToObserve}: ${snapshot.val()}`);
-            persistanceToModel(snapshot.val(), model);
-            model.ready = true;
+        if (!snapshot.exists()) {
+            console.log(`No Data on RealTime Database at path: ${SESSION_PATH}`);
+            return;
         }
+
+        persistanceToModel(snapshot.val(), model);
+        model.ready = true;
     }
-    return onValue(refValue, resolveSnapshotACB);
+
+    return onValue(refSession, resolveSnapshotACB);
 }
 
 function connectToFirebase(model, watchFunctionACB) {
@@ -118,18 +124,13 @@ function setupFirebase(model, watchFunctionACB) {
     }
 
     function updateFirebaseACB() {
-        console.log("sideEffect triggered, model: ", model);
+        //console.log("sideEffect triggered, model: ", model);
         saveToFirebase(model);
     }
-
-    observeValue(model, `sessions/${model.sessionID}/gameOverFB`);
-    observeValue(model, `sessions/${model.sessionID}/yourTurnFB`);
-    observeValue(model, `sessions/${model.sessionID}/playerOrderFB`);
-    observeValue(model, `sessions/${model.sessionID}/playersFB`);
-    // TODO listen to playersFB/playerID/numberOfCardsFB. We believe this is solved
+    observeFirebaseModel(model);
 }
 
 
-export { modelToPersistance, persistanceToModel, saveToFirebase, readFromFirebase, observeValue };
+export { modelToPersistance, persistanceToModel, saveToFirebase, readFromFirebase, observeFirebaseModel };
 
 export default connectToFirebase;
