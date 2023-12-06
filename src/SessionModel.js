@@ -2,6 +2,7 @@
 // 2023-12-01, Albin Fransson & Martin Sandberg
 
 import {BASE_URL} from "/src/apiConfig.js";
+import { saveToFirebase } from "./firebaseModel";
 
 /*
                 ☆           *
@@ -176,7 +177,7 @@ export let sessionModel = {
         }
     },
 
-    nextPlayer(){
+    async nextPlayer(){
         // This function will be called while creating a session to initilize yourTurn
         // Assigns the next player in the playerOrder
         // If its the last player of a round the playerOrder will be shuffled and yourTurn = playerOrder[0]
@@ -185,11 +186,17 @@ export let sessionModel = {
         } else{
             const index = this.playerOrder.indexOf(this.yourTurn);
             const nextIndex = ((index + 1) % this.playerOrder.length);
-            if(nextIndex !== 0){
-                this.yourTurn = this.playerOrder[nextIndex]
-            } else{
+            if (nextIndex !== 0) {
+                console.log("Wihoo, got into normal nextPlayer");
+                console.log("nextIndex : ", nextIndex);
+                console.log("this.playerOrder[nextIndex] : ", this.playerOrder[nextIndex]);
+        
+                this.yourTurn = this.playerOrder[nextIndex];
+                await saveToFirebase(this);  // Await the save operation
+            } else {
                 this.shufflePlayers();
-                this.yourTurn = this.playerOrder[0]
+                this.yourTurn = this.playerOrder[0];
+                await saveToFirebase(this);  // Await the save operation
             }
         }
     },

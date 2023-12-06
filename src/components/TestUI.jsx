@@ -34,6 +34,7 @@ export default function TestUI(props) {
             <h1>UI Tester</h1>
             <h2>sessionID (deckID in the API): {props.model.sessionID} </h2>
             <h3>players (type Array): {`${props.model.players}`}</h3>
+            <p>playerOrder (type Array): {JSON.stringify(props.model.playerOrder)}</p>
             <p>numberOfPlayer: {props.model.numberOfPlayers} </p>
             <p>yourTurn (a playerID type String): {props.model.yourTurn}</p>
             <p>gameOver (type Boolean): {`${props.model.gameOver}`}</p>

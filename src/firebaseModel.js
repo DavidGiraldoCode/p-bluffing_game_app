@@ -25,7 +25,7 @@ function persistanceToModel(firebaseData, model) {
     if (firebaseData) {
         model.gameOver = firebaseData?.gameOverFB;
         model.yourTurn = firebaseData?.yourTurnFB || null;
-        model.playerOrder = firebaseData.playerOrderFB || [];
+        model.playerOrder = firebaseData?.playerOrderFB || [];
 
         // Check if firebaseData.playersFB exists before using Object.values
         if (firebaseData.playersFB) {
@@ -44,8 +44,6 @@ function persistanceToModel(firebaseData, model) {
     }
 }
 
-
-//! TESTING
 async function saveToFirebase(model) {
     // Checks that the model is ready to be saved and then calls modelToPersistance and saves that data to Firebase.
     if (model.ready && model.readyToWriteFB) {
@@ -71,16 +69,6 @@ async function saveToFirebase(model) {
         
     }
 }
-//! END OF TESTING
-
-/*
-function saveToFirebase(model) {
-    // Checks that the model is ready to be saved and then calls modelToPersistance and saves that data to firebase.
-    if(model.ready && model.readyToWriteFB){    //saves to firebase
-        const refDB = ref(realTimeDB, PATH+"/"+model.sessionID);
-        update(refDB, modelToPersistance(model)); //refDB defined above
-    };
-}*/
 
 async function readFromFirebase(model) {
     // If a snapshot from firebase is valid, calls for persistanceToModel. Then sets the model to ready.
@@ -116,7 +104,7 @@ function observeFirebaseModel(model) {
             console.log(`No Data on RealTime Database at path: ${SESSION_PATH}`);
             return;
         }
-
+        console.log("Observed a change!")
         persistanceToModel(snapshot.val(), model);
         model.ready = true;
     }
@@ -143,32 +131,22 @@ function setupFirebase(model, watchFunctionACB) {
     // Calls readFromFirebase to set model to ready. Always observing changes from the model on players, playerOrder, yourTurn, gameOver. If a change has been made on the model
     // saveToFirebase is called. Lastely calls observeFirebaseModel to check for changes on the database.
 
-    let updatingFirebase = false;
-
     readFromFirebase(model);
     watchFunctionACB(modelChangeCheckACB, updateFirebaseACB);
 
     function modelChangeCheckACB() {
         // players: model.players.map(player => ({playerID: player.playerID, ....}))
-        if (!updatingFirebase) {
-            return [
-                model.players.map(player => ({ playerID: player.playerID, numberOfCards: player.numberOfCards })),
-                model.playerOrder,
-                model.yourTurn,
-                model.gameOver,
-                model.readyToWriteFB,
-            ];
-        }
+        return [
+            model.players.map(player => ({ playerID: player.playerID, numberOfCards: player.numberOfCards })),
+            model.playerOrder,
+            model.yourTurn,
+            model.gameOver,
+            model.readyToWriteFB,
+        ];
     }
 
     async function updateFirebaseACB() {
-        // Set the flag to prevent further updates until this one completes
-        updatingFirebase = true;
-
         await saveToFirebase(model);
-
-        // Reset the flag after the update is complete
-        updatingFirebase = false;
     }
     observeFirebaseModel(model);
 }
