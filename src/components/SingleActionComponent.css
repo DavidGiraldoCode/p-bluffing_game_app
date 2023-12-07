@@ -1,0 +1,29 @@
+.main-container {
+  justify-content: center;
+  align-self: stretch;
+  background-color: var(--principal-white, #fff);
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  padding: 24px 16px;
+}
+
+.continue-button{
+    color: var(--principal-white, #fff);
+    text-align: center;
+    white-space: nowrap;
+    justify-content: center;
+    align-items: center;
+    border-radius: 16px;
+    background-color: var(--principal-ideas, #000);
+    margin-top: 8px;
+    padding: 14px 60px;
+    font: 400 14px/20px Roboto, -apple-system, Roboto, Helvetica, sans-serif;
+    }
+
+  @media (max-width: 280px) {
+    .continue-button {
+      white-space: initial;
+      padding: 0 20px;
+    }
+  }

@@ -21,10 +21,7 @@ export default function DesignSystemView(props) {
         <JoinSessionView />
         
         <SelectView />
-
-        
-
-        
+    
 
 
     </div>;

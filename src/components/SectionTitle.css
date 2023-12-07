@@ -1,0 +1,11 @@
+
+
+.main-container {
+    color: var(--principal-ideas, #000);
+    text-align: center;
+    width: 100%;
+    background-color: var(--principal-white, #fff);
+    justify-content: center;
+    padding: 16px 0;
+    font: 400 26px/32px Roboto, -apple-system, Roboto, Helvetica, sans-serif;
+  }

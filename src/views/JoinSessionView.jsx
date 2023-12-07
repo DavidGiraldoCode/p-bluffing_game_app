@@ -1,5 +1,5 @@
 
-import JoinHeader from "../components/JoinHeader.jsx";
+import SectionTitle from "../components/SectionTitle.jsx";
 import JoinSessionForm from "../components/JoinSessionForm.jsx";
 import CreateSession from "../components/CreateSession.jsx";
 import Footer from "../components/Footer.jsx";
@@ -9,7 +9,7 @@ function JoinSessionView(props) {
   return (
   <div>
     <div>
-      {<JoinHeader />}
+      {<SectionTitle />}
       {<JoinSessionForm />}
       {<CreateSession />}
       {<Footer />}
