@@ -9,6 +9,16 @@ const realTimeDB = getDatabase(firebaseApp);
 const PATH = 'sessions/';
 const refDB = ref(realTimeDB, PATH);
 
+async function checkValidSessionID(sessionID){
+    //Checks wether the sessionID is already created on firebase and valid.
+    //Returns true if sessionID is valid on firebase
+
+    const sessionsSnapshot = await get(refDB);
+    const currentSessions = sessionsSnapshot.val() || {};
+
+    const sessionIDarray = Object.keys(currentSessions);
+    return sessionIDarray.includes(sessionID);
+}
 
 function modelToPersistance(model) {
     // Converts the model into the data that will be stored in Firebase. Returns this data.
@@ -33,8 +43,9 @@ function persistanceToModel(firebaseData, model) {
             const leaderboard = Object.values(firebaseData.playersFB).reduce((acc, playerData) => {
                 const playerName = playerData.playerNameFB;
                 const numberOfCards = playerData.numberOfCardsFB;
+                const playerID = playerData.playerIdFB;
 
-                acc[playerName] = numberOfCards;
+                acc[playerID] = { numberOfCards, playerName };
 
                 return acc;
             }, {});
@@ -44,28 +55,34 @@ function persistanceToModel(firebaseData, model) {
     }
 }
 
+async function savePlayersFB(model){
+    // Updates the playersFB on firebase.
+    // Fetches the playersFB from firebase, adds the local copy of players, then saves to FB.
+
+    const refDB = ref(realTimeDB, PATH + "/" + model.sessionID);
+    const playersSnapshot = await get(child(refDB, "playersFB"));
+    const currentPlayers = playersSnapshot.val() || {};
+
+    // Add new players from model.players to the current playersFB array
+    model.players.forEach(player => {
+        currentPlayers[player.playerID] = {
+            playerNameFB: player.playerName,
+            numberOfCardsFB: player.numberOfCards,
+            playerIdFB: player.playerID,
+            // Add other properties as needed
+        };
+    });
+    // Save the updated playersFB array back to Firebase
+    set(child(refDB, "playersFB"), currentPlayers);
+}
+
 async function saveToFirebase(model) {
     // Checks that the model is ready to be saved and then calls modelToPersistance and saves that data to Firebase.
+    // Also calls savePlayersFB to save all playersFB
     if (model.ready && model.readyToWriteFB) {
         const refDB = ref(realTimeDB, PATH + "/" + model.sessionID);
         update(refDB, modelToPersistance(model));
-        // Get the current playersFB array from Firebase
-        const playersSnapshot = await get(child(refDB, "playersFB"));
-        const currentPlayers = playersSnapshot.val() || {};
-
-        // Add new players from model.players to the current playersFB array
-        model.players.forEach(player => {
-            currentPlayers[player.playerID] = {
-                playerNameFB: player.playerName,
-                numberOfCardsFB: player.numberOfCards,
-                // Add other properties as needed
-            };
-        });
-
-        // Save the updated playersFB array back to Firebase
-        set(child(refDB, "playersFB"), currentPlayers);
-
-        // Update the rest of the model data
+        savePlayersFB(model);
         
     }
 }
@@ -152,6 +169,6 @@ function setupFirebase(model, watchFunctionACB) {
 }
 
 
-export { modelToPersistance, persistanceToModel, saveToFirebase, readFromFirebase, observeFirebaseModel };
+export { modelToPersistance, persistanceToModel, saveToFirebase, readFromFirebase, observeFirebaseModel, checkValidSessionID };
 
 export default connectToFirebase;

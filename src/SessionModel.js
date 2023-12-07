@@ -2,7 +2,7 @@
 // 2023-12-01, Albin Fransson & Martin Sandberg
 
 import {BASE_URL} from "/src/apiConfig.js";
-import { saveToFirebase } from "./firebaseModel";
+import { saveToFirebase, checkValidSessionID } from "./firebaseModel";
 
 /*
                 ☆           *
@@ -24,7 +24,9 @@ source: https://github.com/rhysd
 
 /*
 ! Known issues/bugs:
-    None known bug atm
+    - Remove player does not remove the player from playersFB on firebase. Only removes player from playerOrderFB.
+    - Host does not have access to the playerIDs, since not fetching playersFB from FB. Therefore host cannot remove other players.
+
 */
 
 // =============================================================================
@@ -84,17 +86,22 @@ export let sessionModel = {
 
     // =================================== New multiplayer functions ==========================================
     async joinSession(sessionIdFromUI, newPlayerName){
-        // Recives a sessionID from the UI. Sets this sessionID to the models sessionID.
-        // Creates a new player.
-        //! What happens if the sessionID is not valid on the firebase?
-        if(this.localNumberOfPlayers < 1 || this.localNumberOfPlayers === null){
-            this.sessionID = sessionIdFromUI;
-            const player = await this.createPlayer(newPlayerName, false)
-            await this.dealCards(player.playerID, 5); // always deals five cards
-            this.readyToWriteFB = true;
+        // Recives a sessionID from the UI. Creates a new player and deals 5 card to that player.
+        // Checks if sessionID is valid on firebase. Checks that there are no player on the local machine.
+
+        const sessionIsValid = await checkValidSessionID(sessionIdFromUI);
+        if(sessionIsValid){
+            if(this.localNumberOfPlayers < 1 || this.localNumberOfPlayers === null){
+                this.sessionID = sessionIdFromUI;
+                const player = await this.createPlayer(newPlayerName, false)
+                await this.dealCards(player.playerID, 5); // always deals five cards
+                this.readyToWriteFB = true;
+            }else{
+                //If one player already has joined on one device.
+                console.error("Only one player per device is supported!");
+            }
         }else{
-            //If one player already has joined on one device.
-            console.error("Only one player per device is supported!");
+            console.error("SessionID is not valid!");
         }
     },
 
