@@ -1,4 +1,4 @@
-import Swiper from "./Swiper.jsx";
+//import Swiper from "./Swiper.jsx";
 
 export default function TestUI(props) {
     console.log('Update TestUI!')
@@ -79,7 +79,8 @@ export default function TestUI(props) {
                 {player.pileOfCards.length > 0 && (
                     <div>{player.pileOfCards.map(cardsRendering)}</div>
                 )}
-                <Swiper pileOfCards={player.pileOfCards.reduce(concatenateCardCodesCB).split(", ")} onSelectCardSprite={selectCardSpriteHandler}/>
+                {/*<Swiper pileOfCards={player.pileOfCards.reduce(concatenateCardCodesCB).split(", ")} onSelectCardSprite={selectCardSpriteHandler}/>
+                */}
                 <p>Did you manage to bluff your way out?</p>
                 <div>
                     <button 
