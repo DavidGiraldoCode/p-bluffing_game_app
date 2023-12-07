@@ -76,7 +76,7 @@ export let sessionModel = {
     players: [], // array of player objects
     playerOrder: [], // array of playerIDs stating the plaing order of the game
     yourTurn: null, // a playerID
-    numberOfPlayers: null, // players.length()
+    localNumberOfPlayers: null, // players.length()
     gameOver: false,
     winner: null,
     leaderboard: {},
@@ -89,6 +89,16 @@ export let sessionModel = {
         //! What happens if the sessionID is not valid on the firebase?
         this.sessionID = sessionIdFromUI;
         //this.createPlayer(playerName, false);
+    },
+
+    async createHost(newPlayerName){
+        await this.getDeckID();
+        // Call the createPlayer function on the model with the input value
+        const player = await this.createPlayer(newPlayerName, true); // Assuming the player is not the host
+        // TODO change 5 cards into a attribute in the model that can be changed
+        await this.dealCards(player.playerID, 5); // always deals five cards
+        await this.nextPlayer(); // sets the host to start the first round
+        this.readyToWriteFB = true;
     },
 
 
@@ -144,7 +154,7 @@ export let sessionModel = {
                 const newPlayer = new Player(playerName, isHost);
                 this.players.push(newPlayer);   // adds newPlayer to players array
                 this.playerOrder.push(newPlayer.playerID);
-                this.numberOfPlayers = this.players.length;
+                this.localNumberOfPlayers = this.players.length;
             return newPlayer;
             } else {
                 throw Error('Not enough cards in the deck to add a new player.');
@@ -215,16 +225,11 @@ export let sessionModel = {
 
     removePlayer(playerIdToRemove){
         // Removes player from players array. The playerIDToRemove of the parameter is the player that will be removed.
-        // If the playerID is the host. Nothing will happen.
         // If the playerID to be removed also is yourTurn: nextPlayer() is called.
-        const player = this.players.find(player => player.playerID === playerIdToRemove);
-        if(!player.isHost){
-            this.players = this.players.filter(player => player.playerID !== playerIdToRemove);
-            this.playerOrder = this.playerOrder.filter(playerID => playerID !== playerIdToRemove);
+        this.playerOrder = this.playerOrder.filter(playerID => playerID !== playerIdToRemove);
             if(playerIdToRemove == this.yourTurn){
                 this.nextPlayer();
             }
-        }
     },
 
     async removeCard(playerID, selectedCard){

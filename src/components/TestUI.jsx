@@ -8,15 +8,9 @@ export default function TestUI(props) {
     
     async function createSessionACB() {
         // Call the getDeckID function on the model
-        await props.model.getDeckID();
-        // Call the createPlayer function on the model with the input value
-        const player = await props.model.createPlayer(data.newPlayerName, true); // Assuming the player is not the host
+        await props.model.createHost(data.newPlayerName)
         // Clear the input field after adding the player
         data.newPlayerName = "";
-        // TODO change 5 cards into a attribute in the model that can be changed
-        await props.model.dealCards(player.playerID, 5); // always deals five cards
-        await props.model.nextPlayer(); // sets the host to start the first round
-        props.model.readyToWriteFB = true;
     }
 
     async function addNewPlayerACB() {
@@ -35,7 +29,7 @@ export default function TestUI(props) {
             <h2>sessionID (deckID in the API): {props.model.sessionID} </h2>
             <h3>players (type Array): {`${props.model.players}`}</h3>
             <p>playerOrder (type Array): {JSON.stringify(props.model.playerOrder)}</p>
-            <p>numberOfPlayer: {props.model.numberOfPlayers} </p>
+            <p>localNumberOfPlayer: {props.model.localNumberOfPlayers} </p>
             <p>yourTurn (a playerID type String): {props.model.yourTurn}</p>
             <p>gameOver (type Boolean): {`${props.model.gameOver}`}</p>
             <p>winner (a playerID type String): {props.model.winner}</p>
