@@ -83,22 +83,34 @@ export let sessionModel = {
     readyToWriteFB: false,
 
     // =================================== New multiplayer functions ==========================================
-    joinSession(sessionIdFromUI){
+    async joinSession(sessionIdFromUI, newPlayerName){
         // Recives a sessionID from the UI. Sets this sessionID to the models sessionID.
         // Creates a new player.
         //! What happens if the sessionID is not valid on the firebase?
-        this.sessionID = sessionIdFromUI;
-        //this.createPlayer(playerName, false);
+        if(this.localNumberOfPlayers < 1 || this.localNumberOfPlayers === null){
+            this.sessionID = sessionIdFromUI;
+            const player = await this.createPlayer(newPlayerName, false)
+            await this.dealCards(player.playerID, 5); // always deals five cards
+            this.readyToWriteFB = true;
+        }else{
+            //If one player already has joined on one device.
+            console.error("Only one player per device is supported!");
+        }
     },
 
     async createHost(newPlayerName){
-        await this.getDeckID();
-        // Call the createPlayer function on the model with the input value
-        const player = await this.createPlayer(newPlayerName, true); // Assuming the player is not the host
-        // TODO change 5 cards into a attribute in the model that can be changed
-        await this.dealCards(player.playerID, 5); // always deals five cards
-        await this.nextPlayer(); // sets the host to start the first round
-        this.readyToWriteFB = true;
+        if(this.localNumberOfPlayers < 1 || this.localNumberOfPlayers === null){
+            await this.getDeckID();
+            // Call the createPlayer function on the model with the input value
+            const player = await this.createPlayer(newPlayerName, true); // Assuming the player is not the host
+            // TODO change 5 cards into a attribute in the model that can be changed
+            await this.dealCards(player.playerID, 5); // always deals five cards
+            await this.nextPlayer(); // sets the host to start the first round
+            this.readyToWriteFB = true;
+        }else{
+            //If one player already has joined on one device.
+            console.error("Only one player per device is supported!");
+        }
     },
 
 

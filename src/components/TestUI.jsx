@@ -15,12 +15,9 @@ export default function TestUI(props) {
 
     async function addNewPlayerACB() {
         // Call the createPlayer function on the model with the input value. Not host
-        await props.model.joinSession(data.sessionIdFromUI); // Assuming the player is not the host
-        const player = await props.model.createPlayer(data.newPlayerName, false)
-        await props.model.dealCards(player.playerID, 5); // always deals five cards
+        await props.model.joinSession(data.sessionIdFromUI, data.newPlayerName); // Assuming the player is not the host
         // Clear the input field after adding the player
         data.newPlayerName = "";
-        props.model.readyToWriteFB = true;
     }
 
     return (
