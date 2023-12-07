@@ -4,6 +4,7 @@ export default function TestUI(props) {
     const data = {
         newPlayerName: "",
         sessionIdFromUI: "",
+        playerIdtoRemove: "",
     };
     
     async function createSessionACB() {
@@ -18,6 +19,10 @@ export default function TestUI(props) {
         await props.model.joinSession(data.sessionIdFromUI, data.newPlayerName); // Assuming the player is not the host
         // Clear the input field after adding the player
         data.newPlayerName = "";
+    }
+
+    async function removePlayerACB(){
+        await props.model.removePlayer(data.playerIdtoRemove);
     }
 
     return (
@@ -57,7 +62,17 @@ export default function TestUI(props) {
                 />
             </div>                        
             <div>
-                <button onClick={addNewPlayerACB}>Add new player/Join Session</button>
+                <button onClick={addNewPlayerACB}>Join Session</button>
+            </div>
+            <div>
+                <input
+                    value={data.sessionIdFromUI}
+                    onInput={(e) => (data.playerIdtoRemove = e.target.value)}
+                    placeholder="Enter a playerID to remove"
+                />
+            </div>                        
+            <div>
+                <button onClick={removePlayerACB}>Remove player</button>
             </div>
             <div>{props.model.players.map(playersRendering)}</div>
         </div>);
@@ -66,7 +81,6 @@ export default function TestUI(props) {
         return (
             <div class="players-container">
                 <h4>playerID (type String): {player.playerID}</h4>
-                <button onClick={removePlayerACB} disabled={player.isHost}>Remove player</button>
                 <p>playerName (type String): {player.playerName}</p>
                 <p>isHost (type Boolean): {`${player.isHost}`}</p>
                 {player.pileOfCards.length > 0 && (
@@ -91,10 +105,6 @@ export default function TestUI(props) {
                 </div>
             </div>
         )
-
-        async function removePlayerACB(){
-            await props.model.removePlayer(player.playerID);
-        }
 
         async function successfulBluffACB(){
             // player managed to bluff its apponents
