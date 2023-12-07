@@ -1,6 +1,10 @@
 import JoinSessionView from "./JoinSessionView.jsx";
 import SelectView from "./SelectView.jsx";
-
+import AppHeader from "../components/AppHeader.jsx";
+import SessionID from "../components/SessionID.jsx";
+import LBitem from "../components/LBitem.jsx";
+import SelectContent from "../components/SelectContent.jsx";
+import SingleAction from "../components/SingleAction.jsx";
 
 
 export default function DesignSystemView(props) {
@@ -13,19 +17,13 @@ export default function DesignSystemView(props) {
         <p class="p-small">Hello paragraph Small</p>
         <button>Hello</button>
         <a href="#/design-system">Hello</a> <br />
-        <input type="text" placeholder="Placeholder"/> <br />
-        <input type="text" placeholder="Disabled input" disabled/>
-
-        
-        
-        <JoinSessionView />
-        
-        <SelectView />
-
-        
-
-        
-
-
+        <input type="text" placeholder="Placeholder" /> <br />
+        <input type="text" placeholder="Disabled input" disabled />
+        <SingleAction/>
+       
     </div>;
+    /* <AppHeader />
+        <SessionID />
+        <LBitem />
+        <SelectContent />*/
 }

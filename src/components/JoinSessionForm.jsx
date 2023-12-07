@@ -1,38 +1,80 @@
+import "../global-style.css";
 import './JoinSessionForm.css';
 
 export default
-function JoinSessionForm(props) {
-    return (
-      <form className="main-container">
-        <header className="title">Join a session</header>
+  function JoinSessionForm(props) {
+
+  function inputNameHandlerACB(event) {
+    //name
+    props.onInputName(event.target.value);
+  }
+  function sessionIDHandlerACB(event) {
+    //sessionID
+    props.onInputSessionID(event.target.value);
+  }
+
+  function joinSessionHandlerACB() {
+    props.onJoinSession();
+  }
+
+  return <div>
+    <form className="join-form">
+      <h1>Join a session</h1>
+      <div className="join-form-input">
+        <label> Your name</label>
+        <input
+          type="text"
+          id="name"
+          className=""
+          aria-label="Your name"
+          onChange={inputNameHandlerACB} /></div>
+      <div className="join-form-input">
+        <label> Session ID </label>
+        <input
+          type="text"
+          id="sessionID"
+          className=""
+          aria-label="Session ID"
+          onChange={sessionIDHandlerACB} />
+      </div>
+      <button className="secondary" aria-label="Join session" onClick={joinSessionHandlerACB} >
+        Join session
+      </button>
+
+    </form>
+  </div >
+
+    ;
+}
+
+/*
+backup
+
+  <form>
+      <div className="container">
+        <h1>Join a session</h1>
         <div className="input-container">
-          <label htmlFor="name" className="label">
-            Your name
-          </label>
+          <label> Your name</label>
           <input
             type="text"
             id="name"
             className="input"
             aria-label="Your name"
-          />
-        </div>
+            onChange={inputNameHandlerACB} /></div>
         <div className="input-container">
-          <label htmlFor="sessionID" className="label">
-            Session ID 
-          </label>
+          <label> Session ID </label>
           <input
             type="text"
             id="sessionID"
             className="input"
             aria-label="Session ID"
-          />
+            onChange={sessionIDHandlerACB} />
         </div>
-        <button className="join-session-button" aria-label="Join session">
+        <button className="secondary" aria-label="Join session" onClick={joinSessionHandlerACB} >
           Join session
         </button>
-        
-      </form>
-    );
-  }
-  
-  
+      </div>
+    </form>
+  </div >
+
+*/

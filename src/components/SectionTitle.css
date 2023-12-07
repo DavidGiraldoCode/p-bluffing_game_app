@@ -1,14 +1,13 @@
-.main-header {
-  align-self: stretch;
+.section-title{
   display: flex;
-  margin-top: 16px;
-  width: 100%;
-  max-width: 358px;
   flex-direction: column;
-  padding: 24px 16px;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-l) var(--spacing-m) ;
 }
 
+/*
 .header {
   font: 400 26px/32px Roboto, -apple-system, Roboto, Helvetica, sans-serif;
   padding: 1px;
-}
+}*/

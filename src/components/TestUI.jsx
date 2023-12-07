@@ -27,7 +27,7 @@ export default function TestUI(props) {
     }
 
     return (
-        <div class="test-ui">
+        <div class="test-body">
             <h1>UI Tester</h1>
             <h2>sessionID (deckID in the API): {props.model.sessionID} </h2>
             <h3>players (type Array): {`${props.model.players}`}</h3>

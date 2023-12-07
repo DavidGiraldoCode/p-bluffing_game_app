@@ -1,3 +1,7 @@
+@import url('./reset.css');
+*{
+    
+}
 :root {
     --primary-color: #000000;
     --secondary-color: #ffffff;
@@ -5,10 +9,18 @@
     --background-color: #ffffff;
 
     --grey-1: #DFDFDF;
+    --grey-2: rgb(203, 203, 203);
     --grey-3: #807F80;
     --grey-4: #3f3f3f;
 
     --font-normal: 400;
+
+    --spacing-xs: 4px;
+    --spacing-s: 8px;
+    --spacing-m: 16px;
+    --spacing-l: 24px;
+    --spacing-lxx: 32px;
+    --spacing-lxxx: 40px;
 
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
     line-height: 1;
@@ -23,6 +35,27 @@
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    min-height: 100vh;
+    /* Takes the full viewport height */
+    width: 100vw;
+    /* Takes the full viewport width */
+}
+
+
+div {
+    display: flex;
+    flex-direction: column;
+    /* Stack items vertically */
+    width: 100%;
+    /* Make sure the container spans the full width of its parent */
+    /* Additional styles */
 }
 
 h1 {
@@ -67,6 +100,14 @@ p {
     line-height: 1.25rem;
 }
 
+label {
+    color: var(--primary-color);
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.25rem;
+}
+
 .p-small {
     color: var(--primary-color);
     font-size: 0.75rem;
@@ -89,7 +130,7 @@ button {
     border: 1px solid transparent;
 
     display: flex;
-    width: 100%;
+    align-self: stretch;
     height: 3rem;
     padding: 1rem 1.5rem;
     justify-content: center;
@@ -97,6 +138,12 @@ button {
     gap: 0.625rem;
     flex-shrink: 0;
     cursor: pointer;
+}
+
+.secondary {
+    color: var(--primary-color);
+    background: var(--secondary-color);
+    border: 1px solid var(--primary-color);
 }
 
 a {
@@ -201,11 +248,13 @@ textarea:not(:placeholder-shown) {
     margin: 0 auto;
     padding: 1rem;
     text-align: left;*/
+    display: flex;
+    width: 100%;
     margin: 0;
     padding: 0;
-    width: 100%;
 }
 
+/*
 .main-container {
     display: flex;
     flex-direction: column;
@@ -213,4 +262,4 @@ textarea:not(:placeholder-shown) {
     align-items: flex-start;
     width: 100%;
     padding: 0px 24px;
-}
+}*/

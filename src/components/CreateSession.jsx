@@ -3,12 +3,17 @@ import "./CreateSession.css";
 
 export default
 function CreateSession(props) {
+
+  function createSessionHandlerACB(){
+    props.onCreateSession();
+  }
+
   return (
-    <form className="main-container">
-      <div className="session-host">Do you want to be the host of a new session?</div>
-      <button className="content">
+    <div className="main-container">
+      <p className="session-host">Do you want to be the host of a new session?</p>
+      <button className="content" onClick={createSessionHandlerACB} >
         Create session
       </button>
-    </form>
+    </div>
   );
 }
