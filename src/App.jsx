@@ -44,9 +44,9 @@ export function makeRouter(model) {
                 component: <div>LeaderBoard</div>
             }, {
                 path: "/:notFound",
-                component: <div>
+                component: <p>
                     Sorry not Found, find a session to <a href="#/join">join here</a>
-                    </div>,
+                    </p>,
             },
         ]
     })

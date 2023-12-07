@@ -1,3 +1,15 @@
+/*ONLY layout styles*/
+.footer-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-s);
+  margin-top: var(--spacing-lxxx);
+}
+
+
+/*
 .footer-container {
   justify-content: center;
   background-color: var(--principal-white, #fff);
@@ -18,4 +30,4 @@
   margin-top: 10px;
   width: 100%;
   font: 400 14px/20px Roboto, -apple-system, Roboto, Helvetica, sans-serif;
-}
+}*/

@@ -1,7 +1,9 @@
 @import url('./reset.css');
-*{
-    
+
+* {
+    box-sizing: border-box;
 }
+
 :root {
     --primary-color: #000000;
     --secondary-color: #ffffff;
@@ -42,7 +44,7 @@ body {
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    min-height: 100vh;
+    /*min-height: 100vh;*/
     /* Takes the full viewport height */
     width: 100vw;
     /* Takes the full viewport width */
@@ -52,8 +54,10 @@ body {
 div {
     display: flex;
     flex-direction: column;
+    justify-content: flex-start;
+    padding: 0;
+    margin: 0;
     /* Stack items vertically */
-    width: 100%;
     /* Make sure the container spans the full width of its parent */
     /* Additional styles */
 }
@@ -119,7 +123,7 @@ label {
 
 button {
     color: var(--secondary-color);
-    font-size: 0.75rem;
+    font-size: 16px;/*0.75rem;*/
     font-style: normal;
     font-weight: 700;
     font-family: inherit;
@@ -143,7 +147,7 @@ button {
 .secondary {
     color: var(--primary-color);
     background: var(--secondary-color);
-    border: 1px solid var(--primary-color);
+    border: 2px solid var(--primary-color);
 }
 
 a {
@@ -252,6 +256,20 @@ textarea:not(:placeholder-shown) {
     width: 100%;
     margin: 0;
     padding: 0;
+}
+
+.m-top-l{
+    margin-top: var(--spacing-lxxx);
+}
+.m-top-m{
+    margin-top: var(--spacing-l);
+}
+
+.m-bottom-l{
+    margin-bottom: var(--spacing-lxxx);
+}
+.m-bottom-m{
+    margin-bottom: var(--spacing-l);
 }
 
 /*

@@ -1,6 +1,7 @@
-import JoinHeader from "../components/SectionTitle.jsx";
+//import JoinHeader from "../components/SectionTitle.jsx";
+import SectionTitle from "../components/SectionTitle.jsx";
 import JoinSessionForm from "../components/JoinSessionForm.jsx";
-import CreateSession from "../components/CreateSession.jsx";
+//import CreateSession from "../components/CreateSession.jsx";
 import Footer from "../components/Footer.jsx";
 import SingleAction from "../components/SingleAction.jsx";
 import { goTo } from "../utilities.js";
@@ -31,19 +32,20 @@ export default function JoinSessesionPresenter(props) {
         goTo("/create-session");
     }
 
-    return <div>
+    return <div class="m-top-l m-bottom-l">
         {/*isCreatingSession ? getSessionCreation() : <JoinSessionView onJoinSession={addPlayerToSessionACB} onSessionCreation={gotoSessionCreationACB}/>*/}
-        <JoinHeader title="King's Bluffer" />
+        <SectionTitle title="King's Bluffer" />
         <JoinSessionForm
+            class="m-bottom-m"
             onInputName={setNameACB}
             onInputSessionID={setSessionIDACB}
             onJoinSession={addPlayerToSessionACB} />
         <SingleAction
-            title="Your turn!"
-            description="Pick a card to bluff your way out"
-            buttonState={true}
-            btnLabel="Confirm" />
-        <CreateSession onCreateSession={gotoCreateSessionACB} />
+            title=""
+            description="Do you want to be the host of a new session?"
+            buttonState={false}
+            btnLabel="Create session"
+            onCustomClick={gotoCreateSessionACB} />
         <Footer />
     </div>
 }
