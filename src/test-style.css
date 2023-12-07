@@ -1,9 +1,5 @@
 /* Style for TESTING */
 
-.test-ui{
-  background-color: #242a35;
-}
-
 .test-players-container {
   border: solid 1px red;
 }
@@ -12,6 +8,7 @@
   margin: 0;
   display: flex;
   place-items: left;
+  max-width: 800px;
   min-width: 320px;
   min-height: 100vh;
 }

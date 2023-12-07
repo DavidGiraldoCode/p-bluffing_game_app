@@ -1,5 +1,7 @@
+import DesignSystemView from "../views/DesignSystemView";
+
 export default function DesignSystemPresenter(props) {
     return <div>
-        Design System Presenter
+        <DesignSystemView />
     </div>
 }

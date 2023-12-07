@@ -1,0 +1,50 @@
+/* Reset.css */
+
+/* Reset margins, padding, and box-sizing */
+html,
+body,
+div,
+span,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a,
+ul,
+ol,
+li,
+form,
+input,
+textarea,
+button,
+img {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  vertical-align: baseline;
+}
+
+/* Remove default list styles */
+ul, ol {
+  list-style: none;
+}
+
+/* Remove hyperlink text decoration */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Remove outline on focus */
+:focus {
+  outline: none;
+}
+
+/* Set default font family and size */
+body {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+}

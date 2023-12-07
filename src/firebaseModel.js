@@ -11,7 +11,7 @@ const PATH = "sessionTest";
 const refDB = ref(realTimeDB, PATH);
 
 //! ----------------------------- Test
-const miniModel = { //! You can remove this once you connect the real model
+/*const miniModel = { //! You can remove this once you connect the real model
     sessionID: "test1",
     players: [{
         playerID: 'someID1',
@@ -30,7 +30,7 @@ const miniModel = { //! You can remove this once you connect the real model
         selectedCard: null,
     }],
     numberOfPlayers: 3,
-}
+}*/
 //! ----------------------------- Test
 
 function modelToPersistance(model) {
@@ -43,7 +43,9 @@ function persistanceToModel(firebaseData, model) {
 }
 
 function saveToFirebase(model) {
-    //TODO
+    //TODO check if something needs to chenge here.
+    if (model.ready)
+        set(refDB, miniModel);
 }
 
 function readFromFirebase(model) {
@@ -87,9 +89,20 @@ function observeValue(model, valueToObserve) {
 
 function connectToFirebase(model, watchFuntion) {
     readFromFirebase({});
+    watchFuntion(checkerACB, sideEffectACB);
     observeValue({}, "numberOfPlayers");
     observeValue({}, "players/0/pileOfCards");
-    set(refDB, miniModel);
+    //set(refDB, miniModel);
+    
+    function checkerACB() {
+        //TODO change this return with the value we need
+        return [model.numberOfPlayers];
+    }
+
+    function sideEffectACB() {
+        //TODO
+        saveToFirebase(model);
+    }
 }
 
 
