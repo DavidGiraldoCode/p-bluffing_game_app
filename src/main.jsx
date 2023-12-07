@@ -9,6 +9,11 @@ import App from "./App.jsx";
 import { makeRouter } from "./App.jsx";
 import { sessionModel } from "./SessionModel.js";
 
+//?---------------------------------------- thirparty component
+import { register } from 'swiper/element/bundle';
+register(); //thirparty component
+//?---------------------------------------- thirparty component
+
 //* ----------------------------- Updates
 // main.js changed to main.jsx to use <App> syntaxis
 //* ----------------------------- 
