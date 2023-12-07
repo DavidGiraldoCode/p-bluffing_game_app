@@ -1,8 +1,8 @@
 
-import JoinHeader from "../src/components/JoinHeader.jsx";
-import JoinSessionForm from "../src/components/JoinSessionForm.jsx";
-import CreateSession from "../src/components/CreateSession.jsx";
-import JoinFooter from "../src/components/JoinFooter.jsx";
+import JoinHeader from "../components/JoinHeader.jsx";
+import JoinSessionForm from "../components/JoinSessionForm.jsx";
+import CreateSession from "../components/CreateSession.jsx";
+import JoinFooter from "../components/JoinFooter.jsx";
 
 export default
 function JoinSessionView(props) {

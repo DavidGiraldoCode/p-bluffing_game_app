@@ -13,4 +13,4 @@ function JoinFooter(props) {
     );
   }
   
-  export default FooterStart;
+  export default JoinFooter;
