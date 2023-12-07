@@ -1,7 +1,7 @@
 
-import "./JoinFooter.css";
+import "./Footer.css";
 
-function JoinFooter(props) {
+function Footer(props) {
     return (
       <footer className="footer-container">
         <div className="footer"> 2023 - Coded with ❤️ in Stockholm, Sweden </div>
@@ -13,4 +13,4 @@ function JoinFooter(props) {
     );
   }
   
-  export default JoinFooter;
+  export default Footer;

@@ -2,6 +2,7 @@ import JoinSessionView from "./JoinSessionView.jsx";
 import SelectView from "./SelectView.jsx";
 
 
+
 export default function DesignSystemView(props) {
     return <div class="main-container">
         <h1>Hello h1</h1>
@@ -16,11 +17,11 @@ export default function DesignSystemView(props) {
         <input type="text" placeholder="Disabled input" disabled/>
 
         
-         <JoinSessionView />
         
-        
+        <JoinSessionView />
         
         <SelectView />
+
         
 
         
