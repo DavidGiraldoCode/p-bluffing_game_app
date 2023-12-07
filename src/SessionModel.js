@@ -1,4 +1,5 @@
-// 2023-11-28, Albin Fransson & Martin Sandberg
+// SessionModel.js
+// 2023-12-01, Albin Fransson & Martin Sandberg
 
 import {BASE_URL} from "/src/apiConfig.js";
 
@@ -16,16 +17,19 @@ import {BASE_URL} from "/src/apiConfig.js";
         *      \___/      *       *
 
           Merry Christmas!
+
 source: https://github.com/rhysd
 */
 
 /*
 ! Known issues/bugs:
-    - If 1000 uesers join, no more IDs are available and app will crash.
-    - If deck is empty (0 cards left) new player that will join will automatically win since no cards can be deald to that player.
+    None known bug atm
 */
 
-//-------------Player class-------------
+// =============================================================================
+//                                 Player Class
+// =============================================================================
+
 class Player {
     constructor(playerName, isHost) {
         // Attributes of the player class. Always initialized when creating a new player.
@@ -37,8 +41,14 @@ class Player {
     }
 
     createPlayerID() {
-        // Creates a random playerID between 0 and 999. If any other player has the same ID. A new one will be created.
-        return sessionModel.generateUniquePlayerID();
+        // Creates a random playerID by using the date.now function and converting is to strings. In addition it uses a random number and concatinates it to a string.
+        const timestampPart = Date.now().toString(36);
+        const randomPart = Math.random().toString(36).slice(2);
+    
+        const fullID = timestampPart + randomPart;
+        const urlSafeID = encodeURIComponent(fullID);
+    
+        return urlSafeID;
     }
 
     async getPileOfCards(){
@@ -48,15 +58,17 @@ class Player {
             return card.code;
         }
         const API_URL = `${BASE_URL}/deck/${sessionModel.sessionID}/pile/${this.playerID}/list/`;
-        const response = await fetch(API_URL).then(response => response.json());
+        const data = await sessionModel.getDataFromAPI(API_URL);
         const id = this.playerID;
-        this.pileOfCards = response.piles[id].cards.map(listingCardCodeCB);
+        this.pileOfCards = data.piles[id].cards.map(listingCardCodeCB);
     }
 }
 
 
-// -------------The model--------------
-export const sessionModel = {
+// =============================================================================
+//                                 The model
+// =============================================================================
+export let sessionModel = {
     sessionID: null, // the deck_id defined by the API
     players: [], // array of player objects
     playerOrder: [], // array of playerIDs stating the plaing order of the game
@@ -64,23 +76,65 @@ export const sessionModel = {
     numberOfPlayers: null, // players.length()
     gameOver: false,
     winner: null,
-    newDeckPromiseState : {},
+    
+    async getDataFromAPI(API_URL){
+        // Fetches data from the API in accordance to the API_URL as parameter. This function handles errors: response not OK, general errors from fetch and network offline specific error.
+        try {
+            const response = await fetch(API_URL);
+
+            if (!response.ok) {
+                throw new Error(`Failed to fetch deck. Status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            return data;
+        }catch(error){
+            console.error('Error fetching deck:', error.message);
+
+            if (!navigator.onLine) {
+                throw new Error('Network error: The device is offline.');
+            }
+            // TODO Think about how we should handle the error? Show a different view to the user?
+            throw error;
+        }
+    },
  
     async getDeckID(){
         //Gets a new deck from the API and sets the sessionID from the model. Data is the whole respons.
-        const API_URL = `${BASE_URL}/deck/new/shuffle/`;
-        const response = await fetch(API_URL).then(response => response.json());
-        const deck_id = response.deck_id;
-        this.sessionID = deck_id;
+        if(this.sessionID == null){
+            const API_URL = `${BASE_URL}/deck/new/shuffle/`;
+            const data = await this.getDataFromAPI(API_URL);
+            const deck_id = data.deck_id;
+            this.sessionID = deck_id;
+        }else{
+            throw Error("Cannot create a new session, since one is already active!")
+        }
     },
 
-    createPlayer(playerName, isHost){
+    async getRemaningCardsOfDeck(){
+        const API_URL = `${BASE_URL}/deck/${this.sessionID}/`;
+        const data = await this.getDataFromAPI(API_URL);
+        return data.remaining;
+    },
+
+    async createPlayer(playerName, isHost){
         // Creates an object from the player class and adds to the players array.
-        const newPlayer = new Player(playerName, isHost);
-        this.players.push(newPlayer);   // adds newPlayer to players array
-        this.playerOrder.push(newPlayer.playerID);
-        this.numberOfPlayers = this.players.length;
-        return newPlayer;
+        // If no sessionID is active, no player will be added and an error is thrown
+        // If there is less than 5 cards in the deck, no player will be added and an error is thrown
+        if(this.sessionID !== null){
+            const remaining = await this.getRemaningCardsOfDeck();
+            if(remaining > 4){
+                const newPlayer = new Player(playerName, isHost);
+                this.players.push(newPlayer);   // adds newPlayer to players array
+                this.playerOrder.push(newPlayer.playerID);
+                this.numberOfPlayers = this.players.length;
+            return newPlayer;
+            } else {
+                throw Error('Not enough cards in the deck to add a new player.');
+            }
+        }else{
+            throw Error('Cannot create a non-host player without a SessionID');
+        }
     },
 
     async dealCards(playerID, amountOfCards){
@@ -89,7 +143,7 @@ export const sessionModel = {
         const arrayOfCardCodes = await drawCard()
         const queryString = arrayOfCardCodes.join(',');
         const API_URL = `${BASE_URL}/deck/${this.sessionID}/pile/${playerID}/add/?cards=${queryString}`;
-        const response = await fetch(API_URL).then(response => response.json());
+        const data = await this.getDataFromAPI(API_URL);
         const player = this.players.find(p => p.playerID == playerID);
         await player.getPileOfCards();
         this.gameOverCheck(playerID); //Might be a bit redundant to call gameOverCheck from here. You cannot get out of cards when dealing?
@@ -101,8 +155,8 @@ export const sessionModel = {
                 return card.code;
             }
             const API_URL = `${BASE_URL}/deck/${sessionModel.sessionID}/draw/?count=${amountOfCards}`;
-            const response = await fetch(API_URL).then(response => response.json());
-            return response.cards.map(drawCardCodeCB);
+            const data = await sessionModel.getDataFromAPI(API_URL);
+            return data.cards.map(drawCardCodeCB);
         }
     },
 
@@ -154,9 +208,9 @@ export const sessionModel = {
         // Removes a card from the players pile in the API. When card is removed. When cards is removed, calls gameOverCheck to check if the player is out of cards.
         // The selectedCard as argument will be passed from the player class attribute selectedCard.
         const API_URL = `${BASE_URL}/deck/${this.sessionID}/pile/${playerID}/draw/?cards=${selectedCard}`;
-        await fetch(API_URL).then(response => response.json());
+        const data = await this.getDataFromAPI(API_URL);
         const player = this.players.find(p => p.playerID == playerID);
-        await player.getPileOfCards();
+        await player.getPileOfCards();  //Updates the local pile of cards.
         this.gameOverCheck(playerID);
     },
 
@@ -167,16 +221,5 @@ export const sessionModel = {
             this.gameOver = true;
             this.winner = playerID;
         };
-    },
-
-    generateUniquePlayerID() {
-        // Help function to the player class. Gives a randon number to the player. If another player has the same number. It will try to give another one.
-        //! If we create 1000 users. This will result in a infinity loop since no more numbers are available.
-        let ID;
-        do {
-            ID = Math.floor(Math.random() * 1000);
-        } while (this.players.some(player => player.playerID === ID));
-
-        return ID;
     },
 }

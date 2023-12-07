@@ -11,25 +11,25 @@ export default function TestUI(props) {
         // Call the getDeckID function on the model
         await props.model.getDeckID();
         // Call the createPlayer function on the model with the input value
-        const player = props.model.createPlayer(data.newPlayerName, true); // Assuming the player is not the host
+        const player = await props.model.createPlayer(data.newPlayerName, true); // Assuming the player is not the host
         // Clear the input field after adding the player
         data.newPlayerName = "";
         // TODO change 5 cards into a attribute in the model that can be changed
-        props.model.dealCards(player.playerID, 5); // always deals five cards
-        props.model.nextPlayer(); // sets the host to start the first round
+        await props.model.dealCards(player.playerID, 5); // always deals five cards
+        await props.model.nextPlayer(); // sets the host to start the first round
     }
 
-    function addNewPlayerACB() {
+    async function addNewPlayerACB() {
         // Call the createPlayer function on the model with the input value. Not host
-        const player = props.model.createPlayer(data.newPlayerName, false); // Assuming the player is not the host
+        const player = await props.model.createPlayer(data.newPlayerName, false); // Assuming the player is not the host
         // Clear the input field after adding the player
         data.newPlayerName = "";
         // TODO change 5 cards into a attribute in the model that can be changed
-        props.model.dealCards(player.playerID, 5);
+        await props.model.dealCards(player.playerID, 5);
     }
 
     return (
-        <div>
+        <div class="test-body">
             <h1>UI Tester</h1>
             <h2>sessionID (deckID in the API): {props.model.sessionID} </h2>
             <h3>players (type Array): {`${props.model.players}`}</h3>
@@ -46,7 +46,7 @@ export default function TestUI(props) {
                 />
             </div>
             <div>
-                <button onClick={createSessionACB}>Create Session</button>
+                <button class="test-button" onClick={createSessionACB}>Create Session</button>
             </div>
             <div>
                 <input
@@ -56,7 +56,7 @@ export default function TestUI(props) {
                 />
             </div>
             <div>
-                <button onClick={addNewPlayerACB}>Add new player/Join Session</button>
+                <button class="test-button" onClick={addNewPlayerACB}>Add new player/Join Session</button>
             </div>
             <div>{props.model.players.map(playersRendering)}</div>
         </div>);
@@ -67,9 +67,9 @@ export default function TestUI(props) {
             player.selectedCard = code;
         }
         return (
-            <div class="players-container">
+            <div class="test-players-container">
                 <h4>playerID (type String): {player.playerID}</h4>
-                <button onClick={removePlayerACB} disabled={player.isHost}>Remove player</button>
+                <button class="test-button"  onClick={removePlayerACB} disabled={player.isHost}>Remove player</button>
                 <p>playerName (type String): {player.playerName}</p>
                 <p>isHost (type Boolean): {`${player.isHost}`}</p>
                 {player.pileOfCards.length > 0 && (
@@ -82,14 +82,16 @@ export default function TestUI(props) {
                 <Swiper pileOfCards={player.pileOfCards.reduce(concatenateCardCodesCB).split(", ")} onSelectCardSprite={selectCardSpriteHandler}/>
                 <p>Did you manage to bluff your way out?</p>
                 <div>
-                    <button
-                        onClick={successfulBluffACB}
-                        disabled={player.selectedCard === null || player.playerID !== props.model.yourTurn}>
+                    <button 
+                    class="test-button" 
+                    onClick={successfulBluffACB} 
+                    disabled={player.selectedCard === null || player.playerID !== props.model.yourTurn}>
                         Yes
                     </button>
-                    <button
-                        onClick={failedBluffACB}
-                        disabled={player.selectedCard === null || player.playerID !== props.model.yourTurn}>
+                    <button 
+                    class="test-button" 
+                    onClick={failedBluffACB} 
+                    disabled={player.selectedCard === null || player.playerID !== props.model.yourTurn}>
                         No
                     </button>
                 </div>
