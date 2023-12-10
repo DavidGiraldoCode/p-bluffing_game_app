@@ -1,4 +1,4 @@
-import Swiper from "./Swiper.jsx";
+//import Swiper from "./Swiper.jsx";
 
 export default function TestUI(props) {
     console.log('Update TestUI!')

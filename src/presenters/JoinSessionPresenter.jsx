@@ -16,7 +16,7 @@ export default function JoinSessesionPresenter(props) {
     }
     function setSessionIDACB(sessionID) {
         //TODO props.sessionID = sessionID;
-    }
+    } 
 
     async function addPlayerToSessionACB() {
         //console.log(newPlayer);

@@ -10,8 +10,8 @@ import { makeRouter } from "./App.jsx";
 import { sessionModel } from "./SessionModel.js";
 
 //?---------------------------------------- thirparty component
-import { register } from 'swiper/element/bundle';
-register(); //thirparty component
+//import { register } from 'swiper/element/bundle';
+//register(); //thirparty component
 //?---------------------------------------- thirparty component
 
 //* ----------------------------- Updates
@@ -39,6 +39,7 @@ register(); //thirparty component
     }],
     numberOfPlayers: 3,
 }*/
+//! -----------------------------
 const testReactiveModel = reactive(sessionModel);
 /*
 watch(checkACB,sideEffectACB);
@@ -51,7 +52,6 @@ function checkACB(){ //? invoke after every reactive object changes
 function sideEffectACB(){
     console.log("Side Effect triggered");
 } */
-//! -----------------------------
 
 const rootJSX = <App model={testReactiveModel} />
 const app = createApp(rootJSX);
