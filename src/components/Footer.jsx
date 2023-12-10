@@ -3,12 +3,9 @@ import "./Footer.css";
 
 export default function Footer(props) {
   return (
-    <footer className="footer-container">
-      <p> 2023 - Coded with ❤️ in Stockholm, Sweden </p>
-      <p className="powered-by">
-
-        <a href="https://www.deckofcardsapi.com/" target="_blank"> Powered by Deck of Card API</a>
-      </p>
+    <footer class="footer-container">
+      <p class="p-small"> 2023 - Coded with ❤️ in Stockholm, Sweden </p>
+      <p class="p-small"><a href="https://www.deckofcardsapi.com/" target="_blank"> Powered by Deck of Card API</a></p>
     </footer>
   );
 }
