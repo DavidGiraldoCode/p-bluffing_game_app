@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory, RouterView, useRouter } from "vue-router"; //run: npm i vue-router
-import TestUI from "./components/TestUI";
-import DesignSystemPresenter from "./presenters/DesignSystemPresenter";
+import TestUI from "./components/TestUI.jsx";
+import DesignSystemPresenter from "./presenters/DesignSystemPresenter.jsx";
 import JoinSessesionPresenter from "./presenters/JoinSessionPresenter.jsx"
 import GamePresenter from "./presenters/GamePresenter.jsx";
 
@@ -53,11 +53,11 @@ export function makeRouter(model) {
 }
 
 export default
-    function App(props) {
+    function AppRoot(props) {
     console.log('Update App!')
     makeRouter(props.model);
     return (
-        <div>
+        <div class="AppRoot container">
             <RouterView />
         </div>
     );

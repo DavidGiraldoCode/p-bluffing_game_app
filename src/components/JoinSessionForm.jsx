@@ -19,7 +19,7 @@ export default
 
   return <div>
     <form className="join-form">
-      <h1>Join a session</h1>
+      <h2>Join a session</h2>
       <div className="join-form-input">
         <label> Your name</label>
         <input
