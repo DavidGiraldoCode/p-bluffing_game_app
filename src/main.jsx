@@ -5,8 +5,8 @@ import { createApp, reactive, watch } from "vue"
 import "./style.css";
 import "./global-style.css";
 import "./test-style.css";
-import App from "./App.jsx";
-import { makeRouter } from "./App.jsx";
+import AppRoot from "./AppRoot.jsx";
+import { makeRouter } from "./AppRoot.jsx";
 import { sessionModel } from "./SessionModel.js";
 
 //?---------------------------------------- thirparty component
@@ -39,6 +39,7 @@ import { sessionModel } from "./SessionModel.js";
     }],
     numberOfPlayers: 3,
 }*/
+//! -----------------------------
 const testReactiveModel = reactive(sessionModel);
 /*
 watch(checkACB,sideEffectACB);
@@ -51,9 +52,8 @@ function checkACB(){ //? invoke after every reactive object changes
 function sideEffectACB(){
     console.log("Side Effect triggered");
 } */
-//! -----------------------------
 
-const rootJSX = <App model={testReactiveModel} />
+const rootJSX = <AppRoot model={testReactiveModel} />
 const app = createApp(rootJSX);
 app.use(makeRouter(testReactiveModel));
 app.mount('#app');
