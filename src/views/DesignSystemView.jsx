@@ -5,7 +5,7 @@ import SelectContent from "../components/SelectContent.jsx";
 import SingleAction from "../components/SingleAction.jsx";
 import SectionTitle from "../components/SectionTitle.jsx"
 import SectionSubtitle from "../components/SectionSubtitle.jsx"
-import Swiper from "../components/Swiper.jsx";
+//import Swiper from "../components/Swiper.jsx";
 import Footer from "../components/Footer.jsx"
 import DoubleAction from "../components/DoubleAction.jsx";
 
@@ -46,7 +46,7 @@ export default function DesignSystemView(props) {
         {/*<MenuItem>*/} {/*ALBIN*/}
         {/*<TurnTag>*/} {/*MARTIN*/}
         {/*<PlayerOrderItem>*/} {/*MARTIN*/}
-        <Swiper pileOfCards={['AC', '5S', 'KS', '2D', 'KH']} onSelectCardSprite={null} /> {/*NEEDS FIX*/} {/*DAVID*/}
+        {/*<Swiper pileOfCards={['AC', '5S', 'KS', '2D', 'KH']} onSelectCardSprite={null} /> NEEDS FIX*/} {/*DAVID*/}
         <DoubleAction
             description={"Hello, this is double action"}
             primaryText={"Yes"}
