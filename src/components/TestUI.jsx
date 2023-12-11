@@ -32,6 +32,7 @@ export default function TestUI(props) {
             <h3>players (type Array): {`${props.model.players}`}</h3>
             <p>playerOrder (type Array): {JSON.stringify(props.model.playerOrder)}</p>
             <p>localNumberOfPlayer: {props.model.localNumberOfPlayers} </p>
+            <p>playerHost (a playerID type String): {props.model.playerHost}</p>
             <p>yourTurn (a playerID type String): {props.model.yourTurn}</p>
             <p>gameOver (type Boolean): {`${props.model.gameOver}`}</p>
             <p>winner (a playerID type String): {props.model.winner}</p>

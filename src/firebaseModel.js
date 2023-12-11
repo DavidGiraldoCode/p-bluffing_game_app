@@ -26,7 +26,9 @@ function modelToPersistance(model) {
         sessionIDFB: model.sessionID, 
         playerOrderFB: model.playerOrder,
         yourTurnFB: model.yourTurn,
+        playerHostFB: model.playerHost,
         gameOverFB: model.gameOver,
+        winnerFB: model.winner,
     };
 }
 
@@ -35,7 +37,9 @@ function persistanceToModel(firebaseData, model) {
     if (firebaseData) {
         model.gameOver = firebaseData?.gameOverFB;
         model.yourTurn = firebaseData?.yourTurnFB || null;
+        model.playerHost = firebaseData?.playerHostFB || null;
         model.playerOrder = firebaseData?.playerOrderFB || [];
+        model.winner = firebaseData?.winnerFB || null;
 
         // Check if firebaseData.playersFB exists before using Object.values
         if (firebaseData.playersFB) {
@@ -43,9 +47,8 @@ function persistanceToModel(firebaseData, model) {
             const leaderboard = Object.values(firebaseData.playersFB).reduce((acc, playerData) => {
                 const playerName = playerData.playerNameFB;
                 const numberOfCards = playerData.numberOfCardsFB;
-                const playerID = playerData.playerIdFB;
 
-                acc[playerID] = { numberOfCards, playerName };
+                acc[playerName] = numberOfCards;
 
                 return acc;
             }, {});
@@ -158,6 +161,8 @@ function setupFirebase(model, watchFunctionACB) {
             model.playerOrder,
             model.yourTurn,
             model.gameOver,
+            model.winner,
+            model.playerHost,
             model.readyToWriteFB,
         ];
     }

@@ -78,6 +78,7 @@ export let sessionModel = {
     players: [], // array of player objects
     playerOrder: [], // array of playerIDs stating the plaing order of the game
     yourTurn: null, // a playerID
+    playerHost: null, //a playerID of the host
     localNumberOfPlayers: null, // players.length()
     gameOver: false,
     winner: null,
@@ -110,6 +111,7 @@ export let sessionModel = {
             await this.getDeckID();
             // Call the createPlayer function on the model with the input value
             const player = await this.createPlayer(newPlayerName, true); // Assuming the player is not the host
+            this.playerHost = player.playerID;
             // TODO change 5 cards into a attribute in the model that can be changed
             await this.dealCards(player.playerID, 5); // always deals five cards
             await this.nextPlayer(); // sets the host to start the first round
@@ -121,7 +123,7 @@ export let sessionModel = {
     },
 
 
-    // =================================== Singeplayer functions ==========================================
+    // =================================== Local non-multiplayer functions ==========================================
 
     async getDataFromAPI(API_URL){
         // Fetches data from the API in accordance to the API_URL as parameter. This function handles errors: response not OK, general errors from fetch and network offline specific error.
@@ -140,7 +142,6 @@ export let sessionModel = {
             if (!navigator.onLine) {
                 throw new Error('Network error: The device is offline.');
             }
-            // TODO Think about how we should handle the error? Show a different view to the user?
             throw error;
         }
     },
