@@ -3,6 +3,9 @@ import TestUI from "./components/TestUI.jsx";
 import DesignSystemPresenter from "./presenters/DesignSystemPresenter.jsx";
 import JoinSessesionPresenter from "./presenters/JoinSessionPresenter.jsx"
 import GamePresenter from "./presenters/GamePresenter.jsx";
+import ExitPresenter from "./presenters/ExitPresenter.jsx";
+import InstructionsPresenter from "./presenters/InstructionsPresenter.jsx";
+import SessionMenuPresenter from "./presenters/SessionMenuPresenter.jsx";
 
 export function makeRouter(model) {
     console.table(model);
@@ -32,13 +35,14 @@ export function makeRouter(model) {
                 component: <GamePresenter model={model}/>
             }, {
                 path: "/session-menu", //ALBIN
-                component: <div>SessionMenu</div>
+                component: <SessionMenuPresenter model={model}/>
             }, {
                 path: "/instructions",  //ALBIN
-                component: <div>Instructions</div>
+                component: <InstructionsPresenter model={model}/>
+                
             }, {
-                path: "/exit", //ALBIN
-                component: <div>Exit</div>
+                path: "/exit", //ALBIN Done
+                component: <ExitPresenter model={model}/>
             }, {
                 path: "/leader-board",
                 component: <div>LeaderBoard</div>
