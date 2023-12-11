@@ -7,8 +7,15 @@ import SectionTitle from "../components/SectionTitle.jsx"
 import SectionSubtitle from "../components/SectionSubtitle.jsx"
 import Swiper from "../components/Swiper.jsx";
 import Footer from "../components/Footer.jsx"
+import DoubleAction from "../components/DoubleAction.jsx";
 
 export default function DesignSystemView(props) {
+
+    function evtHandlerDSACB(e) {
+        console.log("evtHandlerDSACB in DesignSystemView");
+        props.onDesignSystem();
+    }
+
     return <div class="View container">
         <SectionTitle title="Design System" />
         <SectionSubtitle title="Native Components" />
@@ -31,16 +38,21 @@ export default function DesignSystemView(props) {
             onInputName={null}
             onInputSessionID={null}
             onJoinSession={null} />
-        <SelectContent /> 
-        <AppHeader /> {/*NEEDS FIX*/}
-        <SessionID /> {/*NEEDS FIX*/}
-        {/*<WinnerBanner>*/}
-        <LBitem /> {/*NEEDS FIX*/}
-        {/*<MenuItem>*/}
-        {/*<TurnTag>*/}
-        {/*<PlayerOrderItem>*/}
-        <Swiper pileOfCards={['AC', '5S', 'KS', '2D', 'KH']} onSelectCardSprite={null}/> {/*NEEDS FIX*/}
-        {/*<DoubleAction>*/}
+        <SelectContent /> {/*NEEDS FIX*/}
+        <AppHeader /> {/*NEEDS FIX*/} {/*OSCAR*/}
+        <SessionID /> {/*NEEDS FIX*/} {/*OSCAR*/}
+        {/*<WinnerBanner>*/} {/*MARTIN*/}
+        <LBitem /> {/*NEEDS FIX*/} {/*OSCAR*/}
+        {/*<MenuItem>*/} {/*ALBIN*/}
+        {/*<TurnTag>*/} {/*MARTIN*/}
+        {/*<PlayerOrderItem>*/} {/*MARTIN*/}
+        <Swiper pileOfCards={['AC', '5S', 'KS', '2D', 'KH']} onSelectCardSprite={null} /> {/*NEEDS FIX*/} {/*DAVID*/}
+        <DoubleAction
+            description={"Hello, this is double action"}
+            primaryText={"Yes"}
+            secondaryText={"No"}
+            primaryOnClick={evtHandlerDSACB}
+            secondaryOnClick={null} /> {/*DAVID*/}
         <SingleAction
             title="Title"
             description="Description"
