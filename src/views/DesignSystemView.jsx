@@ -6,8 +6,9 @@ import SingleAction from "../components/SingleAction.jsx";
 import SectionTitle from "../components/SectionTitle.jsx"
 import SectionSubtitle from "../components/SectionSubtitle.jsx"
 import Swiper from "../components/Swiper.jsx";
-import Footer from "../components/Footer.jsx"
+import Footer from "../components/Footer.jsx";
 import DoubleAction from "../components/DoubleAction.jsx";
+import MenuItem from "../components/MenuItem.jsx";
 
 export default function DesignSystemView(props) {
 
@@ -43,7 +44,8 @@ export default function DesignSystemView(props) {
         <SessionID /> {/*NEEDS FIX*/} {/*OSCAR*/}
         {/*<WinnerBanner>*/} {/*MARTIN*/}
         <LBitem /> {/*NEEDS FIX*/} {/*OSCAR*/}
-        {/*<MenuItem>*/} {/*ALBIN*/}
+        {<MenuItem
+        title={"How to play?"}/>} {/*ALBIN*/}
         {/*<TurnTag>*/} {/*MARTIN*/}
         {/*<PlayerOrderItem>*/} {/*MARTIN*/}
         <Swiper pileOfCards={['AC', '5S', 'KS', '2D', 'KH']} onSelectCardSprite={null} /> {/*NEEDS FIX*/} {/*DAVID*/}

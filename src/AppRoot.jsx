@@ -31,13 +31,13 @@ export function makeRouter(model) {
                 path: "/game", //previos name cards
                 component: <GamePresenter model={model}/>
             }, {
-                path: "/session-menu",
+                path: "/session-menu", //ALBIN
                 component: <div>SessionMenu</div>
             }, {
-                path: "/instructions",
+                path: "/instructions",  //ALBIN
                 component: <div>Instructions</div>
             }, {
-                path: "/exit",
+                path: "/exit", //ALBIN
                 component: <div>Exit</div>
             }, {
                 path: "/leader-board",
