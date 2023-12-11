@@ -10,7 +10,7 @@ import Footer from "../components/Footer.jsx"
 import DoubleAction from "../components/DoubleAction.jsx";
 import TurnTag from "../components/TurnTag.jsx";
 import PlayerOrderItem from "../components/PlayerOrderItem.jsx";
-//import WinnerBanner from "../components/WinnerBanner.jsx";
+import WinnerBanner from "../components/WinnerBanner.jsx";
 
 export default function DesignSystemView(props) {
 
@@ -44,7 +44,13 @@ export default function DesignSystemView(props) {
         <SelectContent /> {/*NEEDS FIX*/}
         <AppHeader /> {/*NEEDS FIX*/} {/*OSCAR*/}
         <SessionID /> {/*NEEDS FIX*/} {/*OSCAR*/}
-        {/*<WinnerBanner>*/} {/*MARTIN*/}
+        <WinnerBanner
+            description={"The winner is..."}
+            descriptionIcon={""}
+            playerName={"Martin"}
+            winnerIconLeft={"🃏"}
+            winnerIconRight={"🎉"}
+            /> {/*MARTIN*/}
         <LBitem /> {/*NEEDS FIX*/} {/*OSCAR*/}
         {/*<MenuItem>*/} {/*ALBIN*/}
         <TurnTag 
