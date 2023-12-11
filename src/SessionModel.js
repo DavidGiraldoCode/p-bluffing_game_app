@@ -2,7 +2,7 @@
 // 2023-12-01, Albin Fransson & Martin Sandberg
 
 import {BASE_URL} from "/src/apiConfig.js";
-import { saveToFirebase, checkValidSessionID } from "./firebaseModel";
+import { saveToFirebase, checkValidSessionID, playerFBCounter, sessionFBCounter, deleteSessionFromFB } from "./firebaseModel";
 
 /*
                 ☆           *
@@ -96,6 +96,7 @@ export let sessionModel = {
                 this.sessionID = sessionIdFromUI;
                 const player = await this.createPlayer(newPlayerName, false)
                 await this.dealCards(player.playerID, 5); // always deals five cards
+                playerFBCounter(); // Adds one to the FBCounter
                 this.readyToWriteFB = true;
             }else{
                 //If one player already has joined on one device.
@@ -113,8 +114,10 @@ export let sessionModel = {
             const player = await this.createPlayer(newPlayerName, true); // Assuming the player is not the host
             this.playerHost = player.playerID;
             // TODO change 5 cards into a attribute in the model that can be changed
-            await this.dealCards(player.playerID, 5); // always deals five cards
+            await this.dealCards(player.playerID, 2); // always deals five cards  //! CHANGE
             await this.nextPlayer(); // sets the host to start the first round
+            playerFBCounter(); // Adds one player to the FBCounter
+            sessionFBCounter(); // Adds one session to the FBCounter
             this.readyToWriteFB = true;
         }else{
             //If one player already has joined on one device.
@@ -268,6 +271,7 @@ export let sessionModel = {
         if(player.pileOfCards.length == 0){
             this.gameOver = true;
             this.winner = playerID;
+            deleteSessionFromFB(this);
         };
     },
 }

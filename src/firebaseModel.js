@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, set, get, onValue, update, child, push } from "firebase/database";
+import { getDatabase, ref, set, get, onValue, update, child, remove } from "firebase/database";
 
 import firebaseConfig from "./firebaseConfig.js";
 import { sessionModel } from "./SessionModel.js";
@@ -8,6 +8,44 @@ const firebaseApp = initializeApp(firebaseConfig);
 const realTimeDB = getDatabase(firebaseApp);
 const PATH = 'sessions/';
 const refDB = ref(realTimeDB, PATH);
+
+async function playerFBCounter(){
+    // Add one number to the firebase player counter. This does not have any session functionality. Only purpose for statistics.
+    const refDBCounter = ref(realTimeDB, 'statistics/');
+    const counterSnapshot = await get(child(refDBCounter, "playersCounter"));
+    let counter = counterSnapshot.val() || 0;
+
+    counter++;
+    // Save the updated counter back to Firebase
+    set(child(refDBCounter, "playersCounter"), counter);
+}
+
+async function sessionFBCounter(){
+    // Add one number to the firebase session counter. This does not have any session functionality. Only purpose for statistics.
+    const refDBCounter = ref(realTimeDB, 'statistics/');
+    const counterSnapshot = await get(child(refDBCounter, "sessionCounter"));
+    let counter = counterSnapshot.val() || 0;
+
+    counter++;
+    // Save the updated playersFB array back to Firebase
+    set(child(refDBCounter, "sessionCounter"), counter);
+}
+
+async function deleteSessionFromFB(model) {
+    // Sets readyToWrite to false and then deletes the session on firebase.
+    //! BUG: playersFB does not get deleted?
+    model.readyToWriteFB = false;
+    // Reference to the session in the database
+    console.log("PATH : ", PATH + model.sessionID);
+    const sessionRef = await ref(realTimeDB, PATH + "/" + model.sessionID);
+
+    // Remove the session from the database
+    remove(sessionRef);
+
+    // If successful, log a message
+    console.log(`Session with ID ${model.sessionID} deleted from Firebase.`);
+}
+
 
 async function checkValidSessionID(sessionID){
     //Checks wether the sessionID is already created on firebase and valid.
@@ -174,6 +212,6 @@ function setupFirebase(model, watchFunctionACB) {
 }
 
 
-export { modelToPersistance, persistanceToModel, saveToFirebase, readFromFirebase, observeFirebaseModel, checkValidSessionID };
+export { modelToPersistance, persistanceToModel, saveToFirebase, readFromFirebase, observeFirebaseModel, checkValidSessionID, playerFBCounter, sessionFBCounter, deleteSessionFromFB};
 
 export default connectToFirebase;
