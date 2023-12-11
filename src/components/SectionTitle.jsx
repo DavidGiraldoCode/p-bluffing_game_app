@@ -1,12 +1,12 @@
-
+import "../global-style.css"
 import "./SectionTitle.css";
 
 export default 
 function SectionTitle(props) {
     return(
 
-        <div className="main-container">
-            <h2>King's Bluffer</h2>
+        <div className="section-title">
+            <h1>King's Bluffer{/*props.title here*/}</h1>
         </div>
 
     );
