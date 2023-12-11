@@ -8,6 +8,9 @@ import SectionSubtitle from "../components/SectionSubtitle.jsx"
 import Swiper from "../components/Swiper.jsx";
 import Footer from "../components/Footer.jsx"
 import DoubleAction from "../components/DoubleAction.jsx";
+import TurnTag from "../components/TurnTag.jsx";
+import PlayerOrderItem from "../components/PlayerOrderItem.jsx";
+//import WinnerBanner from "../components/WinnerBanner.jsx";
 
 export default function DesignSystemView(props) {
 
@@ -44,8 +47,16 @@ export default function DesignSystemView(props) {
         {/*<WinnerBanner>*/} {/*MARTIN*/}
         <LBitem /> {/*NEEDS FIX*/} {/*OSCAR*/}
         {/*<MenuItem>*/} {/*ALBIN*/}
-        {/*<TurnTag>*/} {/*MARTIN*/}
-        {/*<PlayerOrderItem>*/} {/*MARTIN*/}
+        <TurnTag 
+            tag={"Bluff!"}/> {/*MARTIN*/}
+        <PlayerOrderItem
+            bluffIndicator={"Bluff!"}
+            playerName={"Martin Sandberg"}
+            buttonText={"Skip"}/> {/*MARTIN*/}
+        <PlayerOrderItem
+            bluffIndicator={"Bluff!"}
+            playerName={"Albin Fransson"}
+            buttonText={"Skip"}/> {/*MARTIN*/}
         <Swiper pileOfCards={['AC', '5S', 'KS', '2D', 'KH']} onSelectCardSprite={null} /> {/*NEEDS FIX*/} {/*DAVID*/}
         <DoubleAction
             description={"Hello, this is double action"}

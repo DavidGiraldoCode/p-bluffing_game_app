@@ -1,0 +1,26 @@
+.player-order-item-container{
+    display: flex;
+    align-self: stretch;
+    align-items: center;
+    border-bottom: 1px solid var(--grey-1-grey-moon, #DFDFDF);
+}
+
+.player-order-item-component-layout{
+    flex-direction: row;
+}
+
+.player-name-text{
+    align-items: center;
+    flex: 1 0 0;
+    align-self: center;
+    background: var(--principal-white, #FFF);
+    padding: 0 var(--spacing-s);
+    }
+
+.skip-button-container{
+    flex-direction: column;
+    align-self: center;
+    align-items: center;
+    padding: 0 var(--spacing-m);
+    
+}
