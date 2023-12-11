@@ -4,8 +4,7 @@ Social game designed for young adults, played in-person using smartphones. Each 
 
 **Visit the app here:**
 
-> [https://kth-bluffing-game.web.app](https://kth-bluffing-game.web.app/)
-> 
+> [https://kth-bluffing-game.web.app](https://kth-bluffing-game.web.app/#/test-ui)
 
 ## How to clone and run
 
