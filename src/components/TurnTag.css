@@ -1,0 +1,18 @@
+.turn-tag-container{
+    display: flex;
+    align-self: flex-start;
+    padding: var(--spacing-s) var(--spacing-s);
+}
+
+.turn-tag{
+    border-radius: var(--spacing-s);
+    background: var(--principal-happiness, #F40000);
+    padding: var(--spacing-xs) 0;
+}
+
+.turn-tag-text{
+
+    padding: var(--spacing-xs) var(--spacing-m);
+    align-items: center;
+    color: white;
+}
