@@ -1,5 +1,5 @@
 //import Swiper from "./Swiper.jsx";
-
+import "../global-style.css";
 export default function TestUI(props) {
     console.log('Update TestUI!')
 
@@ -29,7 +29,7 @@ export default function TestUI(props) {
     }
 
     return (
-        <div class="test-body">
+        <div class="test-body" style="width: 400px">
             <h1>UI Tester</h1>
             <h2>sessionID (deckID in the API): {props.model.sessionID} </h2>
             <h3>players (type Array): {`${props.model.players}`}</h3>
@@ -40,22 +40,24 @@ export default function TestUI(props) {
 
             <div>
                 <input
+                    type="text"
                     value={data.newPlayerName}
                     onInput={(e) => (data.newPlayerName = e.target.value)}
                     placeholder="Enter host name"
                 />
             </div>
-            <div>
+            <div class="m-bottom-m">
                 <button class="test-button" onClick={createSessionACB}>Create Session</button>
             </div>
             <div>
                 <input
+                    type="text"
                     value={data.newPlayerName}
                     onInput={(e) => (data.newPlayerName = e.target.value)}
                     placeholder="Enter new player name"
                 />
             </div>
-            <div>
+            <div class="m-bottom-m">
                 <button class="test-button" onClick={addNewPlayerACB}>Add new player/Join Session</button>
             </div>
             <div>{props.model.players.map(playersRendering)}</div>
@@ -69,7 +71,7 @@ export default function TestUI(props) {
         return (
             <div class="test-players-container">
                 <h4>playerID (type String): {player.playerID}</h4>
-                <button class="test-button"  onClick={removePlayerACB} disabled={player.isHost}>Remove player</button>
+                <button class="test-button" onClick={removePlayerACB} disabled={player.isHost}>Remove player</button>
                 <p>playerName (type String): {player.playerName}</p>
                 <p>isHost (type Boolean): {`${player.isHost}`}</p>
                 {player.pileOfCards.length > 0 && (
@@ -83,27 +85,27 @@ export default function TestUI(props) {
                 */}
                 <p>Did you manage to bluff your way out?</p>
                 <div>
-                    <button 
-                    class="test-button" 
-                    onClick={successfulBluffACB} 
-                    disabled={player.selectedCard === null || player.playerID !== props.model.yourTurn}>
+                    <button
+                        class="test-button"
+                        onClick={successfulBluffACB}
+                        disabled={player.selectedCard === null || player.playerID !== props.model.yourTurn}>
                         Yes
                     </button>
-                    <button 
-                    class="test-button" 
-                    onClick={failedBluffACB} 
-                    disabled={player.selectedCard === null || player.playerID !== props.model.yourTurn}>
+                    <button
+                        class="test-button"
+                        onClick={failedBluffACB}
+                        disabled={player.selectedCard === null || player.playerID !== props.model.yourTurn}>
                         No
                     </button>
                 </div>
             </div>
         )
 
-        async function removePlayerACB(){
+        async function removePlayerACB() {
             await props.model.removePlayer(player.playerID);
         }
 
-        async function successfulBluffACB(){
+        async function successfulBluffACB() {
             // player managed to bluff its apponents
             // 1. removes the selected card
             // 2. sessionModel yourTurn should change to th next player
@@ -126,7 +128,7 @@ export default function TestUI(props) {
 
         function cardsRendering(card) {
             return (
-                <button onClick={selectCardHandler} value={card}>{card}</button>
+                <button class="secondary" onClick={selectCardHandler} value={card}>{card}</button>
             )
         }
         function selectCardHandler(event) {
