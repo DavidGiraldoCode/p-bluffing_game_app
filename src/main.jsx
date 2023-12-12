@@ -10,8 +10,8 @@ import { makeRouter } from "./AppRoot.jsx";
 import { sessionModel } from "./SessionModel.js";
 
 //?---------------------------------------- thirparty component
-import { register } from 'swiper/element/bundle';
-register(); //thirparty component
+//import { register } from 'swiper/element/bundle';
+//register(); //thirparty component
 //?---------------------------------------- thirparty component
 
 //* ----------------------------- Updates

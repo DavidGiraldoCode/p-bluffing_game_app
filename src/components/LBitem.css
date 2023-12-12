@@ -1,19 +1,85 @@
 
-.card-container {
-  align-self: stretch;
-  border-bottom: 1px solid var(--grey-1-grey-moon, #dfdfdf);
-  background-color: var(--principal-white, #fff);
+.lb-container {
   display: flex;
+  flex-direction: row;
+  height: 48px;
+  align-items: center;
+  align-self: stretch;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--grey-1, #dfdfdf);
+  background-color: var(--background-color);
   gap: 0px;
-  padding: 0 20px;
 }
 
+.rank-container,
+.score-container{
+  justify-content: center;
+  padding: 8px;
+  background: var(--grey-5);
+  width: auto;
+  height: 100%; 
+}
+
+.rank-number, 
+.score-number {
+  text-align: center;
+  font-family: Roboto;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px; /* 133.333% */
+  width: 42px /*fixed width in figma*/
+}
+
+.text-container{
+flex: 1;
+flex-direction: row;
+flex-grow: 1; /* Allows the container take up the remaning space */ 
+padding: 8px;
+gap: 4px;
+align-items: center;
+background-color: var(--secondary-color);
+width: 100%;
+height: 100%;
+
+
+} 
+
+.user-text{
+  flex: 1;
+  text-align: left;
+  color: var(--primary-color);
+  font-family: Roboto;
+  font-style: normal;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 24px; /* 133.333% */
+
+}
+
+.cards-text
+{
+  flex: 1;
+  text-align: right;
+  color: var(--primary-color);
+  font-family: Roboto;
+  font-style: normal;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 24px; /* 133.333% */
+  
+
+}
+
+
+/*
 @media (max-width: 991px) {
-  .card-container {
+  .lb-container {
     justify-content: center;
   }
 }
-
+*/
+/*
 .card-header {
   justify-content: space-between;
   background-color: var(--principal-white, #fff);
@@ -47,3 +113,4 @@
   padding: 8px;
   font: 400 22px/32px Roboto, -apple-system, Roboto, Helvetica, sans-serif;
 }
+*/ 

@@ -1,11 +1,23 @@
 .session-container {
-  color: #000;
+  display: flex;
+  height: 40px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  align-self: stretch;
+  background-color: var(--grey-5);
+  color: var(--primary-color);
   text-align: center;
+  border-bottom: 1px solid var(--grey-6, #d4d4d4);
+}
+
+
+
+/*
   width: 100%;
   justify-content: center;
   align-self: stretch;
-  border-bottom: 1px solid var(--grey-2-light, #d4d4d4);
-  background-color: var(--grey-0-cloud, #f5f5f5);
+  
   padding: 8px 20px;
   font: 400 18px/24px Roboto, -apple-system, Roboto, Helvetica, sans-serif;
-}
+*/
