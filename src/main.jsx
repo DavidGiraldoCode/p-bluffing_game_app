@@ -1,10 +1,19 @@
 import "./firebaseModel.js"; //? Runs the firebase instance
 import connectToFirebase from "./firebaseModel.js";
-import { createApp, reactive, watch } from 'vue';
-import './style.css';
-import App from './App.jsx';
-import { sessionModel } from './SessionModel.js';
+=======
+import { observeValue } from "./firebaseModel.js";
+import { createApp, reactive, watch } from "vue"
+import "./style.css";
+import "./global-style.css";
+import "./test-style.css";
+import AppRoot from "./AppRoot.jsx";
+import { makeRouter } from "./AppRoot.jsx";
+import { sessionModel } from "./SessionModel.js";
 
+//?---------------------------------------- thirparty component
+import { register } from 'swiper/element/bundle';
+register(); //thirparty component
+//?---------------------------------------- thirparty component
 
 //* ----------------------------- Updates
 // main.js changed to main.jsx to use <App> syntaxis
@@ -31,11 +40,24 @@ import { sessionModel } from './SessionModel.js';
     }],
     numberOfPlayers: 3,
 }*/
-const ReactiveModel = reactive(sessionModel)
-//! -----------------------------
 
-const rootJSX = <App model={ReactiveModel} />
+const ReactiveModel = reactive(sessionModel);
+//! -----------------------------
+/*
+watch(checkACB,sideEffectACB);
+
+function checkACB(){ //? invoke after every reactive object changes
+    console.log("watch");
+    return [testReactiveModel.numberOfPlayers];
+}
+
+function sideEffectACB(){
+    console.log("Side Effect triggered");
+} */
+
+const rootJSX = <AppRoot model={ReactiveModel} />
 const app = createApp(rootJSX);
+app.use(makeRouter(testReactiveModel));
 app.mount('#app');
 
 //? Connection to Firebase, missing the reactiveModel and reaction

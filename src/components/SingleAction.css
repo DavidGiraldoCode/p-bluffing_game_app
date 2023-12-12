@@ -1,0 +1,10 @@
+/*The ONLY style that should be here is layout*/
+/*NO absolut value, always var()*/
+.single_action_container{
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
+    align-items: center;
+    gap: var(--spacing-s);
+    padding: var(--spacing-m) var(--spacing-m);
+}
