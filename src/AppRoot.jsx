@@ -13,6 +13,10 @@ export function makeRouter(model) {
         history: createWebHashHistory(),
         routes: [
             {
+                path: "/login",
+                component: <LoginPresenter model={model} />
+            },
+            {
                 path: "/test-ui",
                 component: <TestUI model={model} />
             },
