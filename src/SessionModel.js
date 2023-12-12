@@ -271,7 +271,7 @@ export let sessionModel = {
         if(player.pileOfCards.length == 0){
             this.gameOver = true;
             this.winner = playerID;
-            deleteSessionFromFB(this);
+            //deleteSessionFromFB(this); //! Temporarely removed.
         };
     },
 }
