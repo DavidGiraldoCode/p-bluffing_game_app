@@ -36,15 +36,15 @@ source: https://github.com/rhysd
 class Player {
     constructor(playerName, isHost) {
         // Attributes of the player class. Always initialized when creating a new player.
-        this.playerID = this.createPlayerID();
-        this.playerName = playerName;
+        this.playerID = this.createPlayerID(); // TODO change this: playerID = Google auth uid (unique id)
+        this.playerName = playerName; // TODO change this: playerName = example (email = example@gmail.com)
         this.isHost = isHost;
         this.pileOfCards = []; //Local copy of the API pile. To be able to render
-        this.selectedCard = null; // example: 'KD'
+        this.selectedCard = null; // example: 'KD' // TODO if a user re-joins session this will be set to null.
         this.numberOfCards = this.pileOfCards.length;
     }
 
-    createPlayerID() {
+    createPlayerID() { // TODO This will not be useful anymore, delete
         // Creates a random playerID by using the date.now function and converting is to strings. In addition it uses a random number and concatinates it to a string.
         const timestampPart = Date.now().toString(36);
         const randomPart = Math.random().toString(36).slice(2);
@@ -185,6 +185,8 @@ export let sessionModel = {
             throw Error('Cannot create a non-host player without a SessionID');
         }
     },
+
+    // TODO new method! reJoinSession(){ fetch all relevant information from firebase, initialize local model, play }
 
     async dealCards(playerID, amountOfCards){
         // Draws amount of cards using the drawCard function. Adds these cards to a pile called playerID on the API.  When cards is removed, calls gameOverCheck to check if the player is out of cards.
