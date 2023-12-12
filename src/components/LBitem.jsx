@@ -5,24 +5,17 @@ export default
 function LBitem(props) {
   return (
     <div className="lb-container">
-
-        <div className="rank-container">
-          <h3> {/*props.ranking*/} 1º</h3>
-        </div>
-
+          <div className="rank-container">
+            <p className="rank-number"> {/*props.ranking*/} 1º</p>
+          </div>
           <div className="text-container">
-            <h3 className="user-text"> PlayerName: Nicolas  {/*props.PlayerName*/}  </h3>
-            <h3 className="score-text"> 🃏 Cards: </h3> 
+            <p className="user-text"> Nicolas Gomez  {/*props.PlayerName*/}  </p>
+            <p className="cards-text"> 🃏 Cards: </p> 
           </div>
-
           <div className="score-container">
-            <h3> {/*props.score*/}5</h3>
+            <p className="score-number"> {/*props.score*/}5</p>
           </div>
-
-        </div>
-
-        
-
+    </div>
   );
 }
 
