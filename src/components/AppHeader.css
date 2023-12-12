@@ -44,7 +44,6 @@ align-items: center;
   flex-grow: 1;
   white-space: nowrap;
   margin: auto 0;
-  font: 700 14px/24px Roboto, -apple-system,oto, Helvetica, sans-serif;
 }
 
 
@@ -58,12 +57,7 @@ align-items: center;
   color: var(--primary-color);
   align-items: center;
   text-align: center;
-  /* Desktop/Headline/H4-Bold */
-  font-family: Roboto;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 24px; /* 150% */
+ 
 }
 
 .solid{ 
@@ -71,19 +65,3 @@ align-items: center;
   height: 32px; 
 }
 
-
-
-/* OLD AppHeader.css
-
-.main-container {
-  justify-content: center;
-  align-self: stretch;
-  border-bottom: 1px solid var(--grey-1-grey-moon, #dfdfdf);
-  background-color: var(--principal-white, #fff);
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  padding: 12px 16px;
-}
-
-*/ 

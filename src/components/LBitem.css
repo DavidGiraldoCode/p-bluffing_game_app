@@ -23,11 +23,6 @@
 .rank-number, 
 .score-number {
   text-align: center;
-  font-family: Roboto;
-  font-size: 22px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 24px; /* 133.333% */
   width: 42px /*fixed width in figma*/
 }
 
@@ -49,11 +44,7 @@ height: 100%;
   flex: 1;
   text-align: left;
   color: var(--primary-color);
-  font-family: Roboto;
-  font-style: normal;
-  font-size: 18px;
-  font-weight: 400;
-  line-height: 24px; /* 133.333% */
+  
 
 }
 
@@ -62,55 +53,9 @@ height: 100%;
   flex: 1;
   text-align: right;
   color: var(--primary-color);
-  font-family: Roboto;
-  font-style: normal;
-  font-size: 18px;
-  font-weight: 400;
-  line-height: 24px; /* 133.333% */
+  
   
 
 }
 
 
-/*
-@media (max-width: 991px) {
-  .lb-container {
-    justify-content: center;
-  }
-}
-*/
-/*
-.card-header {
-  justify-content: space-between;
-  background-color: var(--principal-white, #fff);
-  display: flex;
-  gap: 4px;
-  padding: 12px 8px;
-}
-
-.card-header-text {
-  color: var(--grey-6-middle-dark, #202020);
-  text-align: center;
-  justify-content: center;
-  background-color: var(--grey-0-cloud, #f5f5f5);
-  aspect-ratio: 1.2083333333333333;
-  padding: 12px 8px;
-  font: 400 18px/24px Roboto, -apple-system, Roboto, Helvetica, sans-serif;
-}
-
-.card-header-subtext {
-  color: var(--principal-ideas, #000);
-  text-align: right;
-  font: 400 18px/24px Roboto, -apple-system, Roboto, Helvetica, sans-serif;
-}
-
-.card-content {
-  color: var(--grey-6-middle-dark, #202020);
-  text-align: center;
-  justify-content: center;
-  background-color: var(--grey-0-cloud, #f5f5f5);
-  aspect-ratio: 1.1666666666666667;
-  padding: 8px;
-  font: 400 22px/32px Roboto, -apple-system, Roboto, Helvetica, sans-serif;
-}
-*/ 

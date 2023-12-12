@@ -15,7 +15,7 @@ function AppHeader(props) {
             className="menu-img"
             alt="Logo"
           />
-          <div className="menu-text">Menu</div>
+          <div className="menu-text"><h4>Menu</h4></div>
         </div>
 
         <h4 className="title-container"> King's Bluffer {/*props.headtitle*/}</h4>
