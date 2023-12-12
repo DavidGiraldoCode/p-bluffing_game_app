@@ -2,6 +2,7 @@
 // 2023-12-01, Albin Fransson & Martin Sandberg
 
 import {BASE_URL} from "/src/apiConfig.js";
+import { saveToFirebase, checkValidSessionID, playerFBCounter, sessionFBCounter, deleteSessionFromFB } from "./firebaseModel";
 
 /*
                 ☆           *
@@ -23,7 +24,9 @@ source: https://github.com/rhysd
 
 /*
 ! Known issues/bugs:
-    None known bug atm
+    - Remove player does not remove the player from playersFB on firebase. Only removes player from playerOrderFB.
+    - Host does not have access to the playerIDs, since not fetching playersFB from FB. Therefore host cannot remove other players.
+
 */
 
 // =============================================================================
@@ -38,6 +41,7 @@ class Player {
         this.isHost = isHost;
         this.pileOfCards = []; //Local copy of the API pile. To be able to render
         this.selectedCard = null; // example: 'KD'
+        this.numberOfCards = this.pileOfCards.length;
     }
 
     createPlayerID() {
@@ -61,6 +65,7 @@ class Player {
         const data = await sessionModel.getDataFromAPI(API_URL);
         const id = this.playerID;
         this.pileOfCards = data.piles[id].cards.map(listingCardCodeCB);
+        this.numberOfCards = this.pileOfCards.length;
     }
 }
 
@@ -73,10 +78,55 @@ export let sessionModel = {
     players: [], // array of player objects
     playerOrder: [], // array of playerIDs stating the plaing order of the game
     yourTurn: null, // a playerID
-    numberOfPlayers: null, // players.length()
+    playerHost: null, //a playerID of the host
+    localNumberOfPlayers: null, // players.length()
     gameOver: false,
     winner: null,
-    
+    leaderboard: {},
+    readyToWriteFB: false,
+
+    // =================================== New multiplayer functions ==========================================
+    async joinSession(sessionIdFromUI, newPlayerName){
+        // Recives a sessionID from the UI. Creates a new player and deals 5 card to that player.
+        // Checks if sessionID is valid on firebase. Checks that there are no player on the local machine.
+
+        const sessionIsValid = await checkValidSessionID(sessionIdFromUI);
+        if(sessionIsValid){
+            if(this.localNumberOfPlayers < 1 || this.localNumberOfPlayers === null){
+                this.sessionID = sessionIdFromUI;
+                const player = await this.createPlayer(newPlayerName, false)
+                await this.dealCards(player.playerID, 5); // always deals five cards
+                playerFBCounter(); // Adds one to the FBCounter
+                this.readyToWriteFB = true;
+            }else{
+                //If one player already has joined on one device.
+                console.error("Only one player per device is supported!");
+            }
+        }else{
+            console.error("SessionID is not valid!");
+        }
+    },
+
+    async createHost(newPlayerName){
+        if(this.localNumberOfPlayers < 1 || this.localNumberOfPlayers === null){
+            await this.getDeckID();
+            // Call the createPlayer function on the model with the input value
+            const player = await this.createPlayer(newPlayerName, true); // Assuming the player is not the host
+            this.playerHost = player.playerID;
+            // TODO change 5 cards into a attribute in the model that can be changed
+            await this.dealCards(player.playerID, 2); // always deals five cards  //! CHANGE
+            await this.nextPlayer(); // sets the host to start the first round
+            playerFBCounter(); // Adds one player to the FBCounter
+            sessionFBCounter(); // Adds one session to the FBCounter
+            this.readyToWriteFB = true;
+        }else{
+            //If one player already has joined on one device.
+            console.error("Only one player per device is supported!");
+        }
+    },
+
+
+    // =================================== Local non-multiplayer functions ==========================================
     async getDataFromAPI(API_URL){
         // Fetches data from the API in accordance to the API_URL as parameter. This function handles errors: response not OK, general errors from fetch and network offline specific error.
         try {
@@ -94,7 +144,6 @@ export let sessionModel = {
             if (!navigator.onLine) {
                 throw new Error('Network error: The device is offline.');
             }
-            // TODO Think about how we should handle the error? Show a different view to the user?
             throw error;
         }
     },
@@ -127,7 +176,7 @@ export let sessionModel = {
                 const newPlayer = new Player(playerName, isHost);
                 this.players.push(newPlayer);   // adds newPlayer to players array
                 this.playerOrder.push(newPlayer.playerID);
-                this.numberOfPlayers = this.players.length;
+                this.localNumberOfPlayers = this.players.length;
             return newPlayer;
             } else {
                 throw Error('Not enough cards in the deck to add a new player.');
@@ -160,7 +209,7 @@ export let sessionModel = {
         }
     },
 
-    nextPlayer(){
+    async nextPlayer(){
         // This function will be called while creating a session to initilize yourTurn
         // Assigns the next player in the playerOrder
         // If its the last player of a round the playerOrder will be shuffled and yourTurn = playerOrder[0]
@@ -169,11 +218,17 @@ export let sessionModel = {
         } else{
             const index = this.playerOrder.indexOf(this.yourTurn);
             const nextIndex = ((index + 1) % this.playerOrder.length);
-            if(nextIndex !== 0){
-                this.yourTurn = this.playerOrder[nextIndex]
-            } else{
+            if (nextIndex !== 0) {
+                console.log("Wihoo, got into normal nextPlayer");
+                console.log("nextIndex : ", nextIndex);
+                console.log("this.playerOrder[nextIndex] : ", this.playerOrder[nextIndex]);
+        
+                this.yourTurn = this.playerOrder[nextIndex];
+                await saveToFirebase(this);  // Await the save operation
+            } else {
                 this.shufflePlayers();
-                this.yourTurn = this.playerOrder[0]
+                this.yourTurn = this.playerOrder[0];
+                await saveToFirebase(this);  // Await the save operation
             }
         }
     },
@@ -192,16 +247,11 @@ export let sessionModel = {
 
     removePlayer(playerIdToRemove){
         // Removes player from players array. The playerIDToRemove of the parameter is the player that will be removed.
-        // If the playerID is the host. Nothing will happen.
         // If the playerID to be removed also is yourTurn: nextPlayer() is called.
-        const player = this.players.find(player => player.playerID === playerIdToRemove);
-        if(!player.isHost){
-            this.players = this.players.filter(player => player.playerID !== playerIdToRemove);
-            this.playerOrder = this.playerOrder.filter(playerID => playerID !== playerIdToRemove);
+        this.playerOrder = this.playerOrder.filter(playerID => playerID !== playerIdToRemove);
             if(playerIdToRemove == this.yourTurn){
                 this.nextPlayer();
             }
-        }
     },
 
     async removeCard(playerID, selectedCard){
@@ -220,6 +270,7 @@ export let sessionModel = {
         if(player.pileOfCards.length == 0){
             this.gameOver = true;
             this.winner = playerID;
+            //deleteSessionFromFB(this); //! Temporarely removed.
         };
     },
 }

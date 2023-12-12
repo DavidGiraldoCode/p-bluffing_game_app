@@ -5,27 +5,26 @@ export default function TestUI(props) {
 
     const data = {
         newPlayerName: "",
+        sessionIdFromUI: "",
+        playerIdtoRemove: "",
     };
 
     async function createSessionACB() {
         // Call the getDeckID function on the model
-        await props.model.getDeckID();
-        // Call the createPlayer function on the model with the input value
-        const player = await props.model.createPlayer(data.newPlayerName, true); // Assuming the player is not the host
+        await props.model.createHost(data.newPlayerName)
         // Clear the input field after adding the player
         data.newPlayerName = "";
-        // TODO change 5 cards into a attribute in the model that can be changed
-        await props.model.dealCards(player.playerID, 5); // always deals five cards
-        await props.model.nextPlayer(); // sets the host to start the first round
     }
 
     async function addNewPlayerACB() {
         // Call the createPlayer function on the model with the input value. Not host
-        const player = await props.model.createPlayer(data.newPlayerName, false); // Assuming the player is not the host
+        await props.model.joinSession(data.sessionIdFromUI, data.newPlayerName); // Assuming the player is not the host
         // Clear the input field after adding the player
         data.newPlayerName = "";
-        // TODO change 5 cards into a attribute in the model that can be changed
-        await props.model.dealCards(player.playerID, 5);
+    }
+
+    async function removePlayerACB(){
+        await props.model.removePlayer(data.playerIdtoRemove);
     }
 
     return (
@@ -33,10 +32,13 @@ export default function TestUI(props) {
             <h1>UI Tester</h1>
             <h2>sessionID (deckID in the API): {props.model.sessionID} </h2>
             <h3>players (type Array): {`${props.model.players}`}</h3>
-            <p>numberOfPlayer: {props.model.numberOfPlayers} </p>
+            <p>playerOrder (type Array): {JSON.stringify(props.model.playerOrder)}</p>
+            <p>localNumberOfPlayer: {props.model.localNumberOfPlayers} </p>
+            <p>playerHost (a playerID type String): {props.model.playerHost}</p>
             <p>yourTurn (a playerID type String): {props.model.yourTurn}</p>
             <p>gameOver (type Boolean): {`${props.model.gameOver}`}</p>
             <p>winner (a playerID type String): {props.model.winner}</p>
+            <p>leaderBoard (type Object): {JSON.stringify(props.model.leaderboard)}</p>
 
             <div>
                 <input
@@ -54,10 +56,28 @@ export default function TestUI(props) {
                     onInput={(e) => (data.newPlayerName = e.target.value)}
                     placeholder="Enter new player name"
                 />
+            </div> 
+            <div>
+                <input
+                    value={data.sessionIdFromUI}
+                    onInput={(e) => (data.sessionIdFromUI = e.target.value)}
+                    placeholder="Enter a valid sessionID"
+                />
+            </div>                        
+            <div>
+                <button onClick={addNewPlayerACB}>Join Session</button>
             </div>
             <div>
-                <button class="test-button" onClick={addNewPlayerACB}>Add new player/Join Session</button>
+                <input
+                    value={data.sessionIdFromUI}
+                    onInput={(e) => (data.playerIdtoRemove = e.target.value)}
+                    placeholder="Enter a playerID to remove"
+                />
+            </div>                        
+            <div>
+                <button onClick={removePlayerACB}>Remove player</button>
             </div>
+
             <div>{props.model.players.map(playersRendering)}</div>
         </div>);
 
@@ -69,7 +89,6 @@ export default function TestUI(props) {
         return (
             <div class="test-players-container">
                 <h4>playerID (type String): {player.playerID}</h4>
-                <button class="test-button"  onClick={removePlayerACB} disabled={player.isHost}>Remove player</button>
                 <p>playerName (type String): {player.playerName}</p>
                 <p>isHost (type Boolean): {`${player.isHost}`}</p>
                 {player.pileOfCards.length > 0 && (
@@ -97,10 +116,6 @@ export default function TestUI(props) {
                 </div>
             </div>
         )
-
-        async function removePlayerACB(){
-            await props.model.removePlayer(player.playerID);
-        }
 
         async function successfulBluffACB(){
             // player managed to bluff its apponents
