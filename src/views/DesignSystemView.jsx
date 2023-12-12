@@ -5,9 +5,14 @@ import SelectContent from "../components/SelectContent.jsx";
 import SingleAction from "../components/SingleAction.jsx";
 import SectionTitle from "../components/SectionTitle.jsx"
 import SectionSubtitle from "../components/SectionSubtitle.jsx"
-//import Swiper from "../components/Swiper.jsx";
-import Footer from "../components/Footer.jsx"
+import Swiper from "../components/Swiper.jsx";
+import Footer from "../components/Footer.jsx";
 import DoubleAction from "../components/DoubleAction.jsx";
+import TurnTag from "../components/TurnTag.jsx";
+import PlayerOrderItem from "../components/PlayerOrderItem.jsx";
+import WinnerBanner from "../components/WinnerBanner.jsx";
+import MenuItem from "../components/MenuItem.jsx";
+
 
 export default function DesignSystemView(props) {
 
@@ -41,12 +46,27 @@ export default function DesignSystemView(props) {
         <SelectContent /> {/*NEEDS FIX*/}
         <AppHeader /> {/*NEEDS FIX*/} {/*OSCAR*/}
         <SessionID /> {/*NEEDS FIX*/} {/*OSCAR*/}
-        {/*<WinnerBanner>*/} {/*MARTIN*/}
+        <WinnerBanner
+            description={"The winner is..."}
+            descriptionIcon={""}
+            playerName={"Martin"}
+            winnerIconLeft={"🃏"}
+            winnerIconRight={"🎉"}
+            /> {/*MARTIN*/}
         <LBitem /> {/*NEEDS FIX*/} {/*OSCAR*/}
-        {/*<MenuItem>*/} {/*ALBIN*/}
-        {/*<TurnTag>*/} {/*MARTIN*/}
-        {/*<PlayerOrderItem>*/} {/*MARTIN*/}
-        {/*<Swiper pileOfCards={['AC', '5S', 'KS', '2D', 'KH']} onSelectCardSprite={null} /> NEEDS FIX*/} {/*DAVID*/}
+        <TurnTag 
+            tag={"Bluff!"}/> {/*MARTIN*/}
+        <PlayerOrderItem
+            bluffIndicator={"Bluff!"}
+            playerName={"Martin Sandberg"}
+            buttonText={"Skip"}/> {/*MARTIN*/}
+        <PlayerOrderItem
+            bluffIndicator={"Bluff!"}
+            playerName={"Albin Fransson"}
+            buttonText={"Skip"}/> {/*MARTIN*/}
+        {<MenuItem
+        title={"How to play?"}/>} {/*ALBIN*/}
+        <Swiper pileOfCards={['AC', '5S', 'KS', '2D', 'KH']} onSelectCardSprite={null} /> {/*NEEDS FIX*/} {/*DAVID*/}
         <DoubleAction
             description={"Hello, this is double action"}
             primaryText={"Yes"}
