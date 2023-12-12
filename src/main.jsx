@@ -1,6 +1,5 @@
 import "./firebaseModel.js"; //? Runs the firebase instance
 import connectToFirebase from "./firebaseModel.js";
-=======
 import { observeValue } from "./firebaseModel.js";
 import { createApp, reactive, watch } from "vue"
 import "./style.css";
