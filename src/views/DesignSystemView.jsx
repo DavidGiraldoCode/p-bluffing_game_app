@@ -44,8 +44,13 @@ export default function DesignSystemView(props) {
             onInputSessionID={null}
             onJoinSession={null} />
         <SelectContent /> {/*NEEDS FIX*/}
-        <AppHeader /> {/*NEEDS FIX*/} {/*OSCAR*/}
-        <SessionID /> {/*NEEDS FIX*/} {/*OSCAR*/}
+        <AppHeader 
+            headTitle={"King's Bluffer"}
+            menuText={"Menu"}
+            /> {/*OSCAR*/} {/*Working on MenuIcon*/}
+        <SessionID 
+            sessionID={"1234567890"}
+            />  {/*OSCAR*/}
         <WinnerBanner
             description={"The winner is..."}
             descriptionIcon={""}
@@ -53,7 +58,13 @@ export default function DesignSystemView(props) {
             winnerIconLeft={"🃏"}
             winnerIconRight={"🎉"}
             /> {/*MARTIN*/}
-        <LBitem /> {/*NEEDS FIX*/} {/*OSCAR*/}
+        <LBitem 
+            rank={"1º"}
+            playerName={"Nicolas Gomez"}
+            cardIcon={"🃏"}
+            cardText={"Cards:"}
+            score={"5"}
+            /> {/*OSCAR*/}
         <TurnTag 
             tag={"Bluff!"}/> {/*MARTIN*/}
         <PlayerOrderItem

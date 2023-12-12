@@ -1,5 +1,5 @@
 
-.lb-container {
+.lb-container{
   display: flex;
   flex-direction: row;
   height: 48px;
@@ -14,7 +14,7 @@
 .rank-container,
 .score-container{
   justify-content: center;
-  padding: 8px;
+  padding: var(--spacing-s);
   background: var(--grey-5);
   width: auto;
   height: 100%; 
@@ -30,32 +30,24 @@
 flex: 1;
 flex-direction: row;
 flex-grow: 1; /* Allows the container take up the remaning space */ 
-padding: 8px;
-gap: 4px;
+padding: var(--spacing-s);
+gap: var(--spacing-xs);
 align-items: center;
 background-color: var(--secondary-color);
 width: 100%;
 height: 100%;
-
-
 } 
 
 .user-text{
   flex: 1;
   text-align: left;
   color: var(--primary-color);
-  
-
 }
 
-.cards-text
-{
+.cards-text{
   flex: 1;
   text-align: right;
   color: var(--primary-color);
-  
-  
-
 }
 
 

@@ -6,14 +6,14 @@ function LBitem(props) {
   return (
     <div className="lb-container">
           <div className="rank-container">
-            <p className="rank-number"> {/*props.ranking*/} 1º</p>
+            <p className="rank-number">{props.rank}</p>
           </div>
           <div className="text-container">
-            <p className="user-text"> Nicolas Gomez  {/*props.PlayerName*/}  </p>
-            <p className="cards-text"> 🃏 Cards: </p> 
+            <p className="user-text">{props.playerName}</p>
+            <p className="cards-text">{props.cardIcon} {props.cardText}</p> 
           </div>
           <div className="score-container">
-            <p className="score-number"> {/*props.score*/}5</p>
+            <p className="score-number">{props.score}</p>
           </div>
     </div>
   );
