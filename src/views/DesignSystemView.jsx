@@ -44,10 +44,7 @@ export default function DesignSystemView(props) {
             onInputSessionID={null}
             onJoinSession={null} />
         <SelectContent /> {/*NEEDS FIX*/}
-        <AppHeader 
-            headTitle={"King's Bluffer"}
-            menuText={"Menu"}
-            /> {/*OSCAR*/} {/*Working on MenuIcon*/}
+        <AppHeader /> {/*OSCAR*/} {/*Working on MenuIcon*/}
         <SessionID 
             sessionID={"1234567890"}
             />  {/*OSCAR*/}

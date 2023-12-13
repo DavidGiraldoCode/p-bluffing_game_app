@@ -12,7 +12,9 @@ function SessionMenuView(props) {
     <div>
         // TODO Change AppHeader
         <AppHeader /> 
-        <SessionID/>
+        <SessionID 
+          sessionID={"1234567890"/*props.sessionID*/}
+        />
         // TODO Round Order
         <p>INSERT ROUND ORDER HERE</p>
         <MenuItem

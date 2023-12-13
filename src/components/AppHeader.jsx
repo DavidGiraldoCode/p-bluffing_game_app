@@ -15,10 +15,10 @@ function AppHeader(props) {
             className="menu-img"
             alt="Logo"
           />
-          <h4 className="menu-text">{props.menuText}</h4>
+          <h4 className="menu-text">Menu</h4>
         </div>
 
-        <h4 className="title-container">{props.headTitle}</h4>
+        <h4 className="title-container">King's Bluffer</h4>
         {/*<div className="title-container">King's Bluffer</div>*/}
 
         <div className="solid"></div>
