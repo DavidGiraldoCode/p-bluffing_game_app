@@ -1,26 +1,24 @@
-.player-order-item-container{
-    display: flex;
-    align-self: stretch;
+.player-order-item-container {
+    flex-direction: row;
+    height: var(--spacing-j);
+    justify-content: center;
     align-items: center;
+    align-self: stretch;
+
     border-bottom: 1px solid var(--grey-1-grey-moon, #DFDFDF);
 }
 
-.player-order-item-component-layout{
-    flex-direction: row;
-}
-
-.player-name-text{
+.player-name-text {
     align-items: center;
     flex: 1 0 0;
     align-self: center;
     background: var(--principal-white, #FFF);
     padding: 0 var(--spacing-s);
-    }
+}
 
-.skip-button-container{
+.skip-button-container {
     flex-direction: column;
     align-self: center;
     align-items: center;
     padding: 0 var(--spacing-m);
-    
 }

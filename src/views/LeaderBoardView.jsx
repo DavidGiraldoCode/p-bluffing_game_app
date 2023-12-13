@@ -1,4 +1,3 @@
-import AppHeader from "../components/AppHeader";
 import SessionID from "../components/SessionID";
 import SectionTitle from "../components/SectionTitle";
 import SectionSubtitle from "../components/SectionSubtitle";
@@ -44,10 +43,9 @@ export default function LeaderBoardView(props) {
                 score={"5"}
             />
             <Footer />
-
             <SingleAction
-                title={"Useful Description"}
-                description={"More Description"}
+                title={""}
+                description={""}
                 buttonstate={"/* TODO */"}
                 btnLabel={"Continue"}
                 onCustomClick= {x => {goTo(props.routeDestination)}}

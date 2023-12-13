@@ -17,7 +17,7 @@ export default function GamePresenter(props) {
         goTo(`/leader-board:123456`);
     }
 
-    return <div class="game-presenter">
+    return <div class="game-presenter ">
         <AppHeader routeDestination={`/session-menu:${12345}`} />
         <SessionID sessionID={props.model.sessionID}/>
         <LBitem
