@@ -13,7 +13,7 @@ export default
 
   return (
     <div>
-      <AppHeader />
+      <AppHeader routeDestination={`/session-menu:${12345}`} />
       <div class="exit-text">
         <SectionSubtitle title="Leaving the game" />
         <p>If you leave the game session all your progress is going to be lost.</p>

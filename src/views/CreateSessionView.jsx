@@ -10,7 +10,7 @@ export default function CreateSessionView(props) {
     }
     //destinationTitle="Back"
     return <div class="create-session-view">
-        <AppHeader />
+        <AppHeader routeDestination={`/join:${12345}`} />
         <SectionSubtitle title="Creating game session" />
         <div class="input-container">
             <input type="text" placeholder={"Firebase user name"} onChange={null} />

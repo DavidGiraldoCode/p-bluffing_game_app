@@ -18,10 +18,8 @@ export default function GamePresenter(props) {
     }
 
     return <div class="game-presenter">
-        <AppHeader />
-        <SessionID
-            sessionID={props.model.sessionID}
-        />
+        <AppHeader routeDestination={`/session-menu:${12345}`} />
+        <SessionID sessionID={props.model.sessionID}/>
         <LBitem
             rank={"1º"}
             playerName={"Nicolas Gomez"}

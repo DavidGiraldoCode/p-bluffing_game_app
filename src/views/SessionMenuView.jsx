@@ -9,14 +9,11 @@ import { goTo } from "../utilities.js";
 
 export default
   function SessionMenuView(props) {
-
   return (
     <div>
-        // TODO Change AppHeader
-      <AppHeader />
-      <SessionID
-        sessionID={"1234567890"/*props.sessionID*/}
-      />
+
+      <AppHeader routeDestination={`/game:${12345}`} />
+      <SessionID sessionID={"1234567890"/*props.sessionID*/} />
         // TODO Round Order
       <p>INSERT ROUND ORDER HERE</p>
       <PlayerOrderItem
