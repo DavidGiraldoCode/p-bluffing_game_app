@@ -1,13 +1,13 @@
 import "../global-style.css";
 import "./AppHeader.css";
 
-export default
-  function AppHeader(props) {
+export default function AppHeader(props) {
 
   function primaryEventHandlerACB(event) {
     console.log("primaryEventHandlerACB in AppHeader");
     props.primaryOnClick(event);
   }
+
   return (
     <div className="header-container">
       <div className="header">
