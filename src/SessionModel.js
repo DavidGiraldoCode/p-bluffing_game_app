@@ -37,25 +37,14 @@ source: https://github.com/rhysd
 // =============================================================================
 
 class Player {
-    constructor(playerName, isHost) {
+    constructor(playerName, playerID, isHost) {
         // Attributes of the player class. Always initialized when creating a new player.
-        this.playerID = this.createPlayerID(); // TODO change this: playerID = Google auth uid (unique id)
+        this.playerID = playerID; // TODO change this: playerID = Google auth uid (unique id)
         this.playerName = playerName; // TODO change this: playerName = example (email = example@gmail.com)
         this.isHost = isHost;
         this.pileOfCards = []; //Local copy of the API pile. To be able to render
         this.selectedCard = null; // example: 'KD' // TODO if a user re-joins session this will be set to null.
         this.numberOfCards = this.pileOfCards.length;
-    }
-
-    createPlayerID() { // TODO This will not be useful anymore, delete
-        // Creates a random playerID by using the date.now function and converting is to strings. In addition it uses a random number and concatinates it to a string.
-        const timestampPart = Date.now().toString(36);
-        const randomPart = Math.random().toString(36).slice(2);
-    
-        const fullID = timestampPart + randomPart;
-        const urlSafeID = encodeURIComponent(fullID);
-    
-        return urlSafeID;
     }
 
     async getPileOfCards(){
@@ -91,14 +80,21 @@ export let sessionModel = {
 
     // =================================== New multiplayer functions ==========================================
     async joinSession(sessionIdFromUI, newPlayerName){
-        // Recives a sessionID from the UI. Creates a new player and deals 5 card to that player.
-        // Checks if sessionID is valid on firebase. Checks that there are no player on the local machine.
+        // Recives a sessionID from the UI.
+        // Checks if sessionID is valid.
+        // Checks if the user is already in the session. user.uid is in playersFB 
+        // Two cases:
+        // 1. The user is new to the session: OK
+        // User joins session, fetches cards from API, updates firebase.
+        // TODO 2. User is already in the session.
+        // get data from Firebase.
+        // recreate local data using the data from Firebase and the API.
 
         const sessionIsValid = await checkValidSessionID(sessionIdFromUI);
         if(sessionIsValid){
             if(this.localNumberOfPlayers < 1 || this.localNumberOfPlayers === null){
                 this.sessionID = sessionIdFromUI;
-                const player = await this.createPlayer(newPlayerName, false)
+                const player = await this.createPlayer(newPlayerName, this.user.uid, false)
                 await this.dealCards(player.playerID, 5); // always deals five cards
                 playerFBCounter(); // Adds one to the FBCounter
                 this.readyToWriteFB = true;
@@ -115,10 +111,10 @@ export let sessionModel = {
         if(this.localNumberOfPlayers < 1 || this.localNumberOfPlayers === null){
             await this.getDeckID();
             // Call the createPlayer function on the model with the input value
-            const player = await this.createPlayer(newPlayerName, true); // Assuming the player is not the host
+            const player = await this.createPlayer(newPlayerName, this.user.uid, true); // Assuming the player is the host
             this.playerHost = player.playerID;
             // TODO change 5 cards into a attribute in the model that can be changed
-            await this.dealCards(player.playerID, 2); // always deals five cards  //! CHANGE
+            await this.dealCards(player.playerID, 5); // always deals five cards
             await this.nextPlayer(); // sets the host to start the first round
             playerFBCounter(); // Adds one player to the FBCounter
             sessionFBCounter(); // Adds one session to the FBCounter
@@ -134,6 +130,7 @@ export let sessionModel = {
     async getAuthentification(){
 
         function loginACB(user){
+            console.log("user",user)
             sessionModel.user=user;
             console.log(user);
             console.log(user.uid);
@@ -144,6 +141,7 @@ export let sessionModel = {
         // auth = getAuth() imported from main.jsx
         await signInWithPopup(auth, provider);
         onAuthStateChanged(auth, loginACB); // the actuall login
+        console.log("auth",auth);
         if(auth){
             return true;
         } return false;
@@ -191,14 +189,14 @@ export let sessionModel = {
         return data.remaining;
     },
 
-    async createPlayer(playerName, isHost){
+    async createPlayer(playerName, playerID, isHost){
         // Creates an object from the player class and adds to the players array.
         // If no sessionID is active, no player will be added and an error is thrown
         // If there is less than 5 cards in the deck, no player will be added and an error is thrown
         if(this.sessionID !== null){
             const remaining = await this.getRemaningCardsOfDeck();
             if(remaining > 4){
-                const newPlayer = new Player(playerName, isHost);
+                const newPlayer = new Player(playerName, playerID, isHost);
                 this.players.push(newPlayer);   // adds newPlayer to players array
                 this.playerOrder.push(newPlayer.playerID);
                 this.localNumberOfPlayers = this.players.length;

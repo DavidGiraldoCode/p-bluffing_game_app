@@ -6,10 +6,10 @@ import { getAuth, getRedirectResult, GoogleAuthProvider } from "firebase/auth";
 import LoginView from "../views/LoginView.jsx";
 
 export default function LoginPresenter(props) {
-    function onLoginACB(){
-        const authOk = props.model.getAuthentification(); // authOk boolean
+    async function onLoginACB(){
+        const authOk = await props.model.getAuthentification(); // authOk boolean
         if(authOk){
-            goTo("/join")
+            goTo("/test-ui")
         }
         
     }

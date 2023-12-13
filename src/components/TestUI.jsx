@@ -4,7 +4,7 @@ export default function TestUI(props) {
     console.log('Update TestUI!')
 
     const data = {
-        newPlayerName: "",
+        newPlayerName: props.model.user.displayName,
         sessionIdFromUI: "",
         playerIdtoRemove: "",
     };
@@ -16,7 +16,7 @@ export default function TestUI(props) {
         data.newPlayerName = "";
     }
 
-    async function addNewPlayerACB() {
+    async function joinSessionACB() {
         // Call the createPlayer function on the model with the input value. Not host
         await props.model.joinSession(data.sessionIdFromUI, data.newPlayerName); // Assuming the player is not the host
         // Clear the input field after adding the player
@@ -54,7 +54,6 @@ export default function TestUI(props) {
                 <input
                     value={data.newPlayerName}
                     onInput={(e) => (data.newPlayerName = e.target.value)}
-                    placeholder="Enter new player name"
                 />
             </div> 
             <div>
@@ -65,7 +64,7 @@ export default function TestUI(props) {
                 />
             </div>                        
             <div>
-                <button onClick={addNewPlayerACB}>Join Session</button>
+                <button onClick={joinSessionACB}>Join Session</button>
             </div>
             <div>
                 <input
