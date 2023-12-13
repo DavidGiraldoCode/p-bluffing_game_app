@@ -31,6 +31,14 @@ async function sessionFBCounter(){
     set(child(refDBCounter, "sessionCounter"), counter);
 }
 
+async function checkHostFB(sessionID, userID){
+    const playerHostRef = ref(realTimeDB, PATH + "/" + sessionID + "/playerHostFB");
+    const playerHostSnapshot = await get(playerHostRef);
+    const hostID = playerHostSnapshot.val() || {};
+    return (hostID == userID);
+
+}
+
 async function deleteSessionFromFB(model) {
     // Sets readyToWrite to false and then deletes the session on firebase.
     //! BUG: playersFB does not get deleted?
@@ -232,6 +240,6 @@ function setupFirebase(model, watchFunctionACB) {
 }
 
 
-export { modelToPersistance, persistanceToModel, saveToFirebase, readFromFirebase, observeFirebaseModel, checkValidSessionID, checkIfPlayerExists, getPlayerData, playerFBCounter, sessionFBCounter, deleteSessionFromFB};
+export { modelToPersistance, persistanceToModel, saveToFirebase, readFromFirebase, observeFirebaseModel, checkValidSessionID, checkIfPlayerExists, getPlayerData, playerFBCounter, sessionFBCounter, checkHostFB, deleteSessionFromFB};
 
 export default connectToFirebase;

@@ -2,9 +2,9 @@
 // 2023-12-01, Albin Fransson & Martin Sandberg
 
 import {BASE_URL} from "/src/apiConfig.js";
-import { saveToFirebase, checkValidSessionID, checkIfPlayerExists, getPlayerData, playerFBCounter, sessionFBCounter, deleteSessionFromFB } from "./firebaseModel";
+import { saveToFirebase, checkValidSessionID, checkIfPlayerExists, getPlayerData, playerFBCounter, sessionFBCounter, checkHostFB, deleteSessionFromFB } from "./firebaseModel";
 //?---------------------------------------- Google authentication
-import { getAuth, signInWithPopup, signInWithRedirect, onAuthStateChanged, signOut, GoogleAuthProvider } from "firebase/auth";
+import { getAuth, signInWithPopup, signInWithRedirect, onAuthStateChanged, signOut, GoogleAuthProvider, getRedirectResult } from "firebase/auth";
 import {auth, provider } from "./main.jsx";
 //?---------------------------------------- Google authentication
 /*
@@ -29,7 +29,7 @@ source: https://github.com/rhysd
 ! Known issues/bugs:
     - Remove player does not remove the player from playersFB on firebase. Only removes player from playerOrderFB.
     - Host does not have access to the playerIDs, since not fetching playersFB from FB. Therefore host cannot remove other players.
-
+    - If one player joins same session of two devices. There will be syncronization issues.
 */
 
 // =============================================================================
@@ -126,7 +126,7 @@ export let sessionModel = {
             //console.log(playerFromFB);
             // TODO create new LOCAL player
             // TODO fetch isHost
-            const isHost = false; // remove
+            const isHost = await checkHostFB(this.sessionID, this.user.uid);
             const player = await this.reCreatePlayer(newPlayerName, this.user.uid, isHost);
             this.readyToWriteFB = true;
         }else{
@@ -164,15 +164,17 @@ export let sessionModel = {
             console.log(user.displayName);
             console.log(user.photoURL);
         }
+        try{
 
-        // auth = getAuth() imported from main.jsx
-        await signInWithPopup(auth, provider);
-        onAuthStateChanged(auth, loginACB); // the actuall login
-        console.log("auth",auth);
-        if(auth){
+            //SignInWithPopUp version!
+            await signInWithPopup(auth, provider);
+            onAuthStateChanged(auth, loginACB); // the actuall login
+            console.log("auth",auth);
             return true;
-        } return false;
-        // Back to the JoinSessionView (via LoginView)
+        } catch (error){
+            console.log("Authentication failed", error);
+            return false;
+        }
     },
     
     
