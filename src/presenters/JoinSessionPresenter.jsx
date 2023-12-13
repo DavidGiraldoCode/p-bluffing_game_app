@@ -24,12 +24,12 @@ export default function JoinSessesionPresenter(props) {
         //TODO props.
         //const player = await props.model.createPlayer(data.newPlayerName, false);
 
-        goTo("/game");
+        goTo(`/game:${12345}`);
     }
 
     function gotoCreateSessionACB() {
         //TODO props.
-        goTo("/create-session");
+        goTo(`/create-session:${12345}`);
     }
 
     return <div class="m-top-l m-bottom-l">

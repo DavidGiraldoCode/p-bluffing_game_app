@@ -1,0 +1,12 @@
+.create-session-view-container {
+
+}
+.create-session-input-container{
+    padding: 0 var(--spacing-m);
+}
+
+.create-session-singleaction-container{
+    width: 100%;
+    position: absolute;
+    bottom: 0rem;
+}

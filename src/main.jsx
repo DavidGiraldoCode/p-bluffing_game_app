@@ -1,6 +1,6 @@
 import "./firebaseModel.js"; //? Runs the firebase instance
 import connectToFirebase from "./firebaseModel.js";
-import { observeValue } from "./firebaseModel.js";
+//import { observeValue } from "./firebaseModel.js";
 import { createApp, reactive, watch } from "vue"
 import "./style.css";
 import "./global-style.css";
@@ -39,8 +39,9 @@ import { sessionModel } from "./SessionModel.js";
     }],
     numberOfPlayers: 3,
 }*/
+
+const ReactiveModel = reactive(sessionModel);
 //! -----------------------------
-const testReactiveModel = reactive(sessionModel);
 /*
 watch(checkACB,sideEffectACB);
 
@@ -53,10 +54,10 @@ function sideEffectACB(){
     console.log("Side Effect triggered");
 } */
 
-const rootJSX = <AppRoot model={testReactiveModel} />
+const rootJSX = <AppRoot model={ReactiveModel} />
 const app = createApp(rootJSX);
-app.use(makeRouter(testReactiveModel));
+app.use(makeRouter(ReactiveModel));
 app.mount('#app');
 
 //? Connection to Firebase, missing the reactiveModel and reaction
-connectToFirebase(testReactiveModel, watch);
+connectToFirebase(ReactiveModel, watch);
