@@ -39,18 +39,30 @@ source: https://github.com/rhysd
 class Player {
     constructor(playerName, playerID, isHost) {
         // Attributes of the player class. Always initialized when creating a new player.
-        this.playerID = playerID; // TODO change this: playerID = Google auth uid (unique id)
-        this.playerName = playerName; // TODO change this: playerName = example (email = example@gmail.com)
+        this.playerID = playerID;
+        this.playerName = playerName;
         this.isHost = isHost;
-        this.pileOfCards = ['AS']; //Local copy of the API pile. To be able to render
+        this.pileOfCards = []; //Local copy of the API pile. To be able to render
         this.selectedCard = null; // example: 'KD' , If a user re-joins session this will be set to null.
         this.numberOfCards = this.pileOfCards.length;
+        this.startContinuousUpdate(); // Start continuous update when creating a player
+    }
+
+    startContinuousUpdate() {
+        // Set up an interval to update the player's card information every N seconds
+        this.updateInterval = setInterval(async () => {
+            await this.getPileOfCards();
+        }, 5000);
+    }
+
+    stopContinuousUpdate() {
+        // Clear the update interval when the player leaves)
+        clearInterval(this.updateInterval);
     }
 
     async getPileOfCards(){
         // Gets the card codes from the piles of the player (from the API)
         // Example: pileOfCards = ['9H', 'AH', 'JH', '3H', 'AS']
-        console.log("Got into the pile of cards!")
         function listingCardCodeCB(card){
             return card.code;
         }
@@ -58,7 +70,6 @@ class Player {
         const data = await sessionModel.getDataFromAPI(API_URL);
         const id = this.playerID;
         this.pileOfCards = data.piles[id].cards.map(listingCardCodeCB);
-        console.log("The pileOfCards is: ", this.pileOfCards)
         this.numberOfCards = this.pileOfCards.length;
     }
 }
@@ -88,7 +99,7 @@ export let sessionModel = {
         // Two cases:
         // 1. The user is new to the session: OK
         // User joins session, fetches cards from API, updates firebase.
-        // TODO 2. User is already in the session.
+        // 2. User is already in the session.
         // get data from Firebase.
         // recreate local data using the data from Firebase and the API.
 
@@ -97,7 +108,6 @@ export let sessionModel = {
             const playerExistsInFB = await checkIfPlayerExists(sessionIdFromUI, this.user.uid); // Boolean
             if(playerExistsInFB){
                 // The player already exists in the session
-                console.log("player : ", this.user.uid, "exists in : ", sessionIdFromUI);
                 await this.reJoinSession(sessionIdFromUI, newPlayerName)
             }else{
                 // Creates a new player which is added to the session
@@ -121,13 +131,8 @@ export let sessionModel = {
         if(this.localNumberOfPlayers < 1 || this.localNumberOfPlayers === null){
             this.sessionID = sessionIdFromUI;
             console.log("this.sessionID ",  this.sessionID);
-            // TODO delete commments below
-            //const playerFromFB = await getPlayerData(this.sessionID, this.user.uid);
-            //console.log(playerFromFB);
-            // TODO create new LOCAL player
-            // TODO fetch isHost
             const isHost = await checkHostFB(this.sessionID, this.user.uid);
-            const player = await this.reCreatePlayer(newPlayerName, this.user.uid, isHost);
+            await this.reCreatePlayer(newPlayerName, this.user.uid, isHost);
             this.readyToWriteFB = true;
         }else{
             console.error("Only one player per device is supported!");
@@ -157,18 +162,13 @@ export let sessionModel = {
     async getAuthentification(){
 
         function loginACB(user){
-            console.log("user",user)
             sessionModel.user=user;
-            console.log(user);
-            console.log(user.uid);
-            console.log(user.displayName);
-            console.log(user.photoURL);
         }
         try{
 
             //SignInWithPopUp version!
             await signInWithPopup(auth, provider);
-            onAuthStateChanged(auth, loginACB); // the actuall login
+            onAuthStateChanged(auth, loginACB); // the actual login
             console.log("auth",auth);
             return true;
         } catch (error){

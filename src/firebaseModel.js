@@ -2,7 +2,6 @@ import { initializeApp } from "firebase/app";
 import { getDatabase, ref, set, get, onValue, update, child, remove } from "firebase/database";
 
 import firebaseConfig from "./firebaseConfig.js";
-import { sessionModel } from "./SessionModel.js";
 
 const firebaseApp = initializeApp(firebaseConfig);
 const realTimeDB = getDatabase(firebaseApp);
