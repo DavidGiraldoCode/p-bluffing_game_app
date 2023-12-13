@@ -8,8 +8,7 @@ function InstructionsView(props) {
 
   return (
     <div>
-        // TODO Change AppHeader
-        <AppHeader /> 
+        <AppHeader/> 
 
         <div class="title-text">
           <h1>Instructions</h1>

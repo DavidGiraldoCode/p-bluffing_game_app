@@ -8,8 +8,7 @@ function ExitView(props) {
 
   return (
     <div>
-        // TODO Change AppHeader
-        <AppHeader />
+        <AppHeader/> 
         <div class="exit-text">
             <h1>Leaving the game</h1>
             <p>If you leave the game session all your progress is going to be lost.</p>
