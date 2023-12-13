@@ -3,7 +3,10 @@
 
 import {BASE_URL} from "/src/apiConfig.js";
 import { saveToFirebase, checkValidSessionID, playerFBCounter, sessionFBCounter, deleteSessionFromFB } from "./firebaseModel";
-
+//?---------------------------------------- Google authentication
+import { getAuth, signInWithPopup, signInWithRedirect, onAuthStateChanged, signOut, GoogleAuthProvider } from "firebase/auth";
+import {auth, provider } from "./main.jsx";
+//?---------------------------------------- Google authentication
 /*
                 ☆           *
    *            .o             *
@@ -74,6 +77,7 @@ class Player {
 //                                 The model
 // =============================================================================
 export let sessionModel = {
+    user: null,
     sessionID: null, // the deck_id defined by the API
     players: [], // array of player objects
     playerOrder: [], // array of playerIDs stating the plaing order of the game
@@ -127,6 +131,27 @@ export let sessionModel = {
 
 
     // =================================== Local non-multiplayer functions ==========================================
+    async getAuthentification(){
+
+        function loginACB(user){
+            sessionModel.user=user;
+            console.log(user);
+            console.log(user.uid);
+            console.log(user.displayName);
+            console.log(user.photoURL);
+        }
+
+        // auth = getAuth() imported from main.jsx
+        await signInWithPopup(auth, provider);
+        onAuthStateChanged(auth, loginACB); // the actuall login
+        if(auth){
+            return true;
+        } return false;
+        // Back to the JoinSessionView (via LoginView)
+    },
+    
+    
+    
     async getDataFromAPI(API_URL){
         // Fetches data from the API in accordance to the API_URL as parameter. This function handles errors: response not OK, general errors from fetch and network offline specific error.
         try {

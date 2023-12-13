@@ -6,6 +6,7 @@ import GamePresenter from "./presenters/GamePresenter.jsx";
 import ExitPresenter from "./presenters/ExitPresenter.jsx";
 import InstructionsPresenter from "./presenters/InstructionsPresenter.jsx";
 import SessionMenuPresenter from "./presenters/SessionMenuPresenter.jsx";
+import LoginPresenter from "./presenters/LoginPresenter.jsx";
 
 export function makeRouter(model) {
     console.table(model);

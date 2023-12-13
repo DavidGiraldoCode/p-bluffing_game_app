@@ -1,13 +1,23 @@
-import CreateSession from "../components/CreateSession.jsx";
+import SingleAction from "../components/SingleAction.jsx";
+import Footer from "../components/Footer.jsx";
+import SectionTitle from "../components/SectionTitle.jsx";
 
 export default
 function LoginView(props) {
-
+    function loginACB(){
+        console.log("loginACB");
+        props.onLogin();
+    }
   return (
-  <div>
     <div>
-      {<CreateSession clickEvent={loginHandlerACB}/>}
+    <SectionTitle title="King's Bluffer" />
+    <SingleAction
+        title=""
+        description="Login With Google"
+        buttonState={false}
+        btnLabel="Login!"
+        onCustomClick={loginACB} />
+    <Footer />
     </div>
-  </div>
   );
 }
