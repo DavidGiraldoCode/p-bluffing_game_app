@@ -7,6 +7,7 @@ import ExitPresenter from "./presenters/ExitPresenter.jsx";
 import InstructionsPresenter from "./presenters/InstructionsPresenter.jsx";
 import SessionMenuPresenter from "./presenters/SessionMenuPresenter.jsx";
 import CreateSessionPresenter from "./presenters/CreateSessionPrenter.jsx";
+import LeaderBoardPresenter from "./presenters/LeaderBoardPresenter.jsx";
 
 export function makeRouter(model) {
     console.table(model);
@@ -46,7 +47,7 @@ export function makeRouter(model) {
                 component: <ExitPresenter model={model} />
             }, {
                 path: `/leader-board:ID`,
-                component: <div>LeaderBoard</div>
+                component: <LeaderBoardPresenter model={model}/>
             }, {
                 path: `/:notFound`,
                 component: <p>
