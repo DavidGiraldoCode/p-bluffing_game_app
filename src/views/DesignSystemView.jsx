@@ -45,35 +45,35 @@ export default function DesignSystemView(props) {
             onJoinSession={null} />
         <SelectContent /> {/*NEEDS FIX*/}
         <AppHeader /> {/*OSCAR*/} {/*Working on MenuIcon*/}
-        <SessionID 
+        <SessionID
             sessionID={"1234567890"}
-            />  {/*OSCAR*/}
+        />  {/*OSCAR*/}
         <WinnerBanner
             description={"The winner is..."}
             descriptionIcon={""}
             playerName={"Martin"}
             winnerIconLeft={"🃏"}
             winnerIconRight={"🎉"}
-            /> {/*MARTIN*/}
-        <LBitem 
+        /> {/*MARTIN*/}
+        <LBitem
             rank={"1º"}
             playerName={"Nicolas Gomez"}
             cardIcon={"🃏"}
             cardText={"Cards:"}
             score={"5"}
-            /> {/*OSCAR*/}
-        <TurnTag 
-            tag={"Bluff!"}/> {/*MARTIN*/}
+        /> {/*OSCAR*/}
+        <TurnTag
+            tag={"Bluff!"} /> {/*MARTIN*/}
         <PlayerOrderItem
             bluffIndicator={"Bluff!"}
             playerName={"Martin Sandberg"}
-            buttonText={"Skip"}/> {/*MARTIN*/}
+            buttonText={"Skip"} /> {/*MARTIN*/}
         <PlayerOrderItem
             bluffIndicator={"Bluff!"}
             playerName={"Albin Fransson"}
-            buttonText={"Skip"}/> {/*MARTIN*/}
+            buttonText={"Skip"} /> {/*MARTIN*/}
         {<MenuItem
-        title={"How to play?"}/>} {/*ALBIN*/}
+            title={"How to play?"} />} {/*ALBIN*/}
         <Swiper pileOfCards={['AC', '5S', 'KS', '2D', 'KH']} onSelectCardSprite={null} /> {/*NEEDS FIX*/} {/*DAVID*/}
         <DoubleAction
             description={"Hello, this is double action"}

@@ -2,19 +2,28 @@ import "../global-style.css";
 import "./PlayerOrderItem.css";
 import TurnTag from "./TurnTag";
 
-export default function PlayerOrderItem(props){
+export default function PlayerOrderItem(props) {
 
-    function skipEventHandlerACB(event){
+    function skipEventHandlerACB(event) {
         console.log("skipEventHandelerACB in PlayerOrderHandlerACB")
     }
+
+    function showTag() {
+        if (props.isBluffing)
+            return <TurnTag tag={props.bluffIndicator} />
+    }
+
+    function enableSkip() {
+        if (props.isBluffing)
+            return <div class="skip-button-container">
+                <button class="secondary-no-border" onClick={skipEventHandlerACB}>{props.buttonText}</button>
+            </div>
+    }
+
     return <div class="player-order-item-container">
-        <div class="player-order-item-component-layout">
-            <TurnTag tag={props.bluffIndicator}></TurnTag>
-            <p class="player-name-text" >{props.playerName}</p>
-            <div class="skip-button-container">
-                <button class="secondary" onClick={skipEventHandlerACB}>{props.buttonText}</button>
-                </div>
-            
-        </div>
+        {showTag()}
+        <p class="player-name-text" >{props.playerName}</p>
+        {enableSkip()}
     </div>
+
 }
