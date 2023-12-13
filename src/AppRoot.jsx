@@ -3,6 +3,11 @@ import TestUI from "./components/TestUI.jsx";
 import DesignSystemPresenter from "./presenters/DesignSystemPresenter.jsx";
 import JoinSessesionPresenter from "./presenters/JoinSessionPresenter.jsx"
 import GamePresenter from "./presenters/GamePresenter.jsx";
+import ExitPresenter from "./presenters/ExitPresenter.jsx";
+import InstructionsPresenter from "./presenters/InstructionsPresenter.jsx";
+import SessionMenuPresenter from "./presenters/SessionMenuPresenter.jsx";
+import CreateSessionPresenter from "./presenters/CreateSessionPrenter.jsx";
+import LeaderBoardPresenter from "./presenters/LeaderBoardPresenter.jsx";
 
 export function makeRouter(model) {
     console.table(model);
@@ -15,38 +20,39 @@ export function makeRouter(model) {
             },
             {
                 path: "/design-system",
-                component: <DesignSystemPresenter model={model}/>
+                component: <DesignSystemPresenter model={model} />
             }, {
-                path: "/",
-                component: <JoinSessesionPresenter model={model}/>
+                path: "/", //TODO change for new login with google view
+                component: <JoinSessesionPresenter model={model} />
             }
             , {
-                path: "/join",
-                component: <JoinSessesionPresenter model={model}/>
+                path: `/join:ID`,
+                component: <JoinSessesionPresenter model={model} />
             }
             , {
-                path: "/create-session", //TODO Possiblily will be remove
-                component: <h1>Create Session</h1>
+                path: `/create-session:ID`, //TODO Possiblily will be remove
+                component: <CreateSessionPresenter />
             }, {
-                path: "/game", //previos name cards
-                component: <GamePresenter model={model}/>
+                path: `/game:ID`, //previos name cards
+                component: <GamePresenter model={model} />
             }, {
-                path: "/session-menu",
-                component: <div>SessionMenu</div>
+                path: `/session-menu:ID`, //ALBIN
+                component: <SessionMenuPresenter model={model} />
             }, {
-                path: "/instructions",
-                component: <div>Instructions</div>
+                path: `/instructions:ID`,  //ALBIN
+                component: <InstructionsPresenter model={model} />
+
             }, {
-                path: "/exit",
-                component: <div>Exit</div>
+                path: `/exit:ID`, //ALBIN Done
+                component: <ExitPresenter model={model} />
             }, {
-                path: "/leader-board",
-                component: <div>LeaderBoard</div>
+                path: `/leader-board:ID`,
+                component: <LeaderBoardPresenter model={model}/>
             }, {
-                path: "/:notFound",
+                path: `/:notFound`,
                 component: <p>
-                    Sorry not Found, find a session to <a href="#/join">join here</a>
-                    </p>,
+                    Sorry not Found, find a session to <a href="#/join:ID">join here</a>
+                </p>,
             },
         ]
     })
