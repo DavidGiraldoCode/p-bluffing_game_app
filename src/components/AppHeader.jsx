@@ -3,6 +3,7 @@ import "./AppHeader.css";
 
 export default 
 function AppHeader(props) {
+  //{props.destinationTitle || Menu}
   return (
     <div className="header-container">
       <div className="header">
