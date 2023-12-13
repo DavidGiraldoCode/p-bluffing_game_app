@@ -28,7 +28,7 @@ export default function SwiperView(props) {
   }
   return (
     <swiper-container class="swiper" effect="cards" grab-cursor="true" loop="true">
-      {props.cardCodes.map(arrayRendering)}
+      {['AC'].map(arrayRendering)}
     </swiper-container>
   );
 }

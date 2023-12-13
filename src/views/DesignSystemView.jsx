@@ -74,7 +74,7 @@ export default function DesignSystemView(props) {
             buttonText={"Skip"} /> {/*MARTIN*/}
         {<MenuItem
             title={"How to play?"} />} {/*ALBIN*/}
-        <Swiper pileOfCards={['AC', '5S', 'KS', '2D', 'KH']} onSelectCardSprite={null} /> {/*NEEDS FIX*/} {/*DAVID*/}
+        <Swiper pileOfCards={['AC']} onSelectCardSprite={null} /> {/*NEEDS FIX*/} {/*DAVID*/}
         <DoubleAction
             description={"Hello, this is double action"}
             primaryText={"Yes"}

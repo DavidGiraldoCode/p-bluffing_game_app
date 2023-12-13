@@ -11,7 +11,7 @@ export default function Swiper(props) {
         <div>
             <SwiperView
                 onSelected={evenHandlerACB}
-                cardCodes={props.pileOfCards}
+                cardCodes={['AC']}
             />
         </div>
     );

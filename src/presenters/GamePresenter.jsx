@@ -16,6 +16,7 @@ export default function GamePresenter(props) {
         //TODO for now, go to leader board
         goTo(`/leader-board:123456`);
     }
+    //['AC', '5S', 'KS', '2D', 'KH']
 
     return <div class="game-presenter ">
         <AppHeader routeDestination={`/session-menu:${12345}`} />
@@ -27,7 +28,7 @@ export default function GamePresenter(props) {
             cardText={"Cards:"}
             score={"5"}
         />
-        <Swiper pileOfCards={['AC', '5S', 'KS', '2D', 'KH']} onSelectCardSprite={null} /> {/*NEEDS FIX*/} {/*DAVID*/}
+        <Swiper pileOfCards={['AC']} onSelectCardSprite={null} /> {/*NEEDS FIX*/} {/*DAVID*/}
         <SingleAction
             title="Your turn!"
             description="Select a card to bluff your way out"
