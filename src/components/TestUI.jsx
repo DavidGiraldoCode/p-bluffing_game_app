@@ -4,7 +4,7 @@ export default function TestUI(props) {
     console.log('Update TestUI!')
 
     const data = {
-        newPlayerName: props.model.user.displayName,
+        newPlayerName: (props.model.user.displayName),
         sessionIdFromUI: "",
         playerIdtoRemove: "",
     };
@@ -31,7 +31,7 @@ export default function TestUI(props) {
         <div class="test-body">
             <h1>UI Tester</h1>
             <h2>sessionID (deckID in the API): {props.model.sessionID} </h2>
-            <h3>players (type Array): {`${props.model.players}`}</h3>
+            <h3>player (type Array): {`${props.model.player}`}</h3>
             <p>playerOrder (type Array): {JSON.stringify(props.model.playerOrder)}</p>
             <p>localNumberOfPlayer: {props.model.localNumberOfPlayers} </p>
             <p>playerHost (a playerID type String): {props.model.playerHost}</p>
@@ -77,7 +77,7 @@ export default function TestUI(props) {
                 <button onClick={removePlayerACB}>Remove player</button>
             </div>
 
-            <div>{props.model.players.map(playersRendering)}</div>
+            <div>{props.model.player.map(playersRendering)}</div>
         </div>);
 
     function playersRendering(player) {
@@ -97,7 +97,7 @@ export default function TestUI(props) {
                 {player.pileOfCards.length > 0 && (
                     <div>{player.pileOfCards.map(cardsRendering)}</div>
                 )}
-                <Swiper pileOfCards={player.pileOfCards.reduce(concatenateCardCodesCB).split(", ")} onSelectCardSprite={selectCardSpriteHandler}/>
+                {/*<Swiper pileOfCards={player.pileOfCards.reduce(concatenateCardCodesCB).split(", ")} onSelectCardSprite={selectCardSpriteHandler}/>*/}
                 <p>Did you manage to bluff your way out?</p>
                 <div>
                     <button 

@@ -2,7 +2,7 @@
 // 2023-12-01, Albin Fransson & Martin Sandberg
 
 import {BASE_URL} from "/src/apiConfig.js";
-import { saveToFirebase, checkValidSessionID, playerFBCounter, sessionFBCounter, deleteSessionFromFB } from "./firebaseModel";
+import { saveToFirebase, checkValidSessionID, checkIfPlayerExists, getPlayerData, playerFBCounter, sessionFBCounter, deleteSessionFromFB } from "./firebaseModel";
 //?---------------------------------------- Google authentication
 import { getAuth, signInWithPopup, signInWithRedirect, onAuthStateChanged, signOut, GoogleAuthProvider } from "firebase/auth";
 import {auth, provider } from "./main.jsx";
@@ -42,14 +42,15 @@ class Player {
         this.playerID = playerID; // TODO change this: playerID = Google auth uid (unique id)
         this.playerName = playerName; // TODO change this: playerName = example (email = example@gmail.com)
         this.isHost = isHost;
-        this.pileOfCards = []; //Local copy of the API pile. To be able to render
-        this.selectedCard = null; // example: 'KD' // TODO if a user re-joins session this will be set to null.
+        this.pileOfCards = ['AS']; //Local copy of the API pile. To be able to render
+        this.selectedCard = null; // example: 'KD' , If a user re-joins session this will be set to null.
         this.numberOfCards = this.pileOfCards.length;
     }
 
     async getPileOfCards(){
         // Gets the card codes from the piles of the player (from the API)
         // Example: pileOfCards = ['9H', 'AH', 'JH', '3H', 'AS']
+        console.log("Got into the pile of cards!")
         function listingCardCodeCB(card){
             return card.code;
         }
@@ -57,6 +58,7 @@ class Player {
         const data = await sessionModel.getDataFromAPI(API_URL);
         const id = this.playerID;
         this.pileOfCards = data.piles[id].cards.map(listingCardCodeCB);
+        console.log("The pileOfCards is: ", this.pileOfCards)
         this.numberOfCards = this.pileOfCards.length;
     }
 }
@@ -68,7 +70,7 @@ class Player {
 export let sessionModel = {
     user: null,
     sessionID: null, // the deck_id defined by the API
-    players: [], // array of player objects
+    player: [], // array of player objects
     playerOrder: [], // array of playerIDs stating the plaing order of the game
     yourTurn: null, // a playerID
     playerHost: null, //a playerID of the host
@@ -92,19 +94,44 @@ export let sessionModel = {
 
         const sessionIsValid = await checkValidSessionID(sessionIdFromUI);
         if(sessionIsValid){
-            if(this.localNumberOfPlayers < 1 || this.localNumberOfPlayers === null){
-                this.sessionID = sessionIdFromUI;
-                const player = await this.createPlayer(newPlayerName, this.user.uid, false)
-                await this.dealCards(player.playerID, 5); // always deals five cards
-                playerFBCounter(); // Adds one to the FBCounter
-                this.readyToWriteFB = true;
+            const playerExistsInFB = await checkIfPlayerExists(sessionIdFromUI, this.user.uid); // Boolean
+            if(playerExistsInFB){
+                // The player already exists in the session
+                console.log("player : ", this.user.uid, "exists in : ", sessionIdFromUI);
+                await this.reJoinSession(sessionIdFromUI, newPlayerName)
             }else{
-                //If one player already has joined on one device.
-                console.error("Only one player per device is supported!");
+                // Creates a new player which is added to the session
+                if(this.localNumberOfPlayers < 1 || this.localNumberOfPlayers === null){
+                    this.sessionID = sessionIdFromUI;
+                    const player = await this.createPlayer(newPlayerName, this.user.uid, false)
+                    await this.dealCards(player.playerID, 5); // always deals five cards
+                    playerFBCounter(); // Adds one to the FBCounter
+                    this.readyToWriteFB = true;
+                }else{
+                    //If one player already has joined on one device.
+                    console.error("Only one player per device is supported!");
+                }                
             }
         }else{
             console.error("SessionID is not valid!");
         }
+    },
+
+    async reJoinSession(sessionIdFromUI, newPlayerName){
+        if(this.localNumberOfPlayers < 1 || this.localNumberOfPlayers === null){
+            this.sessionID = sessionIdFromUI;
+            console.log("this.sessionID ",  this.sessionID);
+            // TODO delete commments below
+            //const playerFromFB = await getPlayerData(this.sessionID, this.user.uid);
+            //console.log(playerFromFB);
+            // TODO create new LOCAL player
+            // TODO fetch isHost
+            const isHost = false; // remove
+            const player = await this.reCreatePlayer(newPlayerName, this.user.uid, isHost);
+            this.readyToWriteFB = true;
+        }else{
+            console.error("Only one player per device is supported!");
+        } 
     },
 
     async createHost(newPlayerName){
@@ -190,22 +217,33 @@ export let sessionModel = {
     },
 
     async createPlayer(playerName, playerID, isHost){
-        // Creates an object from the player class and adds to the players array.
+        // Creates an object from the player class and adds to the player array.
         // If no sessionID is active, no player will be added and an error is thrown
         // If there is less than 5 cards in the deck, no player will be added and an error is thrown
         if(this.sessionID !== null){
             const remaining = await this.getRemaningCardsOfDeck();
             if(remaining > 4){
                 const newPlayer = new Player(playerName, playerID, isHost);
-                this.players.push(newPlayer);   // adds newPlayer to players array
+                this.player.push(newPlayer);   // adds newPlayer to players array
                 this.playerOrder.push(newPlayer.playerID);
-                this.localNumberOfPlayers = this.players.length;
+                this.localNumberOfPlayers = this.player.length;
             return newPlayer;
             } else {
                 throw Error('Not enough cards in the deck to add a new player.');
             }
         }else{
             throw Error('Cannot create a non-host player without a SessionID');
+        }
+    },
+
+    async reCreatePlayer(playerName, playerID, isHost){
+        // Recreated the local player if a player joins a session that he has already joined.
+        if(this.sessionID !== null){
+            const player = new Player(playerName, playerID, isHost);
+            await player.getPileOfCards();
+            this.player.push(player);
+            this.localNumberOfPlayers = this.player.length;
+            return player;
         }
     },
 
@@ -218,7 +256,7 @@ export let sessionModel = {
         const queryString = arrayOfCardCodes.join(',');
         const API_URL = `${BASE_URL}/deck/${this.sessionID}/pile/${playerID}/add/?cards=${queryString}`;
         const data = await this.getDataFromAPI(API_URL);
-        const player = this.players.find(p => p.playerID == playerID);
+        const player = this.player.find(p => p.playerID == playerID);
         await player.getPileOfCards();
         this.gameOverCheck(playerID); //Might be a bit redundant to call gameOverCheck from here. You cannot get out of cards when dealing?
 
@@ -284,14 +322,14 @@ export let sessionModel = {
         // The selectedCard as argument will be passed from the player class attribute selectedCard.
         const API_URL = `${BASE_URL}/deck/${this.sessionID}/pile/${playerID}/draw/?cards=${selectedCard}`;
         const data = await this.getDataFromAPI(API_URL);
-        const player = this.players.find(p => p.playerID == playerID);
+        const player = this.player.find(p => p.playerID == playerID);
         await player.getPileOfCards();  //Updates the local pile of cards.
         this.gameOverCheck(playerID);
     },
 
     gameOverCheck(playerID){
         // Checks if the player is out of cards. If someone is out of cards, change the model variable gameOver to True
-        const player = this.players.find(p => p.playerID == playerID);
+        const player = this.player.find(p => p.playerID == playerID);
         if(player.pileOfCards.length == 0){
             this.gameOver = true;
             this.winner = playerID;

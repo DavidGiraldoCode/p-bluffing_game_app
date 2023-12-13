@@ -37,7 +37,7 @@ async function deleteSessionFromFB(model) {
     model.readyToWriteFB = false;
     // Reference to the session in the database
     console.log("PATH : ", PATH + model.sessionID);
-    const sessionRef = await ref(realTimeDB, PATH + "/" + model.sessionID);
+    const sessionRef = ref(realTimeDB, PATH + "/" + model.sessionID);
 
     // Remove the session from the database
     remove(sessionRef);
@@ -48,7 +48,7 @@ async function deleteSessionFromFB(model) {
 
 
 async function checkValidSessionID(sessionID){
-    //Checks wether the sessionID is already created on firebase and valid.
+    //Checks wether the sessionID is already created on firebase and valid
     //Returns true if sessionID is valid on firebase
 
     const sessionsSnapshot = await get(refDB);
@@ -56,6 +56,26 @@ async function checkValidSessionID(sessionID){
 
     const sessionIDarray = Object.keys(currentSessions);
     return sessionIDarray.includes(sessionID);
+}
+
+async function checkIfPlayerExists(sessionID, userID){
+    // Assuming the sessionID exists in firebase:
+    // Checks wether a player exists in a session or not
+    // Returns true if player exists in the session
+    const playersRef = ref(realTimeDB, PATH + "/" + sessionID + "/playersFB");
+    const playersSnapshot = await get(playersRef);
+    const currentPlayers = playersSnapshot.val() || {};
+    const playersArray = Object.keys(currentPlayers);
+    return playersArray.includes(userID);
+
+}
+
+async function getPlayerData(sessionID, userID){
+    const playerRef = ref(realTimeDB, PATH + "/" + sessionID + "/playersFB" + "/"+ userID);
+    const playerSnapshot = await get(playerRef);
+    const player = playerSnapshot.val() || {};
+    return player;
+
 }
 
 function modelToPersistance(model) {
@@ -105,7 +125,7 @@ async function savePlayersFB(model){
     const currentPlayers = playersSnapshot.val() || {};
 
     // Add new players from model.players to the current playersFB array
-    model.players.forEach(player => {
+    model.player.forEach(player => {
         currentPlayers[player.playerID] = {
             playerNameFB: player.playerName,
             numberOfCardsFB: player.numberOfCards,
@@ -193,9 +213,9 @@ function setupFirebase(model, watchFunctionACB) {
     watchFunctionACB(modelChangeCheckACB, updateFirebaseACB);
 
     function modelChangeCheckACB() {
-        // players: model.players.map(player => ({playerID: player.playerID, ....}))
+        // players: model.player.map(player => ({playerID: player.playerID, ....}))
         return [
-            model.players.map(player => ({ playerID: player.playerID, numberOfCards: player.numberOfCards })),
+            model.player.map(player => ({ playerID: player.playerID, numberOfCards: player.numberOfCards })),
             model.playerOrder,
             model.yourTurn,
             model.gameOver,
@@ -212,6 +232,6 @@ function setupFirebase(model, watchFunctionACB) {
 }
 
 
-export { modelToPersistance, persistanceToModel, saveToFirebase, readFromFirebase, observeFirebaseModel, checkValidSessionID, playerFBCounter, sessionFBCounter, deleteSessionFromFB};
+export { modelToPersistance, persistanceToModel, saveToFirebase, readFromFirebase, observeFirebaseModel, checkValidSessionID, checkIfPlayerExists, getPlayerData, playerFBCounter, sessionFBCounter, deleteSessionFromFB};
 
 export default connectToFirebase;
