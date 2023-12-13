@@ -6,6 +6,7 @@ import GamePresenter from "./presenters/GamePresenter.jsx";
 import ExitPresenter from "./presenters/ExitPresenter.jsx";
 import InstructionsPresenter from "./presenters/InstructionsPresenter.jsx";
 import SessionMenuPresenter from "./presenters/SessionMenuPresenter.jsx";
+import LeaderBoardPresenter from "./presenters/LeaderBoardPresenter.jsx";
 
 export function makeRouter(model) {
     console.table(model);
@@ -44,8 +45,8 @@ export function makeRouter(model) {
                 path: "/exit", //ALBIN Done
                 component: <ExitPresenter model={model}/>
             }, {
-                path: "/leader-board",
-                component: <div>LeaderBoard</div>
+                path: "/leader-board", //Oscar Done for TEST
+                component: <LeaderBoardPresenter model={model}/>
             }, {
                 path: "/:notFound",
                 component: <p>
