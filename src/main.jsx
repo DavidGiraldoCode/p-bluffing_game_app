@@ -10,65 +10,26 @@ import { makeRouter } from "./AppRoot.jsx";
 import { sessionModel } from "./SessionModel.js";
 
 //?---------------------------------------- Google authentication
-import { getAuth, signInWithPopup, signInWithRedirect, onAuthStateChanged, signOut, GoogleAuthProvider } from "firebase/auth";
-//?---------------------------------------- Google authentication
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
-//?---------------------------------------- thirparty component
-//import { register } from 'swiper/element/bundle';
-//register(); //thirparty component
-//?---------------------------------------- thirparty component
-
-//* ----------------------------- Updates
-// main.js changed to main.jsx to use <App> syntaxis
-//* ----------------------------- 
-
-//! ----------------------------- Test
-/*const miniModel = { //! You can remove this once you connect the real model
-    sessionID: "test1",
-    players: [{
-        playerID: 'someID1',
-        isHost: true,
-        pileOfCards: ['KH', '8C', '6H'],
-        selectedCard: null,
-    }, {
-        playerID: 'someID2',
-        isHost: false,
-        pileOfCards: ['KH', '8C', '6H'],
-        selectedCard: null,
-    }, {
-        playerID: 'someID3',
-        isHost: false,
-        pileOfCards: ['KH', '8C', '6H'],
-        selectedCard: null,
-    }],
-    numberOfPlayers: 3,
-}*/
-
-const ReactiveModel = reactive(sessionModel);
-//! -----------------------------
-/*
-watch(checkACB,sideEffectACB);
-
-function checkACB(){ //? invoke after every reactive object changes
-    console.log("watch");
-    return [testReactiveModel.numberOfPlayers];
-}
-
-function sideEffectACB(){
-    console.log("Side Effect triggered");
-} */
-
-const rootJSX = <AppRoot model={ReactiveModel} />
-const app = createApp(rootJSX);
-app.use(makeRouter(ReactiveModel));
-app.mount('#app');
-//?---------------------------------------- Google authentication
-
+// Initialize Firebase
 export const auth = getAuth();
 export const provider = new GoogleAuthProvider();
 
+const ReactiveModel = reactive(sessionModel);
 
-//?---------------------------------------- Google authentication
-
-//? Connection to Firebase, missing the reactiveModel and reaction
+// Connection to Firebase, missing the reactiveModel and reaction
 connectToFirebase(ReactiveModel, watch);
+
+// Check authentication status before creating the app
+async function initializeApp() {
+  await ReactiveModel.checkAuthStatus();
+
+  const rootJSX = <AppRoot model={ReactiveModel} />;
+  const app = createApp(rootJSX);
+  app.use(makeRouter(ReactiveModel));
+  app.mount("#app");
+}
+
+// Initialize the app
+initializeApp();

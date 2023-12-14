@@ -3,4 +3,17 @@ function goTo(PATH) {
     window.location.hash = PATH;
 }
 
-export { goTo };
+async function propsWithLoading(propsFunction, props){
+    try {
+        props.model.isLoading = true;
+        await propsFunction
+        props.model.isLoading = false;
+        return true;
+       } catch (error) {
+        // Handle the error as needed
+        console.log("An error occurred:", error);
+        return false;
+      }
+}
+
+export { goTo, propsWithLoading };
