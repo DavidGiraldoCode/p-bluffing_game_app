@@ -9,6 +9,10 @@ import AppRoot from "./AppRoot.jsx";
 import { makeRouter } from "./AppRoot.jsx";
 import { sessionModel } from "./SessionModel.js";
 
+//?---------------------------------------- Google authentication
+import { getAuth, signInWithPopup, signInWithRedirect, onAuthStateChanged, signOut, GoogleAuthProvider } from "firebase/auth";
+//?---------------------------------------- Google authentication
+
 //?---------------------------------------- thirparty component
 //import { register } from 'swiper/element/bundle';
 //register(); //thirparty component
@@ -58,6 +62,13 @@ const rootJSX = <AppRoot model={ReactiveModel} />
 const app = createApp(rootJSX);
 app.use(makeRouter(ReactiveModel));
 app.mount('#app');
+//?---------------------------------------- Google authentication
+
+export const auth = getAuth();
+export const provider = new GoogleAuthProvider();
+
+
+//?---------------------------------------- Google authentication
 
 //? Connection to Firebase, missing the reactiveModel and reaction
 connectToFirebase(ReactiveModel, watch);

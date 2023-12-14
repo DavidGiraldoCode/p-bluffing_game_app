@@ -6,6 +6,7 @@ import GamePresenter from "./presenters/GamePresenter.jsx";
 import ExitPresenter from "./presenters/ExitPresenter.jsx";
 import InstructionsPresenter from "./presenters/InstructionsPresenter.jsx";
 import SessionMenuPresenter from "./presenters/SessionMenuPresenter.jsx";
+import LoginPresenter from "./presenters/LoginPresenter.jsx";
 import CreateSessionPresenter from "./presenters/CreateSessionPrenter.jsx";
 import LeaderBoardPresenter from "./presenters/LeaderBoardPresenter.jsx";
 
@@ -14,6 +15,10 @@ export function makeRouter(model) {
     return createRouter({
         history: createWebHashHistory(),
         routes: [
+            {
+                path: "/login",
+                component: <LoginPresenter model={model} />
+            },
             {
                 path: "/test-ui",
                 component: <TestUI model={model} />

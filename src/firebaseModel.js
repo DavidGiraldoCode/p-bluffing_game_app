@@ -2,12 +2,18 @@ import { initializeApp } from "firebase/app";
 import { getDatabase, ref, set, get, onValue, update, child, remove } from "firebase/database";
 
 import firebaseConfig from "./firebaseConfig.js";
-import { sessionModel } from "./SessionModel.js";
+
+// =================================== Firebase Initialization  ==========================================
 
 const firebaseApp = initializeApp(firebaseConfig);
 const realTimeDB = getDatabase(firebaseApp);
+
+// =================================== Firebase Paths ==========================================
+
 const PATH = 'sessions/';
 const refDB = ref(realTimeDB, PATH);
+
+// =================================== Statistics Functions ==========================================
 
 async function playerFBCounter(){
     // Add one number to the firebase player counter. This does not have any session functionality. Only purpose for statistics.
@@ -31,13 +37,23 @@ async function sessionFBCounter(){
     set(child(refDBCounter, "sessionCounter"), counter);
 }
 
+// =================================== Session Validation Functions ==========================================
+
+async function checkHostFB(sessionID, userID){
+    const playerHostRef = ref(realTimeDB, PATH + "/" + sessionID + "/playerHostFB");
+    const playerHostSnapshot = await get(playerHostRef);
+    const hostID = playerHostSnapshot.val() || {};
+    return (hostID == userID);
+
+}
+
 async function deleteSessionFromFB(model) {
     // Sets readyToWrite to false and then deletes the session on firebase.
     //! BUG: playersFB does not get deleted?
     model.readyToWriteFB = false;
     // Reference to the session in the database
     console.log("PATH : ", PATH + model.sessionID);
-    const sessionRef = await ref(realTimeDB, PATH + "/" + model.sessionID);
+    const sessionRef = ref(realTimeDB, PATH + "/" + model.sessionID);
 
     // Remove the session from the database
     remove(sessionRef);
@@ -46,9 +62,8 @@ async function deleteSessionFromFB(model) {
     console.log(`Session with ID ${model.sessionID} deleted from Firebase.`);
 }
 
-
 async function checkValidSessionID(sessionID){
-    //Checks wether the sessionID is already created on firebase and valid.
+    //Checks wether the sessionID is already created on firebase and valid
     //Returns true if sessionID is valid on firebase
 
     const sessionsSnapshot = await get(refDB);
@@ -57,6 +72,30 @@ async function checkValidSessionID(sessionID){
     const sessionIDarray = Object.keys(currentSessions);
     return sessionIDarray.includes(sessionID);
 }
+
+async function checkIfPlayerExists(sessionID, userID){
+    // Assuming the sessionID exists in firebase:
+    // Checks wether a player exists in a session or not
+    // Returns true if player exists in the session
+    const playersRef = ref(realTimeDB, PATH + "/" + sessionID + "/playersFB");
+    const playersSnapshot = await get(playersRef);
+    const currentPlayers = playersSnapshot.val() || {};
+    const playersArray = Object.keys(currentPlayers);
+    return playersArray.includes(userID);
+
+}
+
+// =================================== Player Data Functions ==========================================
+
+async function getPlayerData(sessionID, userID){
+    const playerRef = ref(realTimeDB, PATH + "/" + sessionID + "/playersFB" + "/"+ userID);
+    const playerSnapshot = await get(playerRef);
+    const player = playerSnapshot.val() || {};
+    return player;
+
+}
+
+// =================================== Model Conversion Functions ==========================================
 
 function modelToPersistance(model) {
     // Converts the model into the data that will be stored in Firebase. Returns this data.
@@ -83,10 +122,11 @@ function persistanceToModel(firebaseData, model) {
         if (firebaseData.playersFB) {
             // Build leaderboard dictionary
             const leaderboard = Object.values(firebaseData.playersFB).reduce((acc, playerData) => {
+                const playerID = playerData.playerIdFB;
                 const playerName = playerData.playerNameFB;
                 const numberOfCards = playerData.numberOfCardsFB;
 
-                acc[playerName] = numberOfCards;
+                acc[playerID] = {playerName, numberOfCards};
 
                 return acc;
             }, {});
@@ -95,6 +135,8 @@ function persistanceToModel(firebaseData, model) {
         }
     }
 }
+
+// =================================== Firebase Interaction Functions ==========================================
 
 async function savePlayersFB(model){
     // Updates the playersFB on firebase.
@@ -105,7 +147,7 @@ async function savePlayersFB(model){
     const currentPlayers = playersSnapshot.val() || {};
 
     // Add new players from model.players to the current playersFB array
-    model.players.forEach(player => {
+    model.player.forEach(player => {
         currentPlayers[player.playerID] = {
             playerNameFB: player.playerName,
             numberOfCardsFB: player.numberOfCards,
@@ -193,9 +235,9 @@ function setupFirebase(model, watchFunctionACB) {
     watchFunctionACB(modelChangeCheckACB, updateFirebaseACB);
 
     function modelChangeCheckACB() {
-        // players: model.players.map(player => ({playerID: player.playerID, ....}))
+        // players: model.player.map(player => ({playerID: player.playerID, ....}))
         return [
-            model.players.map(player => ({ playerID: player.playerID, numberOfCards: player.numberOfCards })),
+            model.player.map(player => ({ playerID: player.playerID, numberOfCards: player.numberOfCards })),
             model.playerOrder,
             model.yourTurn,
             model.gameOver,
@@ -212,6 +254,6 @@ function setupFirebase(model, watchFunctionACB) {
 }
 
 
-export { modelToPersistance, persistanceToModel, saveToFirebase, readFromFirebase, observeFirebaseModel, checkValidSessionID, playerFBCounter, sessionFBCounter, deleteSessionFromFB};
+export { modelToPersistance, persistanceToModel, saveToFirebase, readFromFirebase, observeFirebaseModel, checkValidSessionID, checkIfPlayerExists, getPlayerData, playerFBCounter, sessionFBCounter, checkHostFB, deleteSessionFromFB};
 
 export default connectToFirebase;
