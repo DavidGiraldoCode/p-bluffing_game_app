@@ -77,6 +77,7 @@ class Player {
 // =============================================================================
 //                                 The model
 // =============================================================================
+
 export let sessionModel = {
     user: null,
     sessionID: null, // the deck_id defined by the API
@@ -90,7 +91,7 @@ export let sessionModel = {
     leaderboard: {},
     readyToWriteFB: false,
 
-    // =================================== New multiplayer functions ==========================================
+    // =================================== Session Management ==========================================
     async joinSession(sessionIdFromUI, newPlayerName){
         // Recives a sessionID from the UI.
         // Checks if sessionID is valid.
@@ -157,79 +158,67 @@ export let sessionModel = {
     },
 
 
-    // =================================== Local non-multiplayer functions ==========================================
-    async getAuthentification(){
 
-        function loginACB(user){
-            sessionModel.user=user;
-        }
-        try{
+    removePlayer(playerIdToRemove){
+        // Removes player from players array and leaderBoard. The playerIDToRemove of the parameter is the player that will be removed.
+        // If the playerID to be removed also is yourTurn: nextPlayer() is called.
+        this.playerOrder = this.playerOrder.filter(playerID => playerID !== playerIdToRemove);
 
-            //SignInWithPopUp version!
-            await signInWithPopup(auth, provider);
-            onAuthStateChanged(auth, loginACB); // the actual login
-            console.log("auth",auth);
-            return true;
-        } catch (error){
-            console.log("Authentication failed", error);
-            return false;
+        if(playerIdToRemove == this.yourTurn){
+            this.nextPlayer();
         }
     },
 
-    async signOut() {
-        try {
-            this.readyToWriteFB = false
-            // Clear locally stored user data
-            this.user = null
-            // Sign out the user
-            await signOut(auth);
-    
-            console.log("User signed out successfully");
-            return true;
-        } catch (error) {
-            console.error("Sign out failed", error);
-            return false;
-        }
-    },
-    
-    async getDataFromAPI(API_URL){
-        // Fetches data from the API in accordance to the API_URL as parameter. This function handles errors: response not OK, general errors from fetch and network offline specific error.
-        try {
-            const response = await fetch(API_URL);
 
-            if (!response.ok) {
-                throw new Error(`Failed to fetch deck. Status: ${response.status}`);
+
+    // =================================== Game flow ==========================================
+    async nextPlayer(){
+        // This function will be called while creating a session to initilize yourTurn
+        // Assigns the next player in the playerOrder
+        // If its the last player of a round the playerOrder will be shuffled and yourTurn = playerOrder[0]
+        if(this.yourTurn === null){
+            this.yourTurn = this.playerOrder[0];
+        } else{
+            const index = this.playerOrder.indexOf(this.yourTurn);
+            const nextIndex = ((index + 1) % this.playerOrder.length);
+            if (nextIndex !== 0) {
+                console.log("Wihoo, got into normal nextPlayer");
+                console.log("nextIndex : ", nextIndex);
+                console.log("this.playerOrder[nextIndex] : ", this.playerOrder[nextIndex]);
+        
+                this.yourTurn = this.playerOrder[nextIndex];
+                await saveToFirebase(this);  // Await the save operation
+            } else {
+                this.shufflePlayers();
+                this.yourTurn = this.playerOrder[0];
+                await saveToFirebase(this);  // Await the save operation
             }
+        }
+    },
 
-            const data = await response.json();
-            return data;
-        }catch(error){
-            console.error('Error fetching deck:', error.message);
-
-            if (!navigator.onLine) {
-                throw new Error('Network error: The device is offline.');
+    shufflePlayers(){
+        // Shuffles the playerOrder array using the Fisher-Yates Shuffle Algorithm.
+        function shuffleArray(array) {
+            // Fisher-Yates (Knuth) Shuffle Algorithm. Not our implementation.
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
             }
-            throw error;
         }
-    },
- 
-    async getDeckID(){
-        //Gets a new deck from the API and sets the sessionID from the model. Data is the whole respons.
-        if(this.sessionID == null){
-            const API_URL = `${BASE_URL}/deck/new/shuffle/`;
-            const data = await this.getDataFromAPI(API_URL);
-            const deck_id = data.deck_id;
-            this.sessionID = deck_id;
-        }else{
-            throw Error("Cannot create a new session, since one is already active!")
-        }
+        shuffleArray(this.playerOrder);
     },
 
-    async getRemaningCardsOfDeck(){
-        const API_URL = `${BASE_URL}/deck/${this.sessionID}/`;
-        const data = await this.getDataFromAPI(API_URL);
-        return data.remaining;
+    gameOverCheck(playerID){
+        // Checks if the player is out of cards. If someone is out of cards, change the model variable gameOver to True
+        const player = this.player.find(p => p.playerID == playerID);
+        if(player.pileOfCards.length == 0){
+            this.gameOver = true;
+            this.winner = playerID;
+            //deleteSessionFromFB(this); //! Temporarely removed.
+        };
     },
+
+    // =================================== Player management ==========================================
 
     async createPlayer(playerName, playerID, isHost){
         // Creates an object from the player class and adds to the player array.
@@ -285,52 +274,6 @@ export let sessionModel = {
         }
     },
 
-    async nextPlayer(){
-        // This function will be called while creating a session to initilize yourTurn
-        // Assigns the next player in the playerOrder
-        // If its the last player of a round the playerOrder will be shuffled and yourTurn = playerOrder[0]
-        if(this.yourTurn === null){
-            this.yourTurn = this.playerOrder[0];
-        } else{
-            const index = this.playerOrder.indexOf(this.yourTurn);
-            const nextIndex = ((index + 1) % this.playerOrder.length);
-            if (nextIndex !== 0) {
-                console.log("Wihoo, got into normal nextPlayer");
-                console.log("nextIndex : ", nextIndex);
-                console.log("this.playerOrder[nextIndex] : ", this.playerOrder[nextIndex]);
-        
-                this.yourTurn = this.playerOrder[nextIndex];
-                await saveToFirebase(this);  // Await the save operation
-            } else {
-                this.shufflePlayers();
-                this.yourTurn = this.playerOrder[0];
-                await saveToFirebase(this);  // Await the save operation
-            }
-        }
-    },
-
-    shufflePlayers(){
-        // Shuffles the playerOrder array using the Fisher-Yates Shuffle Algorithm.
-        function shuffleArray(array) {
-            // Fisher-Yates (Knuth) Shuffle Algorithm. Not our implementation.
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-        }
-        shuffleArray(this.playerOrder);
-    },
-
-    removePlayer(playerIdToRemove){
-        // Removes player from players array and leaderBoard. The playerIDToRemove of the parameter is the player that will be removed.
-        // If the playerID to be removed also is yourTurn: nextPlayer() is called.
-        this.playerOrder = this.playerOrder.filter(playerID => playerID !== playerIdToRemove);
-
-        if(playerIdToRemove == this.yourTurn){
-            this.nextPlayer();
-        }
-    },
-
     async removeCard(playerID, selectedCard){
         // Removes a card from the players pile in the API. When card is removed. When cards is removed, calls gameOverCheck to check if the player is out of cards.
         // The selectedCard as argument will be passed from the player class attribute selectedCard.
@@ -341,13 +284,79 @@ export let sessionModel = {
         this.gameOverCheck(playerID);
     },
 
-    gameOverCheck(playerID){
-        // Checks if the player is out of cards. If someone is out of cards, change the model variable gameOver to True
-        const player = this.player.find(p => p.playerID == playerID);
-        if(player.pileOfCards.length == 0){
-            this.gameOver = true;
-            this.winner = playerID;
-            //deleteSessionFromFB(this); //! Temporarely removed.
-        };
+    // =================================== Authentification ==========================================
+    async getAuthentification(){
+
+        function loginACB(user){
+            sessionModel.user=user;
+        }
+        try{
+
+            //SignInWithPopUp version!
+            await signInWithPopup(auth, provider);
+            onAuthStateChanged(auth, loginACB); // the actual login
+            console.log("auth",auth);
+            return true;
+        } catch (error){
+            console.log("Authentication failed", error);
+            return false;
+        }
+    },
+
+    async signOut() {
+        try {
+            this.readyToWriteFB = false
+            // Clear locally stored user data
+            this.user = null
+            // Sign out the user
+            await signOut(auth);
+    
+            console.log("User signed out successfully");
+            return true;
+        } catch (error) {
+            console.error("Sign out failed", error);
+            return false;
+        }
+    },
+    
+    // =================================== API Interaction ==========================================
+
+    async getDataFromAPI(API_URL){
+        // Fetches data from the API in accordance to the API_URL as parameter. This function handles errors: response not OK, general errors from fetch and network offline specific error.
+        try {
+            const response = await fetch(API_URL);
+
+            if (!response.ok) {
+                throw new Error(`Failed to fetch deck. Status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            return data;
+        }catch(error){
+            console.error('Error fetching deck:', error.message);
+
+            if (!navigator.onLine) {
+                throw new Error('Network error: The device is offline.');
+            }
+            throw error;
+        }
+    },
+ 
+    async getDeckID(){
+        //Gets a new deck from the API and sets the sessionID from the model. Data is the whole respons.
+        if(this.sessionID == null){
+            const API_URL = `${BASE_URL}/deck/new/shuffle/`;
+            const data = await this.getDataFromAPI(API_URL);
+            const deck_id = data.deck_id;
+            this.sessionID = deck_id;
+        }else{
+            throw Error("Cannot create a new session, since one is already active!")
+        }
+    },
+
+    async getRemaningCardsOfDeck(){
+        const API_URL = `${BASE_URL}/deck/${this.sessionID}/`;
+        const data = await this.getDataFromAPI(API_URL);
+        return data.remaining;
     },
 }

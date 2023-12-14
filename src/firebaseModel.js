@@ -3,10 +3,17 @@ import { getDatabase, ref, set, get, onValue, update, child, remove } from "fire
 
 import firebaseConfig from "./firebaseConfig.js";
 
+// =================================== Firebase Initialization  ==========================================
+
 const firebaseApp = initializeApp(firebaseConfig);
 const realTimeDB = getDatabase(firebaseApp);
+
+// =================================== Firebase Paths ==========================================
+
 const PATH = 'sessions/';
 const refDB = ref(realTimeDB, PATH);
+
+// =================================== Statistics Functions ==========================================
 
 async function playerFBCounter(){
     // Add one number to the firebase player counter. This does not have any session functionality. Only purpose for statistics.
@@ -29,6 +36,8 @@ async function sessionFBCounter(){
     // Save the updated playersFB array back to Firebase
     set(child(refDBCounter, "sessionCounter"), counter);
 }
+
+// =================================== Session Validation Functions ==========================================
 
 async function checkHostFB(sessionID, userID){
     const playerHostRef = ref(realTimeDB, PATH + "/" + sessionID + "/playerHostFB");
@@ -53,7 +62,6 @@ async function deleteSessionFromFB(model) {
     console.log(`Session with ID ${model.sessionID} deleted from Firebase.`);
 }
 
-
 async function checkValidSessionID(sessionID){
     //Checks wether the sessionID is already created on firebase and valid
     //Returns true if sessionID is valid on firebase
@@ -77,6 +85,8 @@ async function checkIfPlayerExists(sessionID, userID){
 
 }
 
+// =================================== Player Data Functions ==========================================
+
 async function getPlayerData(sessionID, userID){
     const playerRef = ref(realTimeDB, PATH + "/" + sessionID + "/playersFB" + "/"+ userID);
     const playerSnapshot = await get(playerRef);
@@ -84,6 +94,8 @@ async function getPlayerData(sessionID, userID){
     return player;
 
 }
+
+// =================================== Model Conversion Functions ==========================================
 
 function modelToPersistance(model) {
     // Converts the model into the data that will be stored in Firebase. Returns this data.
@@ -123,6 +135,8 @@ function persistanceToModel(firebaseData, model) {
         }
     }
 }
+
+// =================================== Firebase Interaction Functions ==========================================
 
 async function savePlayersFB(model){
     // Updates the playersFB on firebase.
