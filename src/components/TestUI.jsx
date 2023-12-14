@@ -1,5 +1,7 @@
 //import Swiper from "./Swiper.jsx";
+
 import { goTo } from "../utilities.js";
+import "../global-style.css";
 
 export default function TestUI(props) {
     console.log('Update TestUI!')
@@ -37,7 +39,7 @@ export default function TestUI(props) {
     }
 
     return (
-        <div class="test-body">
+        <div class="test-body" style="width: 400px">
             <h1>UI Tester</h1>
             <h2>sessionID (deckID in the API): {props.model.sessionID} </h2>
             <h3>player (type Array): {`${props.model.player}`}</h3>
@@ -51,16 +53,18 @@ export default function TestUI(props) {
 
             <div>
                 <input
+                    type="text"
                     value={data.newPlayerName}
                     onInput={(e) => (data.newPlayerName = e.target.value)}
                     placeholder="Enter host name"
                 />
             </div>
-            <div>
+            <div class="m-bottom-m">
                 <button class="test-button" onClick={createSessionACB}>Create Session</button>
             </div>
             <div>
                 <input
+                    type="text"
                     value={data.newPlayerName}
                     onInput={(e) => (data.newPlayerName = e.target.value)}
                 />
@@ -110,18 +114,19 @@ export default function TestUI(props) {
                     <div>{player.pileOfCards.map(cardsRendering)}</div>
                 )}
                 {/*<Swiper pileOfCards={player.pileOfCards.reduce(concatenateCardCodesCB).split(", ")} onSelectCardSprite={selectCardSpriteHandler}/>*/}
+
                 <p>Did you manage to bluff your way out?</p>
                 <div>
-                    <button 
-                    class="test-button" 
-                    onClick={successfulBluffACB} 
-                    disabled={player.selectedCard === null || player.playerID !== props.model.yourTurn}>
+                    <button
+                        class="test-button"
+                        onClick={successfulBluffACB}
+                        disabled={player.selectedCard === null || player.playerID !== props.model.yourTurn}>
                         Yes
                     </button>
-                    <button 
-                    class="test-button" 
-                    onClick={failedBluffACB} 
-                    disabled={player.selectedCard === null || player.playerID !== props.model.yourTurn}>
+                    <button
+                        class="test-button"
+                        onClick={failedBluffACB}
+                        disabled={player.selectedCard === null || player.playerID !== props.model.yourTurn}>
                         No
                     </button>
                 </div>
@@ -151,7 +156,7 @@ export default function TestUI(props) {
 
         function cardsRendering(card) {
             return (
-                <button onClick={selectCardHandler} value={card}>{card}</button>
+                <button class="secondary" onClick={selectCardHandler} value={card}>{card}</button>
             )
         }
         function selectCardHandler(event) {

@@ -1,6 +1,11 @@
+import { goTo } from "../utilities.js";
 import ExitView from "../views/ExitView.jsx";
 
 export default function ExitPresenter() {
 
-    return <ExitView/>
+    function logOutHandler(){
+        goTo(`/join:${123456}`);
+    }
+
+    return <ExitView onLogOut={logOutHandler}/>
 }
