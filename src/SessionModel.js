@@ -83,13 +83,14 @@ export let sessionModel = {
     sessionID: null, // the deck_id defined by the API
     player: [], // array of player objects
     playerOrder: [], // array of playerIDs stating the plaing order of the game
-    yourTurn: null, // a playerID
+    yourTurn: null, // a playerID of 
     playerHost: null, //a playerID of the host
     localNumberOfPlayers: null, // players.length()
     gameOver: false,
     winner: null,
     leaderboard: {},
     readyToWriteFB: false,
+    isloading: false,
 
     // =================================== Session Management ==========================================
     async joinSession(sessionIdFromUI, newPlayerName){
@@ -295,7 +296,6 @@ export let sessionModel = {
             //SignInWithPopUp version!
             await signInWithPopup(auth, provider);
             onAuthStateChanged(auth, loginACB); // the actual login
-            console.log("auth",auth);
             return true;
         } catch (error){
             console.log("Authentication failed", error);
@@ -317,6 +317,22 @@ export let sessionModel = {
             console.error("Sign out failed", error);
             return false;
         }
+    },
+
+    async checkAuthStatus() {
+        return new Promise((resolve) => {
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    this.user = user;
+                    console.log("User was logged in already!")
+                    resolve(true);
+                } else {
+                    this.user = null;
+                    console.log("User was NOT logged!")
+                    resolve(false);
+                }
+            });
+        });
     },
     
     // =================================== API Interaction ==========================================
