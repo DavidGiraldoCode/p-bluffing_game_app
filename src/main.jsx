@@ -12,6 +12,22 @@ import { sessionModel } from "./SessionModel.js";
 //?---------------------------------------- Google authentication
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
+//?---------------------------------------- thirparty component
+//import { register } from 'swiper/element/bundle';
+//register(); //thirparty component
+//?---------------------------------------- thirparty component
+
+//! -----------------------------
+/*
+watch(checkACB,sideEffectACB);
+function checkACB(){ //? invoke after every reactive object changes
+    console.log("watch");
+    return [testReactiveModel.numberOfPlayers];
+}
+function sideEffectACB(){
+    console.log("Side Effect triggered");
+} */
+
 // Initialize Firebase
 export const auth = getAuth();
 export const provider = new GoogleAuthProvider();
