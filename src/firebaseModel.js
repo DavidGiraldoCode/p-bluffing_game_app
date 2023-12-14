@@ -110,10 +110,11 @@ function persistanceToModel(firebaseData, model) {
         if (firebaseData.playersFB) {
             // Build leaderboard dictionary
             const leaderboard = Object.values(firebaseData.playersFB).reduce((acc, playerData) => {
+                const playerID = playerData.playerIdFB;
                 const playerName = playerData.playerNameFB;
                 const numberOfCards = playerData.numberOfCardsFB;
 
-                acc[playerName] = numberOfCards;
+                acc[playerID] = {playerName, numberOfCards};
 
                 return acc;
             }, {});

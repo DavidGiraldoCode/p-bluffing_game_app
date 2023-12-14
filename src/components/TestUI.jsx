@@ -1,4 +1,5 @@
 //import Swiper from "./Swiper.jsx";
+import { goTo } from "../utilities.js";
 
 export default function TestUI(props) {
     console.log('Update TestUI!')
@@ -25,6 +26,14 @@ export default function TestUI(props) {
 
     async function removePlayerACB(){
         await props.model.removePlayer(data.playerIdtoRemove);
+    }
+
+    async function signOutACB(){
+        const sucessLogOut = await props.model.signOut();
+        if(sucessLogOut){
+            goTo("/login")
+        }
+        
     }
 
     return (
@@ -75,6 +84,9 @@ export default function TestUI(props) {
             </div>                        
             <div>
                 <button onClick={removePlayerACB}>Remove player</button>
+            </div>
+            <div>
+                <button onClick={signOutACB}>Sign Out</button>
             </div>
 
             <div>{props.model.player.map(playersRendering)}</div>

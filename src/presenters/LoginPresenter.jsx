@@ -2,7 +2,6 @@ import SectionTitle from "../components/SectionTitle.jsx";
 import SingleAction from "../components/SingleAction.jsx";
 import Footer from "../components/Footer.jsx";
 import { goTo } from "../utilities.js";
-import { getAuth, getRedirectResult, GoogleAuthProvider } from "firebase/auth";
 import LoginView from "../views/LoginView.jsx";
 
 export default function LoginPresenter(props) {

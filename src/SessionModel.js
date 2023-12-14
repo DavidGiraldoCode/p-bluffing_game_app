@@ -45,7 +45,6 @@ class Player {
         this.pileOfCards = []; //Local copy of the API pile. To be able to render
         this.selectedCard = null; // example: 'KD' , If a user re-joins session this will be set to null.
         this.numberOfCards = this.pileOfCards.length;
-        this.startContinuousUpdate(); // Start continuous update when creating a player
     }
 
     startContinuousUpdate() {
@@ -176,8 +175,22 @@ export let sessionModel = {
             return false;
         }
     },
+
+    async signOut() {
+        try {
+            this.readyToWriteFB = false
+            // Clear locally stored user data
+            this.user = null
+            // Sign out the user
+            await signOut(auth);
     
-    
+            console.log("User signed out successfully");
+            return true;
+        } catch (error) {
+            console.error("Sign out failed", error);
+            return false;
+        }
+    },
     
     async getDataFromAPI(API_URL){
         // Fetches data from the API in accordance to the API_URL as parameter. This function handles errors: response not OK, general errors from fetch and network offline specific error.
@@ -249,8 +262,6 @@ export let sessionModel = {
         }
     },
 
-    // TODO new method! reJoinSession(){ fetch all relevant information from firebase, initialize local model, play }
-
     async dealCards(playerID, amountOfCards){
         // Draws amount of cards using the drawCard function. Adds these cards to a pile called playerID on the API.  When cards is removed, calls gameOverCheck to check if the player is out of cards.
         // This function will be used for example when clicking Create session or Join Session or if a player needs to draw a new card.
@@ -263,7 +274,7 @@ export let sessionModel = {
         this.gameOverCheck(playerID); //Might be a bit redundant to call gameOverCheck from here. You cannot get out of cards when dealing?
 
         async function drawCard(){
-            // help function to dealCards
+            // Help function to dealCards
             // Returns an array of the card codes eg. ['QD', 'KS', '8D'], depending of the amount of cards drawn.
             function drawCardCodeCB(card){
                 return card.code;
@@ -311,12 +322,13 @@ export let sessionModel = {
     },
 
     removePlayer(playerIdToRemove){
-        // Removes player from players array. The playerIDToRemove of the parameter is the player that will be removed.
+        // Removes player from players array and leaderBoard. The playerIDToRemove of the parameter is the player that will be removed.
         // If the playerID to be removed also is yourTurn: nextPlayer() is called.
         this.playerOrder = this.playerOrder.filter(playerID => playerID !== playerIdToRemove);
-            if(playerIdToRemove == this.yourTurn){
-                this.nextPlayer();
-            }
+
+        if(playerIdToRemove == this.yourTurn){
+            this.nextPlayer();
+        }
     },
 
     async removeCard(playerID, selectedCard){
