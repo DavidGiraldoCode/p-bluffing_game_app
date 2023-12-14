@@ -2,6 +2,8 @@ import { createRouter, createWebHashHistory, RouterView, useRouter } from "vue-r
 import TestUI from "./components/TestUI.jsx";
 import DesignSystemPresenter from "./presenters/DesignSystemPresenter.jsx";
 import JoinSessesionPresenter from "./presenters/JoinSessionPresenter.jsx"
+import LoginSessionPresenter from "./presenters/LoginSessionPresenter.jsx";
+import UserPresenter from "./presenters/UserPresenter.jsx";
 import GamePresenter from "./presenters/GamePresenter.jsx";
 import ExitPresenter from "./presenters/ExitPresenter.jsx";
 import InstructionsPresenter from "./presenters/InstructionsPresenter.jsx";
@@ -28,6 +30,14 @@ export function makeRouter(model) {
             , {
                 path: `/join:ID`,
                 component: <JoinSessesionPresenter model={model} />
+            }
+            ,   {
+                path: `/login:ID`,
+                component: <LoginSessionPresenter model={model} />
+            }
+            ,   {
+                path: `/user:ID`,
+                component: <UserPresenter model={model} />
             }
             , {
                 path: `/create-session:ID`, //TODO Possiblily will be remove

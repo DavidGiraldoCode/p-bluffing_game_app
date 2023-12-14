@@ -10,10 +10,12 @@ function JoinSessionView(props) {
   return (
   <div>
     <div>
+      
       {<JoinHeader />}
       {<JoinSessionForm />}
       {<CreateSession clickEvent={joinSessionHandler}/>}
       {<Footer />}
+      
     </div>
   </div>
   );
