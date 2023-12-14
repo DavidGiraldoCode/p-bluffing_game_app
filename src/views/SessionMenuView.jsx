@@ -7,37 +7,34 @@ import "../global-style.css";
 import "./SessionMenuView.css";
 import { goTo } from "../utilities.js";
 
-export default
-  function SessionMenuView(props) {
+export default function SessionMenuView(props) {
+
+  console.table(props);
+  console.log(SessionMenuView);
+
+  function renderOrder(playerArray) {
+
+    function skipHandler() {
+      props.onSkip();
+    }
+
+    function fillPlayer() {
+      return <PlayerOrderItem
+        isBluffing={false}
+        canBeSkip={true}
+        bluffIndicator={null}
+        playerName={"Martin Sandberg"}
+        buttonText={null}
+        onSkipPlayer={skipHandler} />
+    }
+    return <div class="player-order-container"> {playerArray.map(fillPlayer)} </div>
+  }
+
   return (
     <div>
-
       <AppHeader routeDestination={`/game:${12345}`} />
-      <SessionID sessionID={"1234567890"/*props.sessionID*/} />
-        // TODO Round Order
-      <div class="player-order-container">
-        <PlayerOrderItem
-          isBluffing={false}
-          bluffIndicator={null}
-          playerName={"Martin Sandberg"}
-          buttonText={null} />
-        <PlayerOrderItem
-          isBluffing={false}
-          bluffIndicator={null}
-          playerName={"Martin Sandberg"}
-          buttonText={null} />
-        <PlayerOrderItem
-          isBluffing={true}
-          bluffIndicator={"Bluff!"}
-          playerName={"Martin Sandberg"}
-          buttonText={"Skip"} />
-        <PlayerOrderItem
-          isBluffing={false}
-          bluffIndicator={null}
-          playerName={"Martin Sandberg"}
-          buttonText={null} />
-      </div>
-
+      <SessionID sessionID={props.sessionID} />
+      {renderOrder(props.playerOrder)}
       <MenuItem
         title={"Instructions"}
         onCustomClick={x => { goTo(`/instructions:${123456}`) }} />
