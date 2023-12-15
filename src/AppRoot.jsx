@@ -8,19 +8,13 @@ import GamePresenter from "./presenters/GamePresenter.jsx";
 import ExitPresenter from "./presenters/ExitPresenter.jsx";
 import InstructionsPresenter from "./presenters/InstructionsPresenter.jsx";
 import SessionMenuPresenter from "./presenters/SessionMenuPresenter.jsx";
-import LoginPresenter from "./presenters/LoginPresenter.jsx";
-import CreateSessionPresenter from "./presenters/CreateSessionPrenter.jsx";
+import CreateSessionPresenter from "./presenters/CreateSessionPresenter.jsx";
 import LeaderBoardPresenter from "./presenters/LeaderBoardPresenter.jsx";
 
 export function makeRouter(model) {
-    console.table(model);
     return createRouter({
         history: createWebHashHistory(),
         routes: [
-            {
-                path: "/login",
-                component: <LoginPresenter model={model} />
-            },
             {
                 path: "/test-ui",
                 component: <TestUI model={model} />
@@ -29,8 +23,8 @@ export function makeRouter(model) {
                 path: "/design-system",
                 component: <DesignSystemPresenter model={model} />
             }, {
-                path: "/", //TODO change for new login with google view
-                component: <JoinSessesionPresenter model={model} />
+                path: "/",
+                component: <LoginSessionPresenter model={model} />
             }
             , {
                 path: `/join`,
@@ -46,7 +40,7 @@ export function makeRouter(model) {
             }
             , {
                 path: `/create-session`, //TODO Possiblily will be remove
-                component: <CreateSessionPresenter />
+                component: <CreateSessionPresenter model={model}/>
             }, {
                 path: `/game:ID`, //previos name cards
                 component: <GamePresenter model={model} />

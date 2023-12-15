@@ -1,8 +1,12 @@
 .user-greeting{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: var(--spacing-l) var(--spacing-m) ;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-l) var(--spacing-m) ;
+}
+
+.loading-image-class{
+  border-radius: 50%;
+}
   

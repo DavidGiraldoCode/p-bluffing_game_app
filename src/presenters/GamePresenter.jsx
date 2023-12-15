@@ -5,35 +5,16 @@ import SelectContent from "../components/SelectContent.jsx";
 import SingleAction from "../components/SingleAction.jsx";
 import Swiper from "../components/Swiper.jsx";
 import { goTo } from "../utilities.js";
+import GameView from "../views/GameView.jsx";
+
+//TODO Continuesly check for gameOver and then change view?
 
 export default function GamePresenter(props) {
-
-    //TODO implement Component state for handeling the bluffing state
-    let isBluffing = false;
-
-    function blufferStageHandlerACB() {
-        console.log(`isBluffing: ${isBluffing}`);
-        //TODO for now, go to leader board
-        goTo(`/leader-board:123456`);
-    }
-
-    return <div class="game-presenter ">
-        <AppHeader routeDestination={`/session-menu:${12345}`} />
-        <SessionID sessionID={props.model.sessionID}/>
-        <LBitem
-            rank={"1º"}
-            playerName={"Nicolas Gomez"}
-            cardIcon={"🃏"}
-            cardText={"Cards:"}
-            score={"5"}
-        />
-        <Swiper pileOfCards={['AC', '5S', 'KS', '2D', 'KH']} onSelectCardSprite={null} /> {/*NEEDS FIX*/} {/*DAVID*/}
-        <SingleAction
-            title="Your turn!"
-            description="Select a card to bluff your way out"
-            buttonState={false}
-            btnLabel="Confirm"
-            onCustomClick={blufferStageHandlerACB} />
-
-    </div>
+    return <GameView 
+    sessionID = {props.model.sessionID}
+    whosTurn = {props.model.yourTurn}
+    leaderboard = {props.model.leaderboard}
+    player = {props.model.player[0]}
+    />
+    
 }
