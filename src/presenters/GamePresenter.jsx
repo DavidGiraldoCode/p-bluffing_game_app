@@ -1,9 +1,3 @@
-import AppHeader from "../components/AppHeader.jsx";
-import SessionID from "../components/SessionID.jsx";
-import LBitem from "../components/LBitem.jsx";
-import SelectContent from "../components/SelectContent.jsx";
-import SingleAction from "../components/SingleAction.jsx";
-import Swiper from "../components/Swiper.jsx";
 import { goTo } from "../utilities.js";
 import GameView from "../views/GameView.jsx";
 

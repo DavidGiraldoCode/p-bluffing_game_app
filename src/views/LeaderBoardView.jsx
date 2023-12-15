@@ -34,7 +34,6 @@ export default function LeaderBoardView(props) {
             <SessionID sessionID={props.sessionID}/>
             <SectionSubtitle title={"Leaderboard"}/>
             {renderLeaderboard(sortedPlayers)}
-            <Footer />
             <SingleAction
                 title={""}
                 description={""}
@@ -42,6 +41,7 @@ export default function LeaderBoardView(props) {
                 btnLabel={"Continue"}
                 onCustomClick= {x => {goTo(props.routeDestination)}}
             />
+            <Footer />
         </div>
     );
 };

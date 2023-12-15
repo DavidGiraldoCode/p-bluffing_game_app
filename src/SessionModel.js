@@ -262,6 +262,7 @@ export let sessionModel = {
         const player = this.player.find(p => p.playerID == playerID);
         await player.getPileOfCards();
         this.gameOverCheck(playerID); //Might be a bit redundant to call gameOverCheck from here. You cannot get out of cards when dealing?
+        player.selectedCard = null;
 
         async function drawCard(){
             // Help function to dealCards
@@ -283,6 +284,7 @@ export let sessionModel = {
         const player = this.player.find(p => p.playerID == playerID);
         await player.getPileOfCards();  //Updates the local pile of cards.
         this.gameOverCheck(playerID);
+        player.selectedCard = null;
     },
 
     // =================================== Authentification ==========================================

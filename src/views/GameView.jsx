@@ -6,6 +6,9 @@ import SingleAction from "../components/SingleAction.jsx";
 import Swiper from "../components/Swiper.jsx";
 import "../global-style.css";
 import "./GameView.css";
+import { goTo } from "../utilities.js";
+
+// TODO Add conditional rendering if its not your turn!
 
 export default function GameView(props) {
 
@@ -28,10 +31,23 @@ export default function GameView(props) {
 
     function blufferStageHandlerACB() {
         // TODO Change to bluff instead.
-        goTo(`/leader-board:123456`);
+        goTo(`/bluff:${props.sessionID}`);
     }
 
-    return <div class="game-presenter ">
+    //! Temporary instead of Swiper
+    function cardsRendering(card) {
+        return (
+            <button class="secondary" onClick={selectCardHandler} value={card}>{card}</button>
+        )
+    }
+
+    function selectCardHandler(event) {
+        console.log('selectCardHandler')
+        props.player.selectedCard = event.target.value;
+    }
+    //! End
+
+    return <div class="game-view ">
         <AppHeader routeDestination={`/session-menu:${props.sessionID}`} />
         <SessionID sessionID={props.sessionID}/>
         <LBitem
@@ -41,6 +57,11 @@ export default function GameView(props) {
             cardText={"Cards:"}
             score={props.player.numberOfCards}
         />
+        //! Temporary instead of Swiper
+        {props.player.pileOfCards.length > 0 && (
+                    <div>{props.player.pileOfCards.map(cardsRendering)}</div>
+                )}
+        //! End
         {/*<Swiper pileOfCards={props.player.pileOfCards} onSelectCardSprite={null} />*/} {/*NEEDS FIX*/} {/*DAVID*/}
         <SingleAction
             title="Your turn!"

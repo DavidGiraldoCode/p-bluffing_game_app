@@ -10,6 +10,7 @@ import InstructionsPresenter from "./presenters/InstructionsPresenter.jsx";
 import SessionMenuPresenter from "./presenters/SessionMenuPresenter.jsx";
 import CreateSessionPresenter from "./presenters/CreateSessionPresenter.jsx";
 import LeaderBoardPresenter from "./presenters/LeaderBoardPresenter.jsx";
+import BluffPresenter from "./presenters/BluffPresenter.jsx";
 
 export function makeRouter(model) {
     return createRouter({
@@ -41,9 +42,12 @@ export function makeRouter(model) {
             , {
                 path: `/create-session`, //TODO Possiblily will be remove
                 component: <CreateSessionPresenter model={model}/>
-            }, {
+            },{
                 path: `/game:ID`, //previos name cards
                 component: <GamePresenter model={model} />
+            }, {
+                path: `/bluff:ID`, //previos name cards
+                component: <BluffPresenter model={model} />
             }, {
                 path: `/session-menu:ID`, //ALBIN
                 component: <SessionMenuPresenter model={model} />
