@@ -1,0 +1,13 @@
+.user-image{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-l) var(--spacing-m) ;
+  }
+  
+  /*
+  .header {
+    font: 400 26px/32px Roboto, -apple-system, Roboto, Helvetica, sans-serif;
+    padding: 1px;
+  }*/
