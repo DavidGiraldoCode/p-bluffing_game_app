@@ -26,13 +26,15 @@ export default function BluffView(props) {
             <p>Tell a true or false statement about the card you have.</p>
             <p>The others need to guess if your are telling the truth.</p>
         </div>
-        <img src={`https://deckofcardsapi.com/static/img/${props.selectedCard}.png`} alt={props.selectedCard}/>
+        {props.selectedCard !== null && (
+            <img src={`https://deckofcardsapi.com/static/img/${props.selectedCard}.png`} alt={props.selectedCard}/>
+        )}
         {/*<Swiper pileOfCards={props.player.pileOfCards} onSelectCardSprite={null} />*/} {/*NEEDS FIX*/} {/*DAVID*/}
-        
         {props.isLoading ? (
             <Loading
             message="Please wait..."/>
             ) : (
+           
             <DoubleAction
             description={"Did you manage to bluff your way out?"}
             primaryText={"Yes"}

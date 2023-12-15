@@ -28,6 +28,9 @@ export default function GameView(props) {
     // Indicates if a card is selected or not.
     const cardNotSelected = props.player.selectedCard === null;
 
+    // Indicates if its the players turn
+    const yourTurn = props.whosTurn == props.player.playerID;
+
 
     function blufferStageHandlerACB() {
         // TODO Change to bluff instead.
@@ -63,12 +66,18 @@ export default function GameView(props) {
                 )}
         //! End
         {/*<Swiper pileOfCards={props.player.pileOfCards} onSelectCardSprite={null} />*/} {/*NEEDS FIX*/} {/*DAVID*/}
-        <SingleAction
+        
+        {yourTurn ? (
+            <SingleAction
             title="Your turn!"
             description="Select a card to bluff your way out"
             buttonState={cardNotSelected}
             btnLabel="Confirm"
             onCustomClick={blufferStageHandlerACB} />
+            ) : (
+            <h3>Wait for your turn</h3>
+            )}
+        
 
     </div>
 }
