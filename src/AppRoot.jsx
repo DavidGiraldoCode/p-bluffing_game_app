@@ -11,9 +11,10 @@ import SessionMenuPresenter from "./presenters/SessionMenuPresenter.jsx";
 import LoginPresenter from "./presenters/LoginPresenter.jsx";
 import CreateSessionPresenter from "./presenters/CreateSessionPrenter.jsx";
 import LeaderBoardPresenter from "./presenters/LeaderBoardPresenter.jsx";
+import SessionMenuPreObj from "./presenters/SessionMenuPreObj.jsx";
 
 export function makeRouter(model) {
-    console.table(model);
+    console.log(model);
     return createRouter({
         history: createWebHashHistory(),
         routes: [
@@ -51,8 +52,11 @@ export function makeRouter(model) {
                 path: `/game:ID`, //previos name cards
                 component: <GamePresenter model={model} />
             }, {
-                path: `/session-menu:ID`, //ALBIN
+                path: `/session-menu/:id/:user`, //ALBIN
                 component: <SessionMenuPresenter model={model} />
+            },{
+                path: `/session-menu-test/:id/:user`, //! TESTING ROUTE ------ 
+                component: <SessionMenuPreObj model={model} />
             }, {
                 path: `/instructions:ID`,  //ALBIN
                 component: <InstructionsPresenter model={model} />
@@ -62,7 +66,7 @@ export function makeRouter(model) {
                 component: <ExitPresenter model={model} />
             }, {
                 path: `/leader-board:ID`,
-                component: <LeaderBoardPresenter model={model}/>
+                component: <LeaderBoardPresenter model={model} />
             }, {
                 path: `/:notFound`,
                 component: <p>
@@ -76,7 +80,7 @@ export function makeRouter(model) {
 export default
     function AppRoot(props) {
     console.log('Update App!')
-    makeRouter(props.model);
+    //makeRouter(props.model);
     return (
         <div class="AppRoot container">
             <RouterView />
