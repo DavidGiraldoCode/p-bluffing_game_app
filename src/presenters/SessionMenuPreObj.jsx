@@ -99,7 +99,6 @@ const SessionMenuPreObj = {
         onMounted(bornACB);
         onUnmounted(dieACB);
 
-
         return renderACB;
     },
 }
