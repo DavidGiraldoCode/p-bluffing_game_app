@@ -11,7 +11,10 @@ export default function CreateSessionView(props) {
     }
     //destinationTitle="Back"
     return <div class="create-session-view-container">
-        <AppHeader routeDestination={`/join:${12345}`} />
+        <AppHeader routeDestination={`/join:${12345}`} 
+            icon={"Backarrow"}
+            icon-text={"Back"}
+        />
         <SectionSubtitle title="Creating game session" />
         <div class="create-session-input-container">
             <input type="text" placeholder={"Firebase user name"} onChange={null} />
@@ -21,6 +24,7 @@ export default function CreateSessionView(props) {
             description="You are going to be the host of this session"
             btnLabel="Confirm"
             onCustomClick={creationHandlerACB}
-        />
+            />
+
     </div>
 }

@@ -12,7 +12,7 @@ import TurnTag from "../components/TurnTag.jsx";
 import PlayerOrderItem from "../components/PlayerOrderItem.jsx";
 import WinnerBanner from "../components/WinnerBanner.jsx";
 import MenuItem from "../components/MenuItem.jsx";
-
+import JoinSessionView from "./JoinSessionView.jsx";
 
 export default function DesignSystemView(props) {
 
@@ -74,7 +74,7 @@ export default function DesignSystemView(props) {
             buttonText={"Skip"} /> {/*MARTIN*/}
         {<MenuItem
             title={"How to play?"} />} {/*ALBIN*/}
-        <Swiper pileOfCards={['AC', '5S', 'KS', '2D', 'KH']} onSelectCardSprite={null} /> {/*NEEDS FIX*/} {/*DAVID*/}
+       {/* <Swiper pileOfCards={['AC', '5S', 'KS', '2D', 'KH']} onSelectCardSprite={null} /> NEEDS FIX*/} {/*DAVID*/}
         <DoubleAction
             description={"Hello, this is double action"}
             primaryText={"Yes"}
@@ -99,6 +99,10 @@ export default function DesignSystemView(props) {
             buttonState={false}
             btnLabel="Create session"
             onCustomClick={null} />
+        
         <Footer />
+        
+        <JoinSessionView 
+            /> 
     </div>;
 }
