@@ -7,6 +7,7 @@ import SingleAction from "../components/SingleAction.jsx";
 import Loading from "../components/Loading.jsx";
 import { goTo, propsWithLoading } from "../utilities.js";
 import { ref } from "vue";
+import JoinSessionView from "../views/JoinSessionView.jsx";
 
 
 export default function JoinSessesionPresenter(props) {
@@ -27,32 +28,21 @@ export default function JoinSessesionPresenter(props) {
         goTo(`/game:${12345}`);
     }
 
-    async function gotoCreateSessionACB() {
-        const success = await propsWithLoading(props.model.createHost("TestUser CHANGE TO PROPS"), props)
+    async function onJoinSessionACB(sessionID, playerName) {
+        const success = await propsWithLoading(props.model.joinSession(sessionID, playerName), props);
         if(success){
-            goTo(`/create-session:${12345}`);
+            goTo(`/game:${props.model.sessionID}`);
         }
       }
+    
 
-    return <div class="m-top-l m-bottom-l">
-        <SectionTitle title="King's Bluffer" />
-        <JoinSessionForm
-            class="m-bottom-m"
-            onInputName={setNameACB}
-            onInputSessionID={setSessionIDACB}
-            onJoinSession={addPlayerToSessionACB} />
-        {props.model.isLoading ? (
-            <Loading
-            message="Creating Session"/>
-            ) : (
-            <SingleAction
-            title=""
-            description="Do you want to be the host of a new session?"
-            buttonState={false}
-            btnLabel="Create session"
-            onCustomClick={gotoCreateSessionACB}
-            />
-        )}
-        <Footer />
+    return <div>
+            <JoinSessionView
+            name={props.model.user.displayName}
+            isLoading={props.model.isLoading}
+            onJoinSessionEvent={onJoinSessionACB}/>
+
+
+
     </div>
 }

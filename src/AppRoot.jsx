@@ -33,7 +33,7 @@ export function makeRouter(model) {
                 component: <JoinSessesionPresenter model={model} />
             }
             , {
-                path: `/join:ID`,
+                path: `/join`,
                 component: <JoinSessesionPresenter model={model} />
             }
             ,   {
@@ -45,7 +45,7 @@ export function makeRouter(model) {
                 component: <UserPresenter model={model} />
             }
             , {
-                path: `/create-session:ID`, //TODO Possiblily will be remove
+                path: `/create-session`, //TODO Possiblily will be remove
                 component: <CreateSessionPresenter />
             }, {
                 path: `/game:ID`, //previos name cards

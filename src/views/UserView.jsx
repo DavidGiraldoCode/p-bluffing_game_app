@@ -5,12 +5,20 @@ import MenuItem from "../components/MenuItem";
 import DoubleAction from "../components/DoubleAction";
 import Footer from "../components/Footer";
 import SectionTitle from "../components/SectionTitle";
+import UserGreeting from "../components/UserGreeting";
 import { goTo } from "../utilities.js";
 
 export default function CreateSessionView(props) {
 
     function creationHandlerACB() {
         props.onCreateSession({ id: "some-user" });
+    }
+    function createSessionACB(){
+        goTo(`/create-session`);
+    }
+
+    function joinSessionACB(){
+        goTo(`/join`);
     }
     //destinationTitle="Back"
     return <div>
@@ -22,18 +30,17 @@ export default function CreateSessionView(props) {
             icon-text={"Logout"}
             /> 
         
-        {/*<UserImage
-            ???={props.userImage}/>  
-        User image here, create component and pass props.userImage (in presenter: props.model.user.photoURL) */} 
-
-        <SectionTitle 
-            title={`Hello ${props.playerName}!`}
-            />
+        <UserGreeting
+            userImage={props.userImage}
+            title={"Hello!"}
+            name={props.name}/>  
         
         <DoubleAction
             description ={"Ready for your next game?"}
             primaryText={"Host session"}
             secondaryText={"Join session"}
+            primaryOnClick={createSessionACB}
+            secondaryOnClick={joinSessionACB}
             />
 
         <MenuItem 

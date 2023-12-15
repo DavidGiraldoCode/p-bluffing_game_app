@@ -6,7 +6,7 @@ export default
     <div className='user-greeting'>
         <img loading="lazy" class="loading-image-class" src={props.userImage}></img>
         <h1>{props.title}</h1>
-        <h3>{props.name}</h3>
+        <h3>{`${props.name}`}</h3>
     </div>
   );
 }

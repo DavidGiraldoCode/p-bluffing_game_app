@@ -2,7 +2,6 @@ import UserView from "../views/UserView.jsx";
 import { goTo } from "../utilities.js";
 
 export default function UserPresenter(props) {
-
     function UserHandlerACB(obj){
         goTo(`/user:ID${obj.id}`);
     }
@@ -11,6 +10,8 @@ export default function UserPresenter(props) {
         <UserView 
             onLoginSession={UserHandlerACB}
             userImage={props.model.user.photoURL}
-            playerName={props.model.user.displayName}/>
+            name={props.model.user.displayName}
+
+            />
         </div >
 }
