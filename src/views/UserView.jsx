@@ -5,6 +5,7 @@ import MenuItem from "../components/MenuItem";
 import DoubleAction from "../components/DoubleAction";
 import Footer from "../components/Footer";
 import SectionTitle from "../components/SectionTitle";
+import { goTo } from "../utilities.js";
 
 export default function CreateSessionView(props) {
 
@@ -16,9 +17,9 @@ export default function CreateSessionView(props) {
 
         {/*  User Login View */}
 
-        <AppHeader routeDestination={`/join:${12345}`} 
-            icon={"Back Arrow"}
-            title={"Back"}
+        <AppHeader routeDestination={`/login:${12345}`} 
+            icon={"Logout"}
+            icon-text={"Logout"}
             /> 
         
         {/*  User image here */} 
@@ -29,6 +30,7 @@ export default function CreateSessionView(props) {
 
         <MenuItem 
             title={"Instructions"}
+            onCustomClick={x => { goTo(`/instructions:${123456}`) }}
             />
             
         <Footer />
