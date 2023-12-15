@@ -8,6 +8,9 @@ export default function UserPresenter(props) {
     }
 
     return <div>
-        <UserView onLoginSession={UserHandlerACB}/>
+        <UserView 
+            onLoginSession={UserHandlerACB}
+            userImage={props.model.user.photoURL}
+            playerName={props.model.user.displayName}/>
         </div >
 }

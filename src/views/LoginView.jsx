@@ -5,7 +5,6 @@ import SectionTitle from "../components/SectionTitle.jsx";
 export default
 function LoginView(props) {
     function loginACB(){
-        console.log("loginACB");
         props.onLogin();
     }
   return (

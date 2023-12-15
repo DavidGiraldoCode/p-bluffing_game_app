@@ -79,7 +79,7 @@ class Player {
 // =============================================================================
 
 export let sessionModel = {
-    user: null, //? GoogleUserData
+    user: null, //? GoogleUserData, relevant: uid: playerID, displayName: playerName, photoURL: playerImage
     sessionID: null, // the deck_id defined by the API
     player: [], // array of player objects
     playerOrder: [], // array of playerIDs stating the plaing order of the game

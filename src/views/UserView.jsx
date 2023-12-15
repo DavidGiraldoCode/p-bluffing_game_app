@@ -22,10 +22,18 @@ export default function CreateSessionView(props) {
             icon-text={"Logout"}
             /> 
         
-        {/*  User image here */} 
+        {/*<UserImage
+            ???={props.userImage}/>  
+        User image here, create component and pass props.userImage (in presenter: props.model.user.photoURL) */} 
 
         <SectionTitle 
-            title={"Hello King Bluffer!"}
+            title={`Hello ${props.playerName}!`}
+            />
+        
+        <DoubleAction
+            description ={"Ready for your next game?"}
+            primaryText={"Host session"}
+            secondaryText={"Join session"}
             />
 
         <MenuItem 
@@ -35,11 +43,7 @@ export default function CreateSessionView(props) {
             
         <Footer />
 
-        <DoubleAction
-            description ={"Ready for your next game?"}
-            primaryText={"Host session"}
-            secondaryText={"Join session"}
-            /> 
+ 
 
     </div>
 }
