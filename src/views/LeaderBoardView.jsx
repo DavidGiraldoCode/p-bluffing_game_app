@@ -7,41 +7,33 @@ import SingleAction from "../components/SingleAction";
 import "../global-style.css";
 import { goTo } from "../utilities";
 
+function renderLeaderboard(sortedPlayers){
+    return sortedPlayers.map((player, index) => (
+        <LBitem
+            rank={`No.${index + 1}`}
+            playerName={player.playerName}
+            cardIcon={"🃏"}
+            cardText={"Cards:"}
+            score={`${player.numberOfCards}`}        
+        />
+    ));
+}
+
 export default function LeaderBoardView(props) {
+
+    // creates an array from the leaderboard object
+    const players = Object.keys(props.leaderboard).map((playerID) => ({
+        playerID,
+        ...props.leaderboard[playerID]
+    }));
+    const sortedPlayers = players.sort((a, b) => a.numberOfCards - b.numberOfCards);
 
     return (
         <div>
             <SectionTitle title={"King's bluffer 🃏"} />
-            <SessionID sessionID={"1234567890"}/>
+            <SessionID sessionID={props.sessionID}/>
             <SectionSubtitle title={"Leaderboard"}/>
-            <LBitem
-                rank={"1º"}
-                playerName={"Martin"}
-                cardIcon={"🃏"}
-                cardText={"Cards:"}
-                score={"2"}
-            />
-            <LBitem
-                rank={"2º"}
-                playerName={"David (Host)"}
-                cardIcon={"🃏"}
-                cardText={"Cards:"}
-                score={"4"}
-            />
-            <LBitem
-                rank={"3º"}
-                playerName={"Oscar"}
-                cardIcon={"🃏"}
-                cardText={"Cards:"}
-                score={"5"}
-            />
-            <LBitem
-                rank={"4º"}
-                playerName={"Albin"}
-                cardIcon={"🃏"}
-                cardText={"Cards:"}
-                score={"5"}
-            />
+            {renderLeaderboard(sortedPlayers)}
             <Footer />
             <SingleAction
                 title={""}
