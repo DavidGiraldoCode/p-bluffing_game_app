@@ -40,10 +40,10 @@ connectToFirebase(ReactiveModel, watch);
 // Check authentication status before creating the app
 async function initializeApp() {
   await ReactiveModel.checkAuthStatus();
-
   const rootJSX = <AppRoot model={ReactiveModel} />;
   const app = createApp(rootJSX);
   app.use(makeRouter(ReactiveModel));
+  window.myModel = ReactiveModel;
   app.mount("#app");
 }
 
