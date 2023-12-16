@@ -12,6 +12,8 @@ import LoginPresenter from "./presenters/LoginPresenter.jsx";
 import CreateSessionPresenter from "./presenters/CreateSessionPrenter.jsx";
 import LeaderBoardPresenter from "./presenters/LeaderBoardPresenter.jsx";
 import SessionMenuPreObj from "./presenters/SessionMenuPreObj.jsx";
+import SwiperPresenter from "./presenters/SwiperPresenter.jsx";
+import SwiperVue from "./components/SwiperVue.jsx";
 
 export function makeRouter(model) {
     console.log(model);
@@ -51,6 +53,9 @@ export function makeRouter(model) {
             }, {
                 path: `/game:ID`, //previos name cards
                 component: <GamePresenter model={model} />
+            },{
+                path: `/testing-swiper-vue`,//! TESTING ROUTE ------ for the Swiper by David
+                component: <SwiperVue model={model} />
             }, {
                 path: `/session-menu/:id/:user`, //ALBIN
                 component: <SessionMenuPresenter model={model} />
