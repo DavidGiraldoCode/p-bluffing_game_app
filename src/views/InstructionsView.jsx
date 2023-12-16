@@ -1,15 +1,21 @@
+import { useRouter } from "vue-router";
 import AppHeader from "../components/AppHeader.jsx";
 import Footer from "../components/Footer.jsx";
 import "../global-style.css";
-import { goTo } from "../utilities.js";
 import "./InstructionsView.css";
 
 export default
-  function InstructionsView(props) {
+  function InstructionsView() {
+
+  const router = useRouter();
+
+  function backEvenHandlerACB() {
+    router.back()
+  }
 
   return (
-    <div>
-      <AppHeader routeDestination={`/session-menu:${12345}`} />
+    <div class="container">
+      <AppHeader class="fixed-top" onLeftClick={backEvenHandlerACB} icon={"Backarrow"} icon-text={"Back"} />
 
       <div class="title-text">
         <h1>Instructions</h1>

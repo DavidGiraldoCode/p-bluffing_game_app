@@ -5,10 +5,15 @@ import MenuItem from "../components/MenuItem.jsx";
 import PlayerOrderItem from "../components/PlayerOrderItem.jsx";
 import "../global-style.css";
 import "./SessionMenuView.css";
+import { useRouter } from "vue-router";
 
 export default function SessionMenuView(props) {
 
+  const router = useRouter();
 
+  function backEvenHandlerACB() {
+    router.back()
+  }
   function renderOrder(playerArray) {
 
     function skipHandler() {
@@ -16,36 +21,32 @@ export default function SessionMenuView(props) {
     }
 
     return (
-      <div className="player-order-container">
-          {playerArray.map((playerID) => {
-              const playerInfo = props.leaderboard[playerID];
-              const playerName = playerInfo ? playerInfo.playerName : "Unknown";
-              const playerNameWithHost = (playerID == props.whosHost) ? `${playerName} (host)` : playerName;
-              const yourTurn = props.whosTurn == playerID
-              const skipEnable = (props.player.isHost && yourTurn)
+      <div className="player-order container">
+        {playerArray.map((playerID) => {
+          const playerInfo = props.leaderboard[playerID];
+          const playerName = playerInfo ? playerInfo.playerName : "Unknown";
+          const playerNameWithHost = (playerID == props.whosHost) ? `${playerName} (host)` : playerName;
+          const yourTurn = props.whosTurn == playerID
+          const skipEnable = (props.player.isHost && yourTurn)
 
-              return (
-                  <PlayerOrderItem
-                      isBluffing={yourTurn}
-                      canBeSkip={skipEnable}
-                      bluffIndicator={"Bluffing"}
-                      playerName={playerNameWithHost}
-                      buttonText={"Skip"}
-                      onSkipPlayer={skipHandler}
-                  />
-              );
-          })}
+          return (
+            <PlayerOrderItem
+              isBluffing={yourTurn}
+              canBeSkip={skipEnable}
+              bluffIndicator={"Bluffing"}
+              playerName={playerNameWithHost}
+              buttonText={"Skip"}
+              onSkipPlayer={skipHandler}
+            />
+          );
+        })}
       </div>
-  );
+    );
   }
 
   return (
-    <div>
-      <AppHeader 
-      routeDestination={`/game:${props.sessionID}`}
-      icon={"Backarrow"}
-      icon-text={"Back"}
-      />
+    <div class="container">
+      <AppHeader onLeftClick={backEvenHandlerACB} icon={"Backarrow"} icon-text={"Back"} />
       <SessionID sessionID={props.sessionID} />
       {renderOrder(props.playerOrder)}
       <MenuItem

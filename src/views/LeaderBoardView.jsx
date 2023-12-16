@@ -29,7 +29,7 @@ export default function LeaderBoardView(props) {
     const sortedPlayers = players.sort((a, b) => a.numberOfCards - b.numberOfCards);
 
     return (
-        <div>
+        <div class="container">
             <SectionTitle title={"King's bluffer 🃏"} />
             <SessionID sessionID={props.sessionID}/>
             <SectionSubtitle title={"Leaderboard"}/>

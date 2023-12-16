@@ -15,19 +15,13 @@ export default function JoinSessesionPresenter(props) {
     async function onJoinSessionACB(sessionID, playerName) {
         const success = await propsWithLoading(props.model.joinSession(sessionID, playerName), props);
         console.log("Success?: ", success)
-        if(success){
+        if (success) {
             goTo(`/game:${props.model.sessionID}`);
         }
-      }
-    
+    }
 
-    return <div>
-            <JoinSessionView
-            name={props.model.user.displayName}
-            isLoading={props.model.isLoading}
-            onJoinSessionEvent={onJoinSessionACB}/>
-
-
-
-    </div>
+    return <JoinSessionView
+        name={props.model.user.displayName}
+        isLoading={props.model.isLoading}
+        onJoinSessionEvent={onJoinSessionACB} />
 }

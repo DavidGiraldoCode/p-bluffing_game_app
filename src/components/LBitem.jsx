@@ -4,9 +4,9 @@ import "./LBitem.css";
 export default 
 function LBitem(props) {
   return (
-    <div className="lb-container">
+    <div className="lb container">
           <div className="rank-container">
-            <p className="rank-number">{props.rank}</p>
+            <h4 className="rank-number">{props.rank}</h4>
           </div>
           <div className="text-container">
             <p className="user-text">{props.playerName}</p>

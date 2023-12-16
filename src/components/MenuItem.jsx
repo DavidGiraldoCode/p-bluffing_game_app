@@ -1,13 +1,8 @@
 import "../global-style.css";
 import "./MenuItem.css";
+import { goTo } from "../utilities";
 
 export default function MenuItem(props) {
-
-    //! Not needed, look at props.routeDestination    
-    /*function eventHandlerACB(event) {
-        console.log('eventHandlerACB in MenuItem');
-        props.onCustomClick(event);
-    }*/
 
     return <div class="menu-item-container" onClick={x => { goTo(props.routeDestination) }}>
         <h3 class="main-title">{props.title}</h3>

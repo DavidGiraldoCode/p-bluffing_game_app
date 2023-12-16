@@ -1,8 +1,8 @@
 .bluff-view{
-    display: flex;
+    /*display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items: center;
+    align-items: center;*/
     flex: 1 0 0;
     align-self: stretch;
     text-align: center;
