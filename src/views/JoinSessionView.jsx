@@ -4,7 +4,6 @@ import "./JoinSessionView.css";
 import AppHeader from "../components/AppHeader.jsx";
 import SectionSubtitle from "../components/SectionSubtitle.jsx";
 import SingleAction from "../components/SingleAction.jsx";
-import Footer from "../components/Footer.jsx";
 import Loading from "../components/Loading.jsx";
 export default
 function JoinSessionView(props) {
@@ -21,7 +20,7 @@ function JoinSessionView(props) {
   return (
     <div class="join-session-view-container">
 
-      <AppHeader routeDestination={`/join:${12345}`} 
+      <AppHeader routeDestination={`/user:${12345}`} 
             icon={"Backarrow"}
             icon-text={"Back"}
             /> 
@@ -33,7 +32,7 @@ function JoinSessionView(props) {
             <input 
             onInput={(e) => (data.playerName = e.target.value)}
             type="text"
-            value={props.name}
+            value={data.playerName}
             />
             <p className="p-small">SessionID</p>
             <input
@@ -46,22 +45,13 @@ function JoinSessionView(props) {
               message="Joining Session"/>
               ) : (
               <SingleAction
-              class=""
+              class="join-session-singleaction-container"
               description="You will join the session as a guest"
               btnLabel="Confirm"
               onCustomClick={joinSessionHandlerACB}
               />
               )}
-        <Footer /> 
-
     </div>
   
   );
 }
-
-{/*  OLD JoinSession
-        {<JoinHeader />}
-        {<JoinSessionForm />}
-        {/*<CreateSession clickEvent={joinSessionHandler}/>
-        {<Footer />}
-        */}

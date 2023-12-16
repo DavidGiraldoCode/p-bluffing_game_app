@@ -5,7 +5,7 @@ export default
   return (
     <div className='user-greeting'>
         <img loading="lazy" class="loading-image-class" src={props.userImage}></img>
-        <h1>{props.title}</h1>
+        <h2>{props.title}</h2>
         <h3>{`${props.name}`}</h3>
     </div>
   );

@@ -33,8 +33,13 @@ export default function GameView(props) {
 
 
     function blufferStageHandlerACB() {
-        // TODO Change to bluff instead.
+        // Pre-loads the image to avoid rendering delay of image at BluffView
+        const image = new Image();
+        image.src = `https://deckofcardsapi.com/static/img/${props.player.selectedCard}.png`;
+        image.onload = () => {
+        // After the image is loaded, navigate to BluffView
         goTo(`/bluff:${props.sessionID}`);
+        };
     }
 
     //! Temporary instead of Swiper
@@ -75,7 +80,9 @@ export default function GameView(props) {
             btnLabel="Confirm"
             onCustomClick={blufferStageHandlerACB} />
             ) : (
-            <h3>Wait for your turn</h3>
+            <div class="wait-text">
+                <h3>Wait for your turn</h3>
+            </div>
             )}
         
 

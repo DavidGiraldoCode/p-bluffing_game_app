@@ -120,11 +120,11 @@ export let sessionModel = {
                     this.readyToWriteFB = true;
                 }else{
                     //If one player already has joined on one device.
-                    console.error("Only one player per device is supported!");
+                    throw new Error("Only one player per device is supported!");
                 }                
             }
         }else{
-            console.error("SessionID is not valid!");
+            throw new Error("SessionID is not valid!");
         }
     },
 
@@ -136,7 +136,7 @@ export let sessionModel = {
             await this.reCreatePlayer(newPlayerName, this.user.uid, isHost);
             this.readyToWriteFB = true;
         }else{
-            console.error("Only one player per device is supported!");
+            throw new Error("Only one player per device is supported!");
         } 
     },
 
@@ -154,7 +154,7 @@ export let sessionModel = {
             this.readyToWriteFB = true;
         }else{
             //If one player already has joined on one device.
-            console.error("Only one player per device is supported!");
+            throw new Error("Only one player per device is supported!");
         }
     },
 

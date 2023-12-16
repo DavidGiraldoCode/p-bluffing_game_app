@@ -17,7 +17,7 @@ export default function CreateSessionView(props) {
     //destinationTitle="Back"
     return <div class="create-session-view-container">
 
-        <AppHeader routeDestination={`/join`} 
+        <AppHeader routeDestination={`/user:${1234}`} 
             icon={"Backarrow"}
             icon-text={"Back"}
         />

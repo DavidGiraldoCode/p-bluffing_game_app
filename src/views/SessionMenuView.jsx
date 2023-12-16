@@ -9,38 +9,51 @@ import { goTo } from "../utilities.js";
 
 export default function SessionMenuView(props) {
 
-  console.table(props);
-  console.log(SessionMenuView);
-
   function renderOrder(playerArray) {
 
     function skipHandler() {
       props.onSkip();
     }
 
-    function fillPlayer() {
-      return <PlayerOrderItem
-        isBluffing={false}
-        canBeSkip={true}
-        bluffIndicator={null}
-        playerName={"Martin Sandberg"}
-        buttonText={null}
-        onSkipPlayer={skipHandler} />
-    }
-    return <div class="player-order-container"> {playerArray.map(fillPlayer)} </div>
+    return (
+      <div className="player-order-container">
+          {playerArray.map((playerID) => {
+              const playerInfo = props.leaderboard[playerID];
+              const playerName = playerInfo ? playerInfo.playerName : "Unknown";
+              const playerNameWithHost = (playerID == props.whosHost) ? `${playerName} (host)` : playerName;
+              const yourTurn = props.whosTurn == playerID
+              const skipEnable = (props.player.isHost && yourTurn)
+
+              return (
+                  <PlayerOrderItem
+                      isBluffing={yourTurn}
+                      canBeSkip={skipEnable}
+                      bluffIndicator={"Bluffing"}
+                      playerName={playerNameWithHost}
+                      buttonText={"Skip"}
+                      onSkipPlayer={skipHandler}
+                  />
+              );
+          })}
+      </div>
+  );
   }
 
   return (
     <div>
-      <AppHeader routeDestination={`/game:${12345}`} />
+      <AppHeader 
+      routeDestination={`/game:${props.sessionID}`}
+      icon={"Backarrow"}
+      icon-text={"Back"}
+      />
       <SessionID sessionID={props.sessionID} />
       {renderOrder(props.playerOrder)}
       <MenuItem
         title={"Instructions"}
-        onCustomClick={x => { goTo(`/instructions:${123456}`) }} />
+        onCustomClick={x => { goTo(`/instructions:${props.sessionID}`) }} />
       <MenuItem
         title={"Leave the game"}
-        onCustomClick={x => { goTo(`/exit:${123456}`) }} />
+        onCustomClick={x => { goTo(`/exit:${props.sessionID}`) }} />
       <Footer class="m-top-m" />
     </div>
   );

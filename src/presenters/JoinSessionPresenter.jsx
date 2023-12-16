@@ -12,24 +12,9 @@ import JoinSessionView from "../views/JoinSessionView.jsx";
 
 export default function JoinSessesionPresenter(props) {
 
-    function setNameACB(name) {
-        //TODO props.sessionID = sessionID;
-    }
-    function setSessionIDACB(sessionID) {
-        //TODO props.sessionID = sessionID;
-    } 
-
-    async function addPlayerToSessionACB() {
-        //console.log(newPlayer);
-        //newPlayer = {name, sessionID}
-        //TODO props.
-        //const player = await props.model.createPlayer(data.newPlayerName, false);
-
-        goTo(`/game:${12345}`);
-    }
-
     async function onJoinSessionACB(sessionID, playerName) {
         const success = await propsWithLoading(props.model.joinSession(sessionID, playerName), props);
+        console.log("Success?: ", success)
         if(success){
             goTo(`/game:${props.model.sessionID}`);
         }

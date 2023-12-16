@@ -32,7 +32,7 @@ export default function CreateSessionView(props) {
         
         <UserGreeting
             userImage={props.userImage}
-            title={"Hello!"}
+            title={"Hello there"}
             name={props.name}/>  
         
         <DoubleAction
