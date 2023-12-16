@@ -1,0 +1,17 @@
+.bluff-view{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    flex: 1 0 0;
+    align-self: stretch;
+    text-align: center;
+}
+
+.bluff-view img {
+    margin-bottom: var(--spacing-l);
+}
+
+.instruction-text{
+    margin: var(--spacing-s);
+}

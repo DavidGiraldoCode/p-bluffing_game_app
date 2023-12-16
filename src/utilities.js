@@ -11,7 +11,7 @@ async function propsWithLoading(propsFunction, props) {
         return true;
     } catch (error) {
         // Handle the error as needed
-        console.log("An error occurred:", error);
+        console.error("An error occurred:", error);
         return false;
     }
 }
