@@ -25,7 +25,7 @@ export function makeRouter(model) {
                 path: `/login`, //? change from login:ID to login, discuss with team if we need the ID there
                 component: <LoginSessionPresenter model={model} />
             }, {
-                path: `/home:ID`, //? change from user:ID to home:ID, discuss with team
+                path: `/home/:ID`, //? change from user:ID to home:ID, discuss with team
                 component: <UserPresenter model={model} />
             }, {
                 path: `/instructions:ID`,  //ALBIN
@@ -43,13 +43,13 @@ export function makeRouter(model) {
                 path: `/lobby:ID`, //TODO: Discuss if we could include a lobby before starting https://eloking.com/glossary/general/lobby
                 component: <div><h1>Lobby</h1></div> // <Lobby model={model} /> 
             }, {
-                path: `/game:ID/:user`, // obu2r2ndjhmu
+                path: `/game/:id/:user`, // obu2r2ndjhmu
                 component: <GamePresenter model={model} />
             }, {
                 path: `/bluff:ID`, //previos name cards
                 component: <BluffPresenter model={model} />
             }, {
-                path: `/session-menu:ID`, //ALBIN
+                path: `/session-menu/:id/:user`, //ALBIN
                 component: <SessionMenuPresenter model={model} />
             }, {
                 path: `/session-menu-test/:id/:user`, //! TESTING ROUTE ------ 

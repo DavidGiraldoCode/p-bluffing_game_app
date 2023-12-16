@@ -6,7 +6,7 @@ import { useRoute } from "vue-router";
 //TODO Continuesly check for gameOver and then change view?
 
 export default function GamePresenter(props) {
-    console.log(useRoute().params.ID, useRoute().params.user);
+    console.log(useRoute().params.id, useRoute().params.user);
     props.model.joinSession(useRoute().params.id, useRoute().params.user);
     
     if (props.model.gameOver) {
@@ -15,7 +15,7 @@ export default function GamePresenter(props) {
         winner={props.model.winner}
         sessionID={props.model.sessionID}
         leaderboard={props.model.leaderboard}
-        routeDestination={`/user:${1234}`} />;
+        routeDestination={`/home/${props.model.user.uid}`} />;
     } else {
         // If the game is not over, render the GameView
         return <GameView 

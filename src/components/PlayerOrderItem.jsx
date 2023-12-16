@@ -21,7 +21,7 @@ export default function PlayerOrderItem(props) {
             </div>
     }
 
-    return <div class="player-order-item-container">
+    return <div class="player-order-item container">
         {showTag()}
         <p class="player-name-text" >{props.playerName}</p>
         {enableSkip()}

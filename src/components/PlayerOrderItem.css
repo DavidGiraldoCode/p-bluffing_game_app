@@ -1,4 +1,4 @@
-.player-order-item-container {
+.player-order-item {
     flex-direction: row;
     height: var(--spacing-j);
     justify-content: center;

@@ -6,6 +6,7 @@ import SwiperVue from "../components/SwiperVue.jsx";
 import "../global-style.css";
 import "./GameView.css";
 import { goTo } from "../utilities.js";
+import { useRoute } from "vue-router";
 
 // TODO Add conditional rendering if its not your turn!
 
@@ -31,7 +32,8 @@ export default function GameView(props) {
     const yourTurn = props.whosTurn == props.player.playerID;
 
     function menuEvenHandlerACB() {
-        goTo(`/session-menu:${props.sessionID}`);
+        //goTo(`/session-menu:${props.sessionID}`);
+        goTo(`/session-menu/${useRoute().params.id}/${useRoute().params.user}`);
     }
 
     function blufferStageHandlerACB() {
