@@ -1,10 +1,13 @@
 //import Swiper from "./Swiper.jsx";
+
+import { goTo } from "../utilities.js";
 import "../global-style.css";
+
 export default function TestUI(props) {
-    console.log('Update TestUI!')
+    console.log('Update TestUI!');
 
     const data = {
-        newPlayerName: "",
+        newPlayerName: (props.model.user.displayName),
         sessionIdFromUI: "",
         playerIdtoRemove: "",
     };
@@ -16,7 +19,7 @@ export default function TestUI(props) {
         data.newPlayerName = "";
     }
 
-    async function addNewPlayerACB() {
+    async function joinSessionACB() {
         // Call the createPlayer function on the model with the input value. Not host
         await props.model.joinSession(data.sessionIdFromUI, data.newPlayerName); // Assuming the player is not the host
         // Clear the input field after adding the player
@@ -27,11 +30,19 @@ export default function TestUI(props) {
         await props.model.removePlayer(data.playerIdtoRemove);
     }
 
+    async function signOutACB(){
+        const sucessLogOut = await props.model.signOut();
+        if(sucessLogOut){
+            goTo("/login")
+        }
+        
+    }
+
     return (
         <div class="test-body" style="width: 400px">
             <h1>UI Tester</h1>
             <h2>sessionID (deckID in the API): {props.model.sessionID} </h2>
-            <h3>players (type Array): {`${props.model.players}`}</h3>
+            <h3>player (type Array): {`${props.model.player}`}</h3>
             <p>playerOrder (type Array): {JSON.stringify(props.model.playerOrder)}</p>
             <p>localNumberOfPlayer: {props.model.localNumberOfPlayers} </p>
             <p>playerHost (a playerID type String): {props.model.playerHost}</p>
@@ -56,7 +67,6 @@ export default function TestUI(props) {
                     type="text"
                     value={data.newPlayerName}
                     onInput={(e) => (data.newPlayerName = e.target.value)}
-                    placeholder="Enter new player name"
                 />
             </div> 
             <div>
@@ -67,7 +77,7 @@ export default function TestUI(props) {
                 />
             </div>                        
             <div>
-                <button onClick={addNewPlayerACB}>Join Session</button>
+                <button onClick={joinSessionACB}>Join Session</button>
             </div>
             <div>
                 <input
@@ -79,8 +89,11 @@ export default function TestUI(props) {
             <div>
                 <button onClick={removePlayerACB}>Remove player</button>
             </div>
+            <div>
+                <button onClick={signOutACB}>Sign Out</button>
+            </div>
 
-            <div>{props.model.players.map(playersRendering)}</div>
+            <div>{props.model.player.map(playersRendering)}</div>
         </div>);
 
     function playersRendering(player) {
@@ -100,8 +113,8 @@ export default function TestUI(props) {
                 {player.pileOfCards.length > 0 && (
                     <div>{player.pileOfCards.map(cardsRendering)}</div>
                 )}
-                {/*<Swiper pileOfCards={player.pileOfCards.reduce(concatenateCardCodesCB).split(", ")} onSelectCardSprite={selectCardSpriteHandler}/>
-                */}
+                {/*<Swiper pileOfCards={player.pileOfCards.reduce(concatenateCardCodesCB).split(", ")} onSelectCardSprite={selectCardSpriteHandler}/>*/}
+
                 <p>Did you manage to bluff your way out?</p>
                 <div>
                     <button

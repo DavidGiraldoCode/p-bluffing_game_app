@@ -1,17 +1,20 @@
 import AppHeader from "../components/AppHeader.jsx";
-import SessionID from "../components/SessionID.jsx";
-import LBitem from "../components/LBitem.jsx";
-import SelectContent from "../components/SelectContent.jsx";
-import SingleAction from "../components/SingleAction.jsx";
-import SectionTitle from "../components/SectionTitle.jsx"
-import SectionSubtitle from "../components/SectionSubtitle.jsx"
-import Swiper from "../components/Swiper.jsx";
-import Footer from "../components/Footer.jsx";
 import DoubleAction from "../components/DoubleAction.jsx";
-import TurnTag from "../components/TurnTag.jsx";
-import PlayerOrderItem from "../components/PlayerOrderItem.jsx";
-import WinnerBanner from "../components/WinnerBanner.jsx";
+import Footer from "../components/Footer.jsx";
+import JoinSessionForm from "../components/JoinSessionForm.jsx";
+import LBitem from "../components/LBitem.jsx";
+import Loading from "../components/Loading.jsx";
 import MenuItem from "../components/MenuItem.jsx";
+import PlayerOrderItem from "../components/PlayerOrderItem.jsx";
+import SectionSubtitle from "../components/SectionSubtitle.jsx"
+import SectionTitle from "../components/SectionTitle.jsx"
+import SessionID from "../components/SessionID.jsx";
+import SingleAction from "../components/SingleAction.jsx";
+import SwiperVue from "../components/SwiperVue.jsx";
+import TurnTag from "../components/TurnTag.jsx";
+import WinnerBanner from "../components/WinnerBanner.jsx";
+
+import SelectContent from "../components/SelectContent.jsx"; //! DELETE SOON
 
 
 export default function DesignSystemView(props) {
@@ -43,7 +46,6 @@ export default function DesignSystemView(props) {
             onInputName={null}
             onInputSessionID={null}
             onJoinSession={null} />
-        <SelectContent /> {/*NEEDS FIX*/}
         <AppHeader /> {/*OSCAR*/} {/*Working on MenuIcon*/}
         <SessionID
             sessionID={"1234567890"}
@@ -62,6 +64,7 @@ export default function DesignSystemView(props) {
             cardText={"Cards:"}
             score={"5"}
         /> {/*OSCAR*/}
+        <SwiperVue/>
         <TurnTag
             tag={"Bluff!"} /> {/*MARTIN*/}
         <PlayerOrderItem
@@ -74,7 +77,7 @@ export default function DesignSystemView(props) {
             buttonText={"Skip"} /> {/*MARTIN*/}
         {<MenuItem
             title={"How to play?"} />} {/*ALBIN*/}
-        <Swiper pileOfCards={['AC']} onSelectCardSprite={null} /> {/*NEEDS FIX*/} {/*DAVID*/}
+       {/* <Swiper pileOfCards={['AC', '5S', 'KS', '2D', 'KH']} onSelectCardSprite={null} /> NEEDS FIX*/} {/*DAVID*/}
         <DoubleAction
             description={"Hello, this is double action"}
             primaryText={"Yes"}
@@ -100,5 +103,6 @@ export default function DesignSystemView(props) {
             btnLabel="Create session"
             onCustomClick={null} />
         <Footer />
+        <Loading/>
     </div>;
 }

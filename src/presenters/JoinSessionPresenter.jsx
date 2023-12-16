@@ -4,48 +4,30 @@ import JoinSessionForm from "../components/JoinSessionForm.jsx";
 //import CreateSession from "../components/CreateSession.jsx";
 import Footer from "../components/Footer.jsx";
 import SingleAction from "../components/SingleAction.jsx";
-import { goTo } from "../utilities.js";
+import Loading from "../components/Loading.jsx";
+import { goTo, propsWithLoading } from "../utilities.js";
+import { ref } from "vue";
+import JoinSessionView from "../views/JoinSessionView.jsx";
+
 
 export default function JoinSessesionPresenter(props) {
 
-    let isCreatingSession = false;
-    console.log(isCreatingSession);
+    async function onJoinSessionACB(sessionID, playerName) {
+        const success = await propsWithLoading(props.model.joinSession(sessionID, playerName), props);
+        console.log("Success?: ", success)
+        if(success){
+            goTo(`/game:${props.model.sessionID}`);
+        }
+      }
+    
 
-    function setNameACB(name) {
-        //TODO props.sessionID = sessionID;
-    }
-    function setSessionIDACB(sessionID) {
-        //TODO props.sessionID = sessionID;
-    } 
+    return <div>
+            <JoinSessionView
+            name={props.model.user.displayName}
+            isLoading={props.model.isLoading}
+            onJoinSessionEvent={onJoinSessionACB}/>
 
-    async function addPlayerToSessionACB() {
-        //console.log(newPlayer);
-        //newPlayer = {name, sessionID}
-        //TODO props.
-        //const player = await props.model.createPlayer(data.newPlayerName, false);
 
-        goTo(`/game:${12345}`);
-    }
 
-    function gotoCreateSessionACB() {
-        //TODO props.
-        goTo(`/create-session:${12345}`);
-    }
-
-    return <div class="m-top-l m-bottom-l">
-        {/*isCreatingSession ? getSessionCreation() : <JoinSessionView onJoinSession={addPlayerToSessionACB} onSessionCreation={gotoSessionCreationACB}/>*/}
-        <SectionTitle title="King's Bluffer" />
-        <JoinSessionForm
-            class="m-bottom-m"
-            onInputName={setNameACB}
-            onInputSessionID={setSessionIDACB}
-            onJoinSession={addPlayerToSessionACB} />
-        <SingleAction
-            title=""
-            description="Do you want to be the host of a new session?"
-            buttonState={false}
-            btnLabel="Create session"
-            onCustomClick={gotoCreateSessionACB} />
-        <Footer />
     </div>
 }

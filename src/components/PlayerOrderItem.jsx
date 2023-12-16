@@ -5,6 +5,7 @@ import TurnTag from "./TurnTag";
 export default function PlayerOrderItem(props) {
 
     function skipEventHandlerACB(event) {
+        props.onSkipPlayer();
         console.log("skipEventHandelerACB in PlayerOrderHandlerACB")
     }
 
@@ -14,7 +15,7 @@ export default function PlayerOrderItem(props) {
     }
 
     function enableSkip() {
-        if (props.isBluffing)
+        if (props.canBeSkip)
             return <div class="skip-button-container">
                 <button class="secondary-no-border" onClick={skipEventHandlerACB}>{props.buttonText}</button>
             </div>

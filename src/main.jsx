@@ -9,55 +9,44 @@ import AppRoot from "./AppRoot.jsx";
 import { makeRouter } from "./AppRoot.jsx";
 import { sessionModel } from "./SessionModel.js";
 
+//?---------------------------------------- Google authentication
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
+
 //?---------------------------------------- thirparty component
-//import { register } from 'swiper/element/bundle';
-//register(); //thirparty component
+import { register } from 'swiper/element/bundle';
+
 //?---------------------------------------- thirparty component
 
-//* ----------------------------- Updates
-// main.js changed to main.jsx to use <App> syntaxis
-//* ----------------------------- 
-
-//! ----------------------------- Test
-/*const miniModel = { //! You can remove this once you connect the real model
-    sessionID: "test1",
-    players: [{
-        playerID: 'someID1',
-        isHost: true,
-        pileOfCards: ['KH', '8C', '6H'],
-        selectedCard: null,
-    }, {
-        playerID: 'someID2',
-        isHost: false,
-        pileOfCards: ['KH', '8C', '6H'],
-        selectedCard: null,
-    }, {
-        playerID: 'someID3',
-        isHost: false,
-        pileOfCards: ['KH', '8C', '6H'],
-        selectedCard: null,
-    }],
-    numberOfPlayers: 3,
-}*/
-
-const ReactiveModel = reactive(sessionModel);
 //! -----------------------------
 /*
 watch(checkACB,sideEffectACB);
-
 function checkACB(){ //? invoke after every reactive object changes
     console.log("watch");
     return [testReactiveModel.numberOfPlayers];
 }
-
 function sideEffectACB(){
     console.log("Side Effect triggered");
 } */
 
-const rootJSX = <AppRoot model={ReactiveModel} />
-const app = createApp(rootJSX);
-app.use(makeRouter(ReactiveModel));
-app.mount('#app');
+// Initialize Firebase
+export const auth = getAuth();
+export const provider = new GoogleAuthProvider();
 
-//? Connection to Firebase, missing the reactiveModel and reaction
+const ReactiveModel = reactive(sessionModel);
+
+// Connection to Firebase, missing the reactiveModel and reaction
 connectToFirebase(ReactiveModel, watch);
+
+// Check authentication status before creating the app
+async function initializeApp() {
+  //register(); //?thirparty component
+  await ReactiveModel.checkAuthStatus();
+  const rootJSX = <AppRoot model={ReactiveModel} />;
+  const app = createApp(rootJSX);
+  app.use(makeRouter(ReactiveModel));
+  window.myModel = ReactiveModel;
+  app.mount("#app");
+}
+
+// Initialize the app
+initializeApp();

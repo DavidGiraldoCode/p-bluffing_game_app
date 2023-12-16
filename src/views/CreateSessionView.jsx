@@ -3,24 +3,47 @@ import "./CreateSessionView.css";
 import AppHeader from "../components/AppHeader";
 import SingleAction from "../components/SingleAction";
 import SectionSubtitle from "../components/SectionSubtitle";
+import Loading from "../components/Loading";
 
 export default function CreateSessionView(props) {
 
+    const data = {
+        playerName : props.name,
+      }
+
     function creationHandlerACB() {
-        props.onCreateSession({ id: "some-user" });
+        props.onCreateSession(data.playerName);
     }
     //destinationTitle="Back"
     return <div class="create-session-view-container">
-        <AppHeader routeDestination={`/join:${12345}`} />
-        <SectionSubtitle title="Creating game session" />
+
+        <AppHeader routeDestination={`/user:${1234}`} 
+            icon={"Backarrow"}
+            icon-text={"Back"}
+        />
+
+        <SectionSubtitle title="Create game session" />
+        
         <div class="create-session-input-container">
-            <input type="text" placeholder={"Firebase user name"} onChange={null} />
+            <input
+            onInput={(e) => (data.playerName = e.target.value)}
+            type="text"
+            value={props.name}
+            />
         </div>
-        <SingleAction
+        {props.isLoading ? (
+            <Loading
+            class="create-session-singleaction-container"
+            message="Creating Session..."/>
+            ) : (
+            <SingleAction
             class="create-session-singleaction-container"
             description="You are going to be the host of this session"
-            btnLabel="Confirm"
+            btnLabel="Continue"
             onCustomClick={creationHandlerACB}
-        />
+            />
+            )}
+
+
     </div>
 }

@@ -3,7 +3,7 @@
     padding: var(--spacing-xs) var(--spacing-l);
     flex-direction: column;
     justify-content: center;
-    align-items:start;
+    align-items:center;
     gap: var(--spacing-s);
     align-self: stretch;
 }
