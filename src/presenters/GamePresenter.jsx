@@ -1,37 +1,24 @@
-import AppHeader from "../components/AppHeader.jsx";
-import SessionID from "../components/SessionID.jsx";
-import LBitem from "../components/LBitem.jsx";
-import SingleAction from "../components/SingleAction.jsx";
-import SwiperVue from "../components/SwiperVue.jsx";
 import { goTo } from "../utilities.js";
+import GameView from "../views/GameView.jsx";
+import GameOverView from "../views/GameOverView.jsx";
+
+//TODO Continuesly check for gameOver and then change view?
 
 export default function GamePresenter(props) {
-
-    //TODO implement Component state for handeling the bluffing state
-    let isBluffing = false;
-
-    function blufferStageHandlerACB() {
-        console.log(`isBluffing: ${isBluffing}`);
-        //TODO for now, go to leader board
-        goTo(`/leader-board:123456`);
+    if (props.model.gameOver) {
+        // If the game is over, render the GameOverView
+        return <GameOverView 
+        winner={props.model.winner}
+        sessionID={props.model.sessionID}
+        leaderboard={props.model.leaderboard}
+        routeDestination={`/user:${1234}`} />;
+    } else {
+        // If the game is not over, render the GameView
+        return <GameView 
+            sessionID={props.model.sessionID}
+            whosTurn={props.model.yourTurn}
+            leaderboard={props.model.leaderboard}
+            player={props.model.player[0]}
+        />;
     }
-
-    return <div class="game-presenter container">
-        <AppHeader routeDestination={`/session-menu:${12345}`} />
-        <SessionID sessionID={props.model.sessionID} />
-        <LBitem
-            rank={"1º"}
-            playerName={"Nicolas Gomez"}
-            cardIcon={"🃏"}
-            cardText={"Cards:"}
-            score={"5"}/>
-        <SwiperVue /> {/*DAVID*/}
-        <SingleAction
-            title="Your turn!"
-            description="Select a card to bluff your way out"
-            buttonState={false}
-            btnLabel="Confirm"
-            onCustomClick={blufferStageHandlerACB} />
-
-    </div>
 }

@@ -19,9 +19,9 @@ export default function LoginSessionView(props) {
             />
 
         <SingleAction
-            title="Google Bluff"
-            description="Do you want to be the host of a new session?"
-            btnLabel="Login"
+            title=" "
+            description="Please log in below to play!"
+            btnLabel="Continue with Google "
             onCustomClick={LoginHandlerACB}
             />
 

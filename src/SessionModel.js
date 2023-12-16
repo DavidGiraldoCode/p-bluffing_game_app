@@ -79,7 +79,7 @@ class Player {
 // =============================================================================
 
 export let sessionModel = {
-    user: null, //? GoogleUserData
+    user: null, //? GoogleUserData, relevant: uid: playerID, displayName: playerName, photoURL: playerImage
     sessionID: null, // the deck_id defined by the API
     player: [], // array of player objects
     playerOrder: [], // array of playerIDs stating the plaing order of the game
@@ -123,11 +123,11 @@ export let sessionModel = {
                     this.readyToWriteFB = true;
                 }else{
                     //If one player already has joined on one device.
-                    console.error("Only one player per device is supported!");
+                    throw new Error("Only one player per device is supported!");
                 }                
             }
         }else{
-            console.error("SessionID is not valid!");
+            throw new Error("SessionID is not valid!");
         }
     },
 
@@ -139,7 +139,7 @@ export let sessionModel = {
             await this.reCreatePlayer(newPlayerName, this.user.uid, isHost);
             this.readyToWriteFB = true;
         }else{
-            console.error("Only one player per device is supported!");
+            throw new Error("Only one player per device is supported!");
         } 
     },
 
@@ -157,7 +157,7 @@ export let sessionModel = {
             this.readyToWriteFB = true;
         }else{
             //If one player already has joined on one device.
-            console.error("Only one player per device is supported!");
+            throw new Error("Only one player per device is supported!");
         }
     },
 
@@ -265,6 +265,7 @@ export let sessionModel = {
         const player = this.player.find(p => p.playerID == playerID);
         await player.getPileOfCards();
         this.gameOverCheck(playerID); //Might be a bit redundant to call gameOverCheck from here. You cannot get out of cards when dealing?
+        player.selectedCard = null;
 
         async function drawCard(){
             // Help function to dealCards
@@ -286,6 +287,7 @@ export let sessionModel = {
         const player = this.player.find(p => p.playerID == playerID);
         await player.getPileOfCards();  //Updates the local pile of cards.
         this.gameOverCheck(playerID);
+        player.selectedCard = null;
     },
 
     // =================================== Authentification ==========================================

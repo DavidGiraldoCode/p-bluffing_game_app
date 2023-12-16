@@ -2,7 +2,6 @@ import "../global-style.css";
 import "./SingleAction.css"
 
 export default function SingleAction(props) {
-    console.log('props.buttonState',props.buttonState);
     
     function eventHandlerACB(event) {
         console.log('Event in SingleAction');

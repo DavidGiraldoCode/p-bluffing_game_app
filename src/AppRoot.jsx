@@ -8,22 +8,17 @@ import GamePresenter from "./presenters/GamePresenter.jsx";
 import ExitPresenter from "./presenters/ExitPresenter.jsx";
 import InstructionsPresenter from "./presenters/InstructionsPresenter.jsx";
 import SessionMenuPresenter from "./presenters/SessionMenuPresenter.jsx";
-import LoginPresenter from "./presenters/LoginPresenter.jsx";
-import CreateSessionPresenter from "./presenters/CreateSessionPrenter.jsx";
+import CreateSessionPresenter from "./presenters/CreateSessionPresenter.jsx";
 import LeaderBoardPresenter from "./presenters/LeaderBoardPresenter.jsx";
 import SessionMenuPreObj from "./presenters/SessionMenuPreObj.jsx";
 import SwiperPresenter from "./presenters/SwiperPresenter.jsx";
 import SwiperVue from "./components/SwiperVue.jsx";
+import BluffPresenter from "./presenters/BluffPresenter.jsx";
 
 export function makeRouter(model) {
-    console.log(model);
     return createRouter({
         history: createWebHashHistory(),
         routes: [
-            {
-                path: "/login",
-                component: <LoginPresenter model={model} />
-            },
             {
                 path: "/test-ui",
                 component: <TestUI model={model} />
@@ -32,11 +27,11 @@ export function makeRouter(model) {
                 path: "/design-system",
                 component: <DesignSystemPresenter model={model} />
             }, {
-                path: "/", //TODO change for new login with google view
-                component: <JoinSessesionPresenter model={model} />
+                path: "/",
+                component: <LoginSessionPresenter model={model} />
             }
             , {
-                path: `/join:ID`,
+                path: `/join`,
                 component: <JoinSessesionPresenter model={model} />
             }
             ,   {
@@ -48,16 +43,19 @@ export function makeRouter(model) {
                 component: <UserPresenter model={model} />
             }
             , {
-                path: `/create-session:ID`, //TODO Possiblily will be remove
-                component: <CreateSessionPresenter />
-            }, {
+                path: `/create-session`, //TODO Possiblily will be remove
+                component: <CreateSessionPresenter model={model}/>
+            },{
                 path: `/game:ID`, //previos name cards
                 component: <GamePresenter model={model} />
             },{
                 path: `/testing-swiper-vue`,//! TESTING ROUTE ------ for the Swiper by David
                 component: <SwiperVue model={model} />
             }, {
-                path: `/session-menu/:id/:user`, //ALBIN
+                path: `/bluff:ID`, //previos name cards
+                component: <BluffPresenter model={model} />
+            }, {
+                path: `/session-menu:ID`, //ALBIN
                 component: <SessionMenuPresenter model={model} />
             },{
                 path: `/session-menu-test/:id/:user`, //! TESTING ROUTE ------ 

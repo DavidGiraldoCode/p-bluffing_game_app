@@ -3,8 +3,17 @@ import { goTo } from "../utilities.js";
 
 export default function LoginSessionPresenter(props) {
 
-    function LoginSessionHandlerACB(obj){
-        goTo(`/user:ID${obj.id}`);
+    async function LoginSessionHandlerACB(){
+        const authOk = await props.model.checkAuthStatus();
+        if(authOk){
+            goTo(`/user:${props.model.user.uid}`) // TODO change ID
+        }else{
+            const authOk = await props.model.getAuthentification(); // authOk boolean
+            if(authOk){
+                goTo(`/user:${props.model.user.uid}`)
+            }
+        }
+
     }
 
     return <div>
