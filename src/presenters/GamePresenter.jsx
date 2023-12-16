@@ -21,5 +21,4 @@ export default function GamePresenter(props) {
             player={props.model.player[0]}
         />;
     }
-    
 }

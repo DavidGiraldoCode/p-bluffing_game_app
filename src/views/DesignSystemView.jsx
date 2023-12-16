@@ -1,18 +1,21 @@
 import AppHeader from "../components/AppHeader.jsx";
-import SessionID from "../components/SessionID.jsx";
-import LBitem from "../components/LBitem.jsx";
-import SelectContent from "../components/SelectContent.jsx";
-import SingleAction from "../components/SingleAction.jsx";
-import SectionTitle from "../components/SectionTitle.jsx"
-import SectionSubtitle from "../components/SectionSubtitle.jsx"
-import Swiper from "../components/Swiper.jsx";
-import Footer from "../components/Footer.jsx";
 import DoubleAction from "../components/DoubleAction.jsx";
-import TurnTag from "../components/TurnTag.jsx";
-import PlayerOrderItem from "../components/PlayerOrderItem.jsx";
-import WinnerBanner from "../components/WinnerBanner.jsx";
+import Footer from "../components/Footer.jsx";
+import JoinSessionForm from "../components/JoinSessionForm.jsx";
+import LBitem from "../components/LBitem.jsx";
+import Loading from "../components/Loading.jsx";
 import MenuItem from "../components/MenuItem.jsx";
-import JoinSessionView from "./JoinSessionView.jsx";
+import PlayerOrderItem from "../components/PlayerOrderItem.jsx";
+import SectionSubtitle from "../components/SectionSubtitle.jsx"
+import SectionTitle from "../components/SectionTitle.jsx"
+import SessionID from "../components/SessionID.jsx";
+import SingleAction from "../components/SingleAction.jsx";
+import SwiperVue from "../components/SwiperVue.jsx";
+import TurnTag from "../components/TurnTag.jsx";
+import WinnerBanner from "../components/WinnerBanner.jsx";
+
+import SelectContent from "../components/SelectContent.jsx"; //! DELETE SOON
+
 
 export default function DesignSystemView(props) {
 
@@ -62,6 +65,7 @@ export default function DesignSystemView(props) {
             cardText={"Cards:"}
             score={"5"}
         /> {/*OSCAR*/}
+        <SwiperVue/>
         <TurnTag
             tag={"Bluff!"} /> {/*MARTIN*/}
         <PlayerOrderItem
@@ -99,10 +103,8 @@ export default function DesignSystemView(props) {
             buttonState={false}
             btnLabel="Create session"
             onCustomClick={null} />
-        
         <Footer />
-        
-        <JoinSessionView 
-            /> 
+        <Loading/>
+
     </div>;
 }

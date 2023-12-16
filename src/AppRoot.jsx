@@ -10,6 +10,9 @@ import InstructionsPresenter from "./presenters/InstructionsPresenter.jsx";
 import SessionMenuPresenter from "./presenters/SessionMenuPresenter.jsx";
 import CreateSessionPresenter from "./presenters/CreateSessionPresenter.jsx";
 import LeaderBoardPresenter from "./presenters/LeaderBoardPresenter.jsx";
+import SessionMenuPreObj from "./presenters/SessionMenuPreObj.jsx";
+import SwiperPresenter from "./presenters/SwiperPresenter.jsx";
+import SwiperVue from "./components/SwiperVue.jsx";
 import BluffPresenter from "./presenters/BluffPresenter.jsx";
 
 export function makeRouter(model) {
@@ -45,6 +48,9 @@ export function makeRouter(model) {
             },{
                 path: `/game:ID`, //previos name cards
                 component: <GamePresenter model={model} />
+            },{
+                path: `/testing-swiper-vue`,//! TESTING ROUTE ------ for the Swiper by David
+                component: <SwiperVue model={model} />
             }, {
                 path: `/bluff:ID`, //previos name cards
                 component: <BluffPresenter model={model} />
