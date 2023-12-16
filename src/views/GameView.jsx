@@ -1,9 +1,8 @@
 import AppHeader from "../components/AppHeader.jsx";
 import SessionID from "../components/SessionID.jsx";
 import LBitem from "../components/LBitem.jsx";
-import SelectContent from "../components/SelectContent.jsx";
 import SingleAction from "../components/SingleAction.jsx";
-import Swiper from "../components/Swiper.jsx";
+import SwiperVue from "../components/SwiperVue.jsx";
 import "../global-style.css";
 import "./GameView.css";
 import { goTo } from "../utilities.js";
@@ -65,6 +64,7 @@ export default function GameView(props) {
             cardText={"Cards:"}
             score={props.player.numberOfCards}
         />
+        <SwiperVue/>
         //! Temporary instead of Swiper
         {props.player.pileOfCards.length > 0 && (
                     <div>{props.player.pileOfCards.map(cardsRendering)}</div>

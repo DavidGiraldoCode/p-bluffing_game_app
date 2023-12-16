@@ -13,8 +13,8 @@ import { sessionModel } from "./SessionModel.js";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
 //?---------------------------------------- thirparty component
-//import { register } from 'swiper/element/bundle';
-//register(); //thirparty component
+import { register } from 'swiper/element/bundle';
+
 //?---------------------------------------- thirparty component
 
 //! -----------------------------
@@ -39,6 +39,7 @@ connectToFirebase(ReactiveModel, watch);
 
 // Check authentication status before creating the app
 async function initializeApp() {
+  //register(); //?thirparty component
   await ReactiveModel.checkAuthStatus();
   const rootJSX = <AppRoot model={ReactiveModel} />;
   const app = createApp(rootJSX);

@@ -3,7 +3,7 @@ import { Swiper, SwiperSlide } from "swiper/vue";
 import 'swiper/css';
 import 'swiper/css/effect-cards';
 import 'swiper/css/pagination';
-import "./SwiperView.css";
+import "./SwiperVue.css";
 import { reactive, onMounted, watch, onUnmounted } from "vue";
 
 const SwiperVue = {

@@ -11,7 +11,6 @@ import SessionMenuPresenter from "./presenters/SessionMenuPresenter.jsx";
 import CreateSessionPresenter from "./presenters/CreateSessionPresenter.jsx";
 import LeaderBoardPresenter from "./presenters/LeaderBoardPresenter.jsx";
 import SessionMenuPreObj from "./presenters/SessionMenuPreObj.jsx";
-import SwiperPresenter from "./presenters/SwiperPresenter.jsx";
 import SwiperVue from "./components/SwiperVue.jsx";
 import BluffPresenter from "./presenters/BluffPresenter.jsx";
 
@@ -46,7 +45,7 @@ export function makeRouter(model) {
                 path: `/create-session`, //TODO Possiblily will be remove
                 component: <CreateSessionPresenter model={model}/>
             },{
-                path: `/game:ID`, //previos name cards
+                path: `/game:ID`, //previos name cards obu2r2ndjhmu
                 component: <GamePresenter model={model} />
             },{
                 path: `/testing-swiper-vue`,//! TESTING ROUTE ------ for the Swiper by David

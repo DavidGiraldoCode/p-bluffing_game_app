@@ -46,7 +46,6 @@ export default function DesignSystemView(props) {
             onInputName={null}
             onInputSessionID={null}
             onJoinSession={null} />
-        <SelectContent /> {/*NEEDS FIX*/}
         <AppHeader /> {/*OSCAR*/} {/*Working on MenuIcon*/}
         <SessionID
             sessionID={"1234567890"}
