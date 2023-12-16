@@ -92,7 +92,6 @@ async function getPlayerData(sessionID, userID){
     const playerSnapshot = await get(playerRef);
     const player = playerSnapshot.val() || {};
     return player;
-
 }
 
 // =================================== Model Conversion Functions ==========================================

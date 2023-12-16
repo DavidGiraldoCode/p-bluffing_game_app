@@ -5,9 +5,9 @@ import MenuItem from "../components/MenuItem.jsx";
 import PlayerOrderItem from "../components/PlayerOrderItem.jsx";
 import "../global-style.css";
 import "./SessionMenuView.css";
-import { goTo } from "../utilities.js";
 
 export default function SessionMenuView(props) {
+
 
   function renderOrder(playerArray) {
 

@@ -4,7 +4,7 @@ import { goTo } from "../utilities.js";
 import "../global-style.css";
 
 export default function TestUI(props) {
-    console.log('Update TestUI!')
+    console.log('Update TestUI!');
 
     const data = {
         newPlayerName: (props.model.user.displayName),

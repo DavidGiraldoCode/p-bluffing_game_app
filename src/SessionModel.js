@@ -91,6 +91,9 @@ export let sessionModel = {
     leaderboard: {},
     readyToWriteFB: false,
     isloading: false,
+    //! Temporal -------
+    promiseState: {},
+    //!-----------------
 
     // =================================== Session Management ==========================================
     async joinSession(sessionIdFromUI, newPlayerName){
