@@ -18,7 +18,7 @@ export default function BluffView(props) {
     }
 
 
-    return <div class="bluff-view">
+    return <div class="bluff-view container">
         <AppHeader routeDestination={`/session-menu:${props.sessionID}`} />
         <SessionID sessionID={props.sessionID}/>
         <div class="instruction-text">
@@ -36,6 +36,7 @@ export default function BluffView(props) {
             ) : (
            
             <DoubleAction
+            class="fixed-bottom"
             description={"Did you manage to bluff your way out?"}
             primaryText={"Yes"}
             secondaryText={"No"}

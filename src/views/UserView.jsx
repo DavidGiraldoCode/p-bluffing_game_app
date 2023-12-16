@@ -6,6 +6,7 @@ import DoubleAction from "../components/DoubleAction";
 import Footer from "../components/Footer";
 import SectionTitle from "../components/SectionTitle";
 import UserGreeting from "../components/UserGreeting";
+import SwiperVue from "../components/SwiperVue.jsx";
 import { goTo } from "../utilities.js";
 
 export default function CreateSessionView(props) {
@@ -13,44 +14,41 @@ export default function CreateSessionView(props) {
     function creationHandlerACB() {
         props.onCreateSession({ id: "some-user" });
     }
-    function createSessionACB(){
-        goTo(`/create-session`);
+
+    function logOutEvenHandlerACB() {
+        goTo(`/exit`);
     }
 
-    function joinSessionACB(){
-        goTo(`/join`);
+    function createSessionACB() {
+        goTo(`/create-session:123`);
+    }
+
+    function joinSessionACB() {
+        goTo(`/join-session:123`);
     }
     //destinationTitle="Back"
-    return <div>
-
-        {/*  User Login View */}
-
-        <AppHeader routeDestination={`/login:${12345}`} 
-            icon={"Logout"}
-            icon-text={"Logout"}
-            /> 
-        
+    return <div class="container">
+        <AppHeader onLeftClick={logOutEvenHandlerACB} icon={"Logout"} icon-text={"Logout"} />
         <UserGreeting
             userImage={props.userImage}
             title={"Hello there"}
-            name={props.name}/>  
-        
-        <DoubleAction
-            description ={"Ready for your next game?"}
-            primaryText={"Host session"}
-            secondaryText={"Join session"}
-            primaryOnClick={createSessionACB}
-            secondaryOnClick={joinSessionACB}
+            name={props.name} />
+        <div class="fixed-bottom" >
+            <DoubleAction
+                class="m-bottom-m"
+                description={"Ready for your next game?"}
+                primaryText={"Host session"}
+                secondaryText={"Join session"}
+                primaryOnClick={createSessionACB}
+                secondaryOnClick={joinSessionACB}
             />
-
-        <MenuItem 
-            title={"Instructions"}
-            onCustomClick={x => { goTo(`/instructions:${123456}`) }}
+            <MenuItem
+                class="m-bottom-m"
+                title={"How to play?"}
+                routeDestination={`/instructions:${123456}`}
             />
-            
-        <Footer />
-
- 
+            <Footer />
+        </div>
 
     </div>
 }

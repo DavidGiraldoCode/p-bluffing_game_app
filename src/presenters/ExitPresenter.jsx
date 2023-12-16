@@ -1,10 +1,12 @@
 import { goTo } from "../utilities.js";
 import ExitView from "../views/ExitView.jsx";
 
-export default function ExitPresenter() {
+export default function ExitPresenter(props) {
 
     function logOutHandler(){
-        goTo(`/join:${123456}`);
+        //TODO Logout
+        props.model.signOut();
+        goTo(`/`);
     }
 
     return <ExitView onLogOut={logOutHandler}/>

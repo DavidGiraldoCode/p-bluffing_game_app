@@ -30,7 +30,7 @@ export default function GameOverView(props) {
     const sortedPlayers = players.sort((a, b) => a.numberOfCards - b.numberOfCards);
     const winnerName = props.winner ? props.leaderboard[props.winner]?.playerName : "Unknown";
     return (
-        <div>
+        <div class="container">
             <SectionTitle title={"King's bluffer 🃏"} />
             <SessionID sessionID={props.sessionID}/>
             <WinnerBanner

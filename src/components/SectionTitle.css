@@ -1,8 +1,9 @@
 .section-title{
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
+  align-self: stretch;
   padding: var(--spacing-l) var(--spacing-m) ;
 }
 

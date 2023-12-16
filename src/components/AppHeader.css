@@ -1,6 +1,6 @@
 .header-container {
 
-  
+  display: flex;
   flex-direction: row;
 
   height: var(--spacing-xxl);
@@ -16,6 +16,7 @@
 
 .menu-container {
   display: flex;
+  flex: 1;
   flex-direction: row;
   align-items: center;
 }
@@ -49,6 +50,6 @@
 }
 
 .solid {
-  width: 80px;
-  height: 32px;
+  flex: 1;
+  background-color: aqua;
 }

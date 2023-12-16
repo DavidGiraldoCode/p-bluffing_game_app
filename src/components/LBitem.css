@@ -1,6 +1,4 @@
-
-.lb-container{
-  display: flex;
+.lb {
   flex-direction: row;
   height: 48px;
   align-items: center;
@@ -12,42 +10,41 @@
 }
 
 .rank-container,
-.score-container{
+.score-container {
   justify-content: center;
   padding: var(--spacing-s);
   background: var(--grey-5);
   width: auto;
-  height: 100%; 
+  height: 100%;
 }
 
-.rank-number, 
+.rank-number,
 .score-number {
   text-align: center;
-  width: 42px /*fixed width in figma*/
 }
 
-.text-container{
-flex: 1;
-flex-direction: row;
-flex-grow: 1; /* Allows the container take up the remaning space */ 
-padding: var(--spacing-s);
-gap: var(--spacing-xs);
-align-items: center;
-background-color: var(--secondary-color);
-width: 100%;
-height: 100%;
-} 
+.text-container {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  flex-grow: 1;
+  /* Allows the container take up the remaning space */
+  padding: var(--spacing-s);
+  gap: var(--spacing-xs);
+  align-items: center;
+  background-color: var(--secondary-color);
+  width: 100%;
+  height: 100%;
+}
 
-.user-text{
+.user-text {
   flex: 1;
   text-align: left;
   color: var(--primary-color);
 }
 
-.cards-text{
+.cards-text {
   flex: 1;
   text-align: right;
   color: var(--primary-color);
 }
-
-

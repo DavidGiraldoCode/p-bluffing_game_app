@@ -2,10 +2,11 @@
     display: flex;
     padding: var(--spacing-xs) var(--spacing-l);
     flex-direction: column;
-    justify-content: center;
-    align-items:center;
+    justify-content: flex-start;
+    align-items:flex-start;
     gap: var(--spacing-s);
     align-self: stretch;
+    text-align: left;
 }
 
 .title-text {

@@ -358,6 +358,6 @@ textarea:not(:placeholder-shown) {
 
 .fixed-bottom {
     position: absolute;
-    top: 0rem;
+    bottom: 0rem;
     width: 100%;
 }

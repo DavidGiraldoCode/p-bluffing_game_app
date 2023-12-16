@@ -19,62 +19,57 @@ export function makeRouter(model) {
         history: createWebHashHistory(),
         routes: [
             {
-                path: "/test-ui",
-                component: <TestUI model={model} />
-            },
-            {
-                path: "/design-system",
-                component: <DesignSystemPresenter model={model} />
-            }, {
                 path: "/",
                 component: <LoginSessionPresenter model={model} />
-            }
-            , {
-                path: `/join`,
-                component: <JoinSessesionPresenter model={model} />
-            }
-            ,   {
-                path: `/login:ID`,
+            }, {
+                path: `/login`, //? change from login:ID to login, discuss with team if we need the ID there
                 component: <LoginSessionPresenter model={model} />
-            }
-            ,   {
-                path: `/user:ID`,
+            }, {
+                path: `/home/:ID`, //? change from user:ID to home:ID, discuss with team
                 component: <UserPresenter model={model} />
-            }
-            , {
-                path: `/create-session`, //TODO Possiblily will be remove
-                component: <CreateSessionPresenter model={model}/>
-            },{
-                path: `/game:ID`, //previos name cards obu2r2ndjhmu
+            }, {
+                path: `/instructions:ID`,  //ALBIN
+                component: <InstructionsPresenter model={model} />
+            }, {
+                path: `/exit`, //? Think if we need the :ID here
+                component: <ExitPresenter model={model} />
+            }, {
+                path: `/join-session:ID`, //TODO: Implement OAuth after reload
+                component: <JoinSessesionPresenter model={model} />
+            }, {
+                path: `/create-session:ID`, //TODO: Implement OAuth after reload
+                component: <CreateSessionPresenter model={model} />
+            }, {
+                path: `/lobby:ID`, //TODO: Discuss if we could include a lobby before starting https://eloking.com/glossary/general/lobby
+                component: <div><h1>Lobby</h1></div> // <Lobby model={model} /> 
+            }, {
+                path: `/game/:id/:user`, // obu2r2ndjhmu
                 component: <GamePresenter model={model} />
-            },{
-                path: `/testing-swiper-vue`,//! TESTING ROUTE ------ for the Swiper by David
-                component: <SwiperVue model={model} />
             }, {
                 path: `/bluff:ID`, //previos name cards
                 component: <BluffPresenter model={model} />
             }, {
-                path: `/session-menu:ID`, //ALBIN
+                path: `/session-menu/:id/:user`, //ALBIN
                 component: <SessionMenuPresenter model={model} />
-            },{
+            }, {
                 path: `/session-menu-test/:id/:user`, //! TESTING ROUTE ------ 
                 component: <SessionMenuPreObj model={model} />
-            }, {
-                path: `/instructions:ID`,  //ALBIN
-                component: <InstructionsPresenter model={model} />
-
-            }, {
-                path: `/exit:ID`, //ALBIN Done
-                component: <ExitPresenter model={model} />
             }, {
                 path: `/leader-board:ID`,
                 component: <LeaderBoardPresenter model={model} />
             }, {
                 path: `/:notFound`,
-                component: <p>
-                    Sorry not Found, find a session to <a href="#/join:ID">join here</a>
-                </p>,
-            },
+                component: <p> Sorry not Found, find a session to <a href="#/">Login here</a></p>,
+            }, {
+                path: "/test-ui",
+                component: <TestUI model={model} />
+            }, {
+                path: "/design-system",
+                component: <DesignSystemPresenter model={model} />
+            }, {
+                path: `/testing-swiper-vue`,//! TESTING ROUTE ------ for the Swiper by David
+                component: <SwiperVue model={model} />
+            }
         ]
     })
 }
