@@ -1,14 +1,24 @@
+import DesktopHeader from "../components/DesktopHeader";
+import DesktopContent from "../components/DesktopContent";
+import DesktopFooter from "../components/DesktopFooter";
+import "../global-style.css"
+import './DesktopView.css';
 
-import '../components/DesktopView.css';
 
+{/* Header Main Footer */
 
+}
 export default
 function DesktopView(props){
   return (
-    <div>
-        
-        <div class="div">
-        <div class="div-2">King’s bluffer</div>
+        <div className="desktop-container">
+            <DesktopHeader /> 
+            <DesktopContent />
+            <DesktopFooter />
+
+        {/*  OLD DesktopView Switching to components above 
+        <div class="desktop-container">
+        <div class="desktop-header"><h4>King’s bluffer</h4></div>
         <div class="div-3">
             <div class="div-4">
             <div class="div-5">
@@ -16,7 +26,7 @@ function DesktopView(props){
                 <div class="div-6">
                     <div class="div-7">This a mobile-first gaming experience</div>
                     <div class="div-8">
-                    If you want to play, open the web on your phone or scan this code.
+                    If you want to play, open the web browser on your phone and scan this code.
                     </div>
                 </div>
                 </div>
@@ -30,7 +40,10 @@ function DesktopView(props){
             Powered by <a href="https://www.deckofcardsapi.com/" target="_blank"> Deck of Card API </a>
         </div>
         </div>
-    </div>
+         */} 
+
+        </div>
+         
         );
     };
 
