@@ -2,7 +2,7 @@
 // 2023-12-01, Albin Fransson & Martin Sandberg
 
 import {BASE_URL} from "/src/apiConfig.js";
-import { saveToFirebase, checkValidSessionID, checkIfPlayerExists, getPlayerData, playerFBCounter, sessionFBCounter, checkHostFB, deleteSessionFromFB } from "./firebaseModel";
+import { saveToFirebase, checkValidSessionID, checkIfPlayerExists, getPlayerData, playerFBCounter, sessionFBCounter, checkHostFB, deleteSessionFromFB, getDeckID, saveDeckID } from "./firebaseModel";
 //?---------------------------------------- Google authentication
 import { getAuth, signInWithPopup, signInWithRedirect, onAuthStateChanged, signOut, GoogleAuthProvider, getRedirectResult } from "firebase/auth";
 import {auth, provider } from "./main.jsx";
@@ -65,7 +65,7 @@ class Player {
         function listingCardCodeCB(card){
             return card.code;
         }
-        const API_URL = `${BASE_URL}/deck/${sessionModel.sessionID}/pile/${this.playerID}/list/`;
+        const API_URL = `${BASE_URL}/deck/${sessionModel.deckID}/pile/${this.playerID}/list/`;
         const data = await sessionModel.getDataFromAPI(API_URL);
         const id = this.playerID;
         this.pileOfCards = data.piles[id].cards.map(listingCardCodeCB);
@@ -80,7 +80,8 @@ class Player {
 
 export let sessionModel = {
     user: null, //? GoogleUserData, relevant: uid: playerID, displayName: playerName, photoURL: playerImage
-    sessionID: null, // the deck_id defined by the API
+    sessionID: null, // The common sessionID for multiplayer functionality
+    deckID: null,    // The common ID for the deck on API
     player: [], // array of player objects
     playerOrder: [], // array of playerIDs stating the plaing order of the game
     yourTurn: null, // a playerID of 
@@ -117,6 +118,7 @@ export let sessionModel = {
                 // Creates a new player which is added to the session
                 if(this.localNumberOfPlayers < 1 || this.localNumberOfPlayers === null){
                     this.sessionID = sessionIdFromUI;
+                    this.deckID = await getDeckID(sessionIdFromUI);
                     const player = await this.createPlayer(newPlayerName, this.user.uid, false)
                     await this.dealCards(player.playerID, 5); // always deals five cards
                     playerFBCounter(); // Adds one to the FBCounter
@@ -160,6 +162,9 @@ export let sessionModel = {
     async createHost(newPlayerName){
         if(this.localNumberOfPlayers < 1 || this.localNumberOfPlayers === null){
             await this.getDeckID();
+            console.log("Next calling getSessionID")
+            await this.getSessionID();
+            console.log("Out of calling getSessionID")
             // Call the createPlayer function on the model with the input value
             const player = await this.createPlayer(newPlayerName, this.user.uid, true); // Assuming the player is the host
             this.playerHost = player.playerID;
@@ -169,6 +174,7 @@ export let sessionModel = {
             playerFBCounter(); // Adds one player to the FBCounter
             sessionFBCounter(); // Adds one session to the FBCounter
             this.readyToWriteFB = true;
+            saveDeckID(this.sessionID, this.deckID);
         }else{
             //If one player already has joined on one device.
             throw new Error("Only one player per device is supported!");
@@ -185,6 +191,13 @@ export let sessionModel = {
         if(playerIdToRemove == this.yourTurn){
             this.nextPlayer();
         }
+    },
+
+    getSessionID(){
+        console.log("Got int getSessionID")
+        const randomID = Math.floor(Math.random() * 1000) + 1;
+        this.sessionID = randomID;
+        console.log("SessionID: ", this.sessionID);
     },
 
 
@@ -274,7 +287,7 @@ export let sessionModel = {
         // This function will be used for example when clicking Create session or Join Session or if a player needs to draw a new card.
         const arrayOfCardCodes = await drawCard()
         const queryString = arrayOfCardCodes.join(',');
-        const API_URL = `${BASE_URL}/deck/${this.sessionID}/pile/${playerID}/add/?cards=${queryString}`;
+        const API_URL = `${BASE_URL}/deck/${this.deckID}/pile/${playerID}/add/?cards=${queryString}`;
         const data = await this.getDataFromAPI(API_URL);
         const player = this.player.find(p => p.playerID == playerID);
         await player.getPileOfCards();
@@ -287,7 +300,7 @@ export let sessionModel = {
             function drawCardCodeCB(card){
                 return card.code;
             }
-            const API_URL = `${BASE_URL}/deck/${sessionModel.sessionID}/draw/?count=${amountOfCards}`;
+            const API_URL = `${BASE_URL}/deck/${sessionModel.deckID}/draw/?count=${amountOfCards}`;
             const data = await sessionModel.getDataFromAPI(API_URL);
             return data.cards.map(drawCardCodeCB);
         }
@@ -296,7 +309,7 @@ export let sessionModel = {
     async removeCard(playerID, selectedCard){
         // Removes a card from the players pile in the API. When card is removed. When cards is removed, calls gameOverCheck to check if the player is out of cards.
         // The selectedCard as argument will be passed from the player class attribute selectedCard.
-        const API_URL = `${BASE_URL}/deck/${this.sessionID}/pile/${playerID}/draw/?cards=${selectedCard}`;
+        const API_URL = `${BASE_URL}/deck/${this.deckID}/pile/${playerID}/draw/?cards=${selectedCard}`;
         const data = await this.getDataFromAPI(API_URL);
         const player = this.player.find(p => p.playerID == playerID);
         await player.getPileOfCards();  //Updates the local pile of cards.
@@ -358,6 +371,7 @@ export let sessionModel = {
 
     async getDataFromAPI(API_URL){
         // Fetches data from the API in accordance to the API_URL as parameter. This function handles errors: response not OK, general errors from fetch and network offline specific error.
+        console.log("deckID is ", this.deckID);
         try {
             const response = await fetch(API_URL);
 
@@ -379,18 +393,18 @@ export let sessionModel = {
  
     async getDeckID(){
         //Gets a new deck from the API and sets the sessionID from the model. Data is the whole respons.
-        if(this.sessionID == null){
+        if(this.sessionID == null && this.deckID == null){
             const API_URL = `${BASE_URL}/deck/new/shuffle/`;
             const data = await this.getDataFromAPI(API_URL);
             const deck_id = data.deck_id;
-            this.sessionID = deck_id;
+            this.deckID = deck_id;
         }else{
             throw Error("Cannot create a new session, since one is already active!")
         }
     },
 
     async getRemaningCardsOfDeck(){
-        const API_URL = `${BASE_URL}/deck/${this.sessionID}/`;
+        const API_URL = `${BASE_URL}/deck/${this.deckID}/`;
         const data = await this.getDataFromAPI(API_URL);
         return data.remaining;
     },

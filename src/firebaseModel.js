@@ -94,6 +94,17 @@ async function checkHostFB(sessionID, userID){
 
 }
 
+async function getDeckID(sessionID){
+    const sessionRef = ref(realTimeDB, PATH + "/" + sessionID);
+    const sessionSnapshot = await get(sessionRef);
+    const session = sessionSnapshot.val() || {};
+    return session.deckIDFB;
+}
+
+async function saveDeckID(sessionID, deckID){
+    set(child(refDB, `${sessionID}`), deckID);
+}
+
 // =================================== Model Conversion Functions ==========================================
 
 function modelToPersistance(model) {
@@ -253,6 +264,6 @@ function setupFirebase(model, watchFunctionACB) {
 }
 
 
-export { modelToPersistance, persistanceToModel, saveToFirebase, readFromFirebase, observeFirebaseModel, checkValidSessionID, checkIfPlayerExists, getPlayerData, playerFBCounter, sessionFBCounter, checkHostFB, deleteSessionFromFB};
+export { modelToPersistance, persistanceToModel, saveToFirebase, readFromFirebase, observeFirebaseModel, checkValidSessionID, checkIfPlayerExists, getPlayerData, playerFBCounter, sessionFBCounter, checkHostFB, deleteSessionFromFB, getDeckID, saveDeckID};
 
 export default connectToFirebase;
