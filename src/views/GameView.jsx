@@ -76,8 +76,6 @@ export default function GameView(props) {
             <div class="container">{props.player.pileOfCards.map(cardsRendering)}</div>
         )*/}
         //! End
-        {/*<Swiper pileOfCards={props.player.pileOfCards} onSelectCardSprite={null} />*/} {/*NEEDS FIX*/} {/*DAVID*/}
-
         {yourTurn ? (
             <SingleAction
                 class="fixed-bottom"
