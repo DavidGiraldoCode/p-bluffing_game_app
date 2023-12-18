@@ -28,7 +28,7 @@ export function makeRouter(model) {
                 path: `/home/:ID`, //? change from user:ID to home:ID, discuss with team
                 component: <UserPresenter model={model} />
             }, {
-                path: `/instructions:ID`,  //ALBIN
+                path: `/instructions`,  //ALBIN
                 component: <InstructionsPresenter model={model} />
             }, {
                 path: `/exit`, //? Think if we need the :ID here

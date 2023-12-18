@@ -15,7 +15,7 @@ const refDB = ref(realTimeDB, PATH);
 
 // =================================== Statistics Functions ==========================================
 
-async function playerFBCounter(){
+async function playerFBCounter() {
     // Add one number to the firebase player counter. This does not have any session functionality. Only purpose for statistics.
     const refDBCounter = ref(realTimeDB, 'statistics/');
     const counterSnapshot = await get(child(refDBCounter, "playersCounter"));
@@ -26,7 +26,7 @@ async function playerFBCounter(){
     set(child(refDBCounter, "playersCounter"), counter);
 }
 
-async function sessionFBCounter(){
+async function sessionFBCounter() {
     // Add one number to the firebase session counter. This does not have any session functionality. Only purpose for statistics.
     const refDBCounter = ref(realTimeDB, 'statistics/');
     const counterSnapshot = await get(child(refDBCounter, "sessionCounter"));
@@ -54,7 +54,7 @@ async function deleteSessionFromFB(model) {
     console.log(`Session with ID ${model.sessionID} deleted from Firebase.`);
 }
 
-async function checkValidSessionID(sessionID){
+async function checkValidSessionID(sessionID) {
     //Checks wether the sessionID is already created on firebase and valid
     //Returns true if sessionID is valid on firebase
 
@@ -65,7 +65,7 @@ async function checkValidSessionID(sessionID){
     return sessionIDarray.includes(sessionID);
 }
 
-async function checkIfPlayerExists(sessionID, userID){
+async function checkIfPlayerExists(sessionID, userID) {
     // Assuming the sessionID exists in firebase:
     // Checks wether a player exists in a session or not
     // Returns true if player exists in the session
@@ -79,27 +79,33 @@ async function checkIfPlayerExists(sessionID, userID){
 
 // =================================== Player Data Functions ==========================================
 
-async function getPlayerData(sessionID, userID){
-    const playerRef = ref(realTimeDB, PATH + "/" + sessionID + "/playersFB" + "/"+ userID);
+async function getPlayerData(sessionID, userID) {
+    const playerRef = ref(realTimeDB, PATH + "/" + sessionID + "/playersFB" + "/" + userID);
     const playerSnapshot = await get(playerRef);
     const player = playerSnapshot.val() || {};
     return player;
 }
 
-async function checkHostFB(sessionID, userID){
+async function checkHostFB(sessionID, userID) {
     const playerHostRef = ref(realTimeDB, PATH + "/" + sessionID + "/playerHostFB");
     const playerHostSnapshot = await get(playerHostRef);
     const hostID = playerHostSnapshot.val() || {};
     return (hostID == userID);
-
 }
 
+//* NEW FUNCTION to get the players Order once re-load browser
+async function getPlayerOrderFB(sessionID) {
+    const playerOrderRef = ref(realTimeDB, PATH + "/" + sessionID + "/playerOrderFB");
+    const playerOrderSnapshot = await get(playerOrderRef);
+    const playerOrder = playerOrderSnapshot.val() || [];
+    return playerOrder;
+}
 // =================================== Model Conversion Functions ==========================================
 
 function modelToPersistance(model) {
     // Converts the model into the data that will be stored in Firebase. Returns this data.
     return {
-        sessionIDFB: model.sessionID, 
+        sessionIDFB: model.sessionID,
         playerOrderFB: model.playerOrder,
         yourTurnFB: model.yourTurn,
         playerHostFB: model.playerHost,
@@ -125,7 +131,7 @@ function persistanceToModel(firebaseData, model) {
                 const playerName = playerData.playerNameFB;
                 const numberOfCards = playerData.numberOfCardsFB;
 
-                acc[playerID] = {playerName, numberOfCards};
+                acc[playerID] = { playerName, numberOfCards };
 
                 return acc;
             }, {});
@@ -137,7 +143,7 @@ function persistanceToModel(firebaseData, model) {
 
 // =================================== Firebase Interaction Functions ==========================================
 
-async function savePlayersFB(model){
+async function savePlayersFB(model) {
     // Updates the playersFB on firebase.
     // Fetches the playersFB from firebase, adds the local copy of players, then saves to FB.
 
@@ -165,7 +171,7 @@ async function saveToFirebase(model) {
         const refDB = ref(realTimeDB, PATH + "/" + model.sessionID);
         update(refDB, modelToPersistance(model));
         savePlayersFB(model);
-        
+
     }
 }
 
@@ -253,6 +259,6 @@ function setupFirebase(model, watchFunctionACB) {
 }
 
 
-export { modelToPersistance, persistanceToModel, saveToFirebase, readFromFirebase, observeFirebaseModel, checkValidSessionID, checkIfPlayerExists, getPlayerData, playerFBCounter, sessionFBCounter, checkHostFB, deleteSessionFromFB};
+export { modelToPersistance, persistanceToModel, saveToFirebase, readFromFirebase, observeFirebaseModel, checkValidSessionID, checkIfPlayerExists, getPlayerData, playerFBCounter, sessionFBCounter, checkHostFB, deleteSessionFromFB, getPlayerOrderFB };
 
 export default connectToFirebase;

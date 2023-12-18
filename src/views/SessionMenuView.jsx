@@ -51,10 +51,10 @@ export default function SessionMenuView(props) {
       {renderOrder(props.playerOrder)}
       <MenuItem
         title={"Instructions"}
-        onCustomClick={x => { goTo(`/instructions:${props.sessionID}`) }} />
+        routeDestination={`/instructions`/*${props.sessionID}*/} />
       <MenuItem
         title={"Leave the game"}
-        onCustomClick={x => { goTo(`/exit:${props.sessionID}`) }} />
+        routeDestination={`/exit`/*${props.sessionID}*/} />
       <Footer class="m-top-m" />
     </div>
   );

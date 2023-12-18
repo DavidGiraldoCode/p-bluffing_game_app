@@ -44,7 +44,7 @@ export default function AppHeader(props) {
   return (
     <div class="header-container">
       <div class="menu-container" /*onClick={TODO}*/>
-        <button class="secondary-no-border" onClick={/*goTo(props.routeDestination) x => { }*/leftEventHandlerACB}>
+        <button class="secondary-no-border" onClick={leftEventHandlerACB/*goTo(props.routeDestination) x => { }*/}>
           <img class="menu-img" loading="lazy" src={iconSrc} alt="Logo" />
         </button>
         <h4 class="menu-text">{iconText}</h4>
