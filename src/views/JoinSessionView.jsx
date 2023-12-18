@@ -5,12 +5,19 @@ import AppHeader from "../components/AppHeader.jsx";
 import SectionSubtitle from "../components/SectionSubtitle.jsx";
 import SingleAction from "../components/SingleAction.jsx";
 import Loading from "../components/Loading.jsx";
+import { useRouter } from "vue-router";
 export default
-function JoinSessionView(props) {
+  function JoinSessionView(props) {
+
+  const router = useRouter();
+
+  function backEvenHandlerACB() {
+    router.back()
+  }
 
   const data = {
-    sessionID : "",
-    playerName : props.name,
+    sessionID: "",
+    playerName: props.name,
   }
 
   function joinSessionHandlerACB() {
@@ -18,40 +25,40 @@ function JoinSessionView(props) {
   }
 
   return (
-    <div class="join-session-view-container">
+    <div class="join-session-view container">
 
-      <AppHeader routeDestination={`/user:${12345}`} 
-            icon={"Backarrow"}
-            icon-text={"Back"}
-            /> 
-        <SectionSubtitle title="Joining Session" 
-            />
+      <AppHeader onLeftClick={backEvenHandlerACB} icon={"Backarrow"} icon-text={"Back"} />
+      <SectionSubtitle title="Joining Session" />
 
-        <div class="join-session-input-container">
-            <p className="p-small">Your Name</p>
-            <input 
+      <div class="join-session-input container">
+        <div class="label-input container">
+          <label>Your Name</label>
+          <input
             onInput={(e) => (data.playerName = e.target.value)}
             type="text"
             value={data.playerName}
-            />
-            <p className="p-small">SessionID</p>
-            <input
+          />
+        </div>
+        <div class="label-input container">
+          <label>SessionID</label>
+          <input
             onInput={(e) => (data.sessionID = e.target.value)}
             type="text" placeholder={"ex. 12abc3de45f"}
-            />
+          />
         </div>
-          {props.isLoading ? (
-              <Loading
-              message="Joining Session"/>
-              ) : (
-              <SingleAction
-              class="join-session-singleaction-container"
-              description="You will join the session as a guest"
-              btnLabel="Confirm"
-              onCustomClick={joinSessionHandlerACB}
-              />
-              )}
+      </div>
+      {props.isLoading ? (
+        <Loading
+          message="Joining Session" />
+      ) : (
+        <SingleAction
+          class="fixed-bottom"
+          description="You will join the session as a guest"
+          btnLabel="Confirm"
+          onCustomClick={joinSessionHandlerACB}
+        />
+      )}
     </div>
-  
+
   );
 }

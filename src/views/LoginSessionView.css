@@ -1,0 +1,6 @@
+.login-game-description {
+    padding: 0 var(--spacing-m);
+}
+.login-game-description p{
+    text-align: center;
+}

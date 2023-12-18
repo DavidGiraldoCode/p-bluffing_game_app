@@ -1,12 +1,6 @@
-.create-session-view-container {
+.create-session-view {}
 
-}
-.create-session-input-container{
+.create-session-input {
     padding: 0 var(--spacing-m);
-}
-
-.create-session-singleaction-container{
-    width: 100%;
-    position: absolute;
-    bottom: 0rem;
+    gap: var(--spacing-s);
 }

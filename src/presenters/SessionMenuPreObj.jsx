@@ -24,13 +24,15 @@ const SessionMenuPreObj = {
                 componentState.model.nextPlayer();
             }
 
-            return <SessionMenuView
+            return <h1>SessionMenuPreObj</h1>
+            
+            /*<SessionMenuView
                 onSkip={skipPlayer}
                 sessionID={componentState.model.sessionID}
                 playerOrder={componentState.playerOrderNames}
                 playerHost={componentState.model.playerHost}
-                currentBluffler={componentState.model.yourTurn /* An alternative for the name*/}
-            />
+                currentBluffler={componentState.model.yourTurn}
+            />*/
         };
 
         async function joinSessionACB(sessionIdURLparam, playerNameURLparam) {
@@ -63,10 +65,10 @@ const SessionMenuPreObj = {
         function bornACB() {
             console.log("SessionMenuPreObj Alive!", componentState.model.playerOrder);
             joinSessionACB(useRoute().params.id, useRoute().params.user);
-            console.log("Make the Call to Firebase");
+            //console.log("Make the Call to Firebase");
 
-            componentState.playerPromise = getPlayerData("0lnkwyc1dxoh", "LZvSjUcIq4Nt6jzNqrruQXdXJWA2")
-              .then(x => { componentState.playerPromiseState = x; });
+            //componentState.playerPromise = getPlayerData("0lnkwyc1dxoh", "LZvSjUcIq4Nt6jzNqrruQXdXJWA2")
+            //  .then(x => { componentState.playerPromiseState = x; });
 
             //componentState.playerOrderNames = componentState.model.playerOrder.map(createPlayerOrderNames);
 

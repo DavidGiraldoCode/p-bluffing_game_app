@@ -6,3 +6,12 @@
     gap: 8px;
     align-self: stretch;
 }
+
+.swiper-vue-container{
+    
+}
+
+.card-selector-action{
+    z-index: 100;
+    background-color: var(--background-color);;
+}

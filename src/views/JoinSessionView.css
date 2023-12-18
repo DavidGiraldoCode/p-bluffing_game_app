@@ -1,12 +1,10 @@
-.join-session-view-container {
+.join-session-view-container {}
 
-}
-.join-session-input-container{
+.join-session-input {
     padding: 0 var(--spacing-m);
+    gap: var(--spacing-l);
 }
 
-.join-session-singleaction-container{
-    width: 100%;
-    position: absolute;
-    bottom: 0rem;
+.label-input {
+    gap: var(--spacing-s);
 }

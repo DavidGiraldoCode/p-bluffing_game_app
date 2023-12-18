@@ -3,6 +3,7 @@ import "./LoginSessionView.css";
 import SectionTitle from "../components/SectionTitle";
 import SingleAction from "../components/SingleAction";
 import Footer from "../components/Footer";
+import SwiperVue from "../components/SwiperVue";
 
 export default function LoginSessionView(props) {
 
@@ -11,26 +12,19 @@ export default function LoginSessionView(props) {
     }
     //destinationTitle="Back"
 
-    {/*  Login Session  */}
+    {/*  Login Session  */ }
 
-    return <div>
-        <SectionTitle 
-            title={"King's Bluffer"}
-            />
-
+    return <div class="container">
+        <SectionTitle title={"King's Bluffer"} />
+        <div class="login-game-description m-bottom-m">
+            <p>Get 5 cards and bluff you way out to be the first one with no cards.</p>
+        </div>
+        <SwiperVue class="m-bottom-m" />
         <SingleAction
             title=" "
             description="Please log in below to play!"
             btnLabel="Continue with Google "
-            onCustomClick={LoginHandlerACB}
-            />
-
-        <Footer 
-            />
-
-        
-
-
-
+            onCustomClick={LoginHandlerACB} />
+        <Footer class="" />
     </div>
 }

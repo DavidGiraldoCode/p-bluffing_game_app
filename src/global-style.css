@@ -224,6 +224,12 @@ button {
     cursor: pointer;
 }
 
+*:disabled {
+    background-color: var(--grey-2);
+    color: var(--grey-3);
+    opacity: 0.9;
+  }
+
 .secondary {
     color: var(--primary-color);
     background: var(--secondary-color);
@@ -358,6 +364,6 @@ textarea:not(:placeholder-shown) {
 
 .fixed-bottom {
     position: absolute;
-    top: 0rem;
+    bottom: 0rem;
     width: 100%;
 }
