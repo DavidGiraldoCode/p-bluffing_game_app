@@ -35,7 +35,7 @@ const SwiperVue = {
         const htmlClass = `swiper-slide ${cardCode === componentState.selectedCard ? "selected" : ""}`
         console.log(htmlClass);
         return <SwiperSlide class={htmlClass}>
-          <img onClick={selectCardHandlerACB} data-card={cardCode} src={`https://deckofcardsapi.com/static/img/${cardCode}.png`} />
+          <img  onClick={selectCardHandlerACB} data-card={cardCode} src={`https://deckofcardsapi.com/static/img/${cardCode}.svg`} />
         </SwiperSlide>
       }
 
