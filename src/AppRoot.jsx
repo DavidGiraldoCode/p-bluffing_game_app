@@ -14,6 +14,9 @@ import SessionMenuPreObj from "./presenters/SessionMenuPreObj.jsx";
 import SwiperVue from "./components/SwiperVue.jsx";
 import BluffPresenter from "./presenters/BluffPresenter.jsx";
 
+import DesktopView from "./views/DesktopView.jsx";
+import {useMediaQuery} from '@vueuse/core'
+
 export function makeRouter(model) {
     return createRouter({
         history: createWebHashHistory(),
@@ -74,13 +77,39 @@ export function makeRouter(model) {
     })
 }
 
+export default {
+    name: 'AppRoot', // Optional: Provide a name for the component
+  
+    setup() {
+      const isLargeScreen = useMediaQuery('(min-width: 720px)');
+      console.log('Test largescreen', isLargeScreen);
+  
+      return {
+        isLargeScreen,
+      };
+    },
+  
+    render() {
+      return (
+        <div class="AppRoot container">
+          {/* Check the screen size */}
+          {this.isLargeScreen ? <DesktopView /> : <RouterView />}
+        </div>
+      );
+    },
+  };
+
+/* AppRoot without MediaQuery 
 export default
     function AppRoot(props) {
     console.log('Update App!')
     //makeRouter(props.model);
+
+
     return (
         <div class="AppRoot container">
             <RouterView />
         </div>
     );
 }
+*/
