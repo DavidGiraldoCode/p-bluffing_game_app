@@ -17,7 +17,7 @@ export default function SessionMenuPresenter(props) {
 
     async function joinSessionACB(sessionIdURLparam, playerNameURLparam) {
         // Call the createPlayer function on the model with the input value. Not host
-        await props.model.joinSession(sessionIdURLparam, playerNameURLparam); // Assuming the player is not the host
+        await props.model.reJoinSessionURL(sessionIdURLparam, playerNameURLparam); // Assuming the player is not the host
     }
 
     console.log(`${useRoute().params.id}`);
