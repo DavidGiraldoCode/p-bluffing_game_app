@@ -143,6 +143,20 @@ export let sessionModel = {
         } 
     },
 
+    async reJoinSessionURL(sessionIdFromURL, userIDFromURL){
+        console.log("reJoinSessionURL")
+        if(this.localNumberOfPlayers < 1 || this.localNumberOfPlayers === null){
+            this.sessionID = sessionIdFromURL;
+            const player = await getPlayerData(sessionIdFromURL, userIDFromURL)
+            const playerName = player.playerNameFB;
+            const isHost = player.isHost;
+            await this.reCreatePlayer(playerName, userIDFromURL, isHost);
+            this.readyToWriteFB = true;
+        }else{
+            throw new Error("Error occured when trying to reJoinSession via URL!");
+        }
+    },
+
     async createHost(newPlayerName){
         if(this.localNumberOfPlayers < 1 || this.localNumberOfPlayers === null){
             await this.getDeckID();

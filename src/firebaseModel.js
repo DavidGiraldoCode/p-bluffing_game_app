@@ -39,14 +39,6 @@ async function sessionFBCounter(){
 
 // =================================== Session Validation Functions ==========================================
 
-async function checkHostFB(sessionID, userID){
-    const playerHostRef = ref(realTimeDB, PATH + "/" + sessionID + "/playerHostFB");
-    const playerHostSnapshot = await get(playerHostRef);
-    const hostID = playerHostSnapshot.val() || {};
-    return (hostID == userID);
-
-}
-
 async function deleteSessionFromFB(model) {
     // Sets readyToWrite to false and then deletes the session on firebase.
     //! BUG: playersFB does not get deleted?
@@ -92,6 +84,14 @@ async function getPlayerData(sessionID, userID){
     const playerSnapshot = await get(playerRef);
     const player = playerSnapshot.val() || {};
     return player;
+}
+
+async function checkHostFB(sessionID, userID){
+    const playerHostRef = ref(realTimeDB, PATH + "/" + sessionID + "/playerHostFB");
+    const playerHostSnapshot = await get(playerHostRef);
+    const hostID = playerHostSnapshot.val() || {};
+    return (hostID == userID);
+
 }
 
 // =================================== Model Conversion Functions ==========================================
