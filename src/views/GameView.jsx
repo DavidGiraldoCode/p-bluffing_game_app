@@ -53,9 +53,10 @@ export default function GameView(props) {
         )
     }
 
-    function selectCardHandler(event) {
+    function selectCardHandler(/*event*/ card) {
         console.log('selectCardHandler')
-        props.player.selectedCard = event.target.value;
+        //props.player.selectedCard = event.target.value;
+        props.player.selectedCard = card;
     }
     //! End
 
@@ -69,11 +70,11 @@ export default function GameView(props) {
             cardText={"Cards:"}
             score={props.player.numberOfCards}
         />
-        <SwiperVue />
+        <SwiperVue cardCodes={props.player.pileOfCards}  onSelectCard={selectCardHandler}/>
         //! Temporary instead of Swiper
-        {props.player.pileOfCards.length > 0 && (
+        {/*props.player.pileOfCards.length > 0 && (
             <div class="container">{props.player.pileOfCards.map(cardsRendering)}</div>
-        )}
+        )*/}
         //! End
         {/*<Swiper pileOfCards={props.player.pileOfCards} onSelectCardSprite={null} />*/} {/*NEEDS FIX*/} {/*DAVID*/}
 
