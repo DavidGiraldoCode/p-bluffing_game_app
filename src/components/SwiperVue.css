@@ -29,7 +29,7 @@
 .swiper-pagination-custom,
 .swiper-horizontal>.swiper-pagination-bullets,
 .swiper-pagination-bullets.swiper-pagination-horizontal {
-  bottom: -40px;
+  bottom: -24px;
 }
 
 .swiper-pagination-bullet-active {

@@ -70,12 +70,12 @@ export default function GameView(props) {
             cardText={"Cards:"}
             score={props.player.numberOfCards}
         />
-        <div class="swiper-vue container m-top-l">
+        <div class="swiper-vue container m-top-m">
             <SwiperVue cardCodes={props.player.pileOfCards} onSelectCard={selectCardHandler} />
         </div>
         {yourTurn ? (
             <SingleAction
-                class="fixed-bottom"
+                class="card-selector-action fixed-bottom"
                 title="Your turn!"
                 description={`${props.player.selectedCard ? "You selected " + props.player.selectedCard + ", now bluff your way out" : "Select a card to bluff your way out"}`}
                 buttonState={cardNotSelected}
@@ -83,7 +83,7 @@ export default function GameView(props) {
                 onCustomClick={blufferStageHandlerACB} />
         ) : (
             <SingleAction
-                class="fixed-bottom"
+                class="card-selector-action fixed-bottom"
                 title="Wait for your turn"
                 description=""
                 buttonState={true}
