@@ -3,10 +3,10 @@
 
 import {BASE_URL} from "/src/apiConfig.js";
 import { saveToFirebase, checkValidSessionID, checkIfPlayerExists, getPlayerData, playerFBCounter, sessionFBCounter, checkHostFB, deleteSessionFromFB } from "./firebaseModel";
-//?---------------------------------------- Google authentication
+// ---------------------------------------- Google authentication
 import { getAuth, signInWithPopup, signInWithRedirect, onAuthStateChanged, signOut, GoogleAuthProvider, getRedirectResult } from "firebase/auth";
 import {auth, provider } from "./main.jsx";
-//?---------------------------------------- Google authentication
+// ---------------------------------------- Google authentication
 /*
                 ☆           *
    *            .o             *
@@ -142,7 +142,7 @@ export let sessionModel = {
             throw new Error("Only one player per device is supported!");
         } 
     },
-
+ 
     async reJoinSessionURL(sessionIdFromURL, userIDFromURL){
         console.log("reJoinSessionURL")
         if(this.localNumberOfPlayers < 1 || this.localNumberOfPlayers === null){
@@ -156,7 +156,6 @@ export let sessionModel = {
             throw new Error("Error occured when trying to reJoinSession via URL!");
         }
     },
-
     async createHost(newPlayerName){
         if(this.localNumberOfPlayers < 1 || this.localNumberOfPlayers === null){
             await this.getDeckID();
@@ -207,7 +206,7 @@ export let sessionModel = {
                 this.yourTurn = this.playerOrder[nextIndex];
                 await saveToFirebase(this);  // Await the save operation
             } else {
-                this.shufflePlayers();
+                // this.shufflePlayers(); Could be implemented 
                 this.yourTurn = this.playerOrder[0];
                 await saveToFirebase(this);  // Await the save operation
             }
