@@ -25,6 +25,6 @@ export default function LoginSessionView(props) {
             description="Please log in below to play!"
             btnLabel="Continue with Google "
             onCustomClick={LoginHandlerACB} />
-        <Footer class="fixed-bottom" />
+        <Footer class="" />
     </div>
 }

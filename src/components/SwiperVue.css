@@ -1,18 +1,11 @@
-.cunstom-swiper-containe {
-  width: /*216px*/;
-  height: 305px;
-  display: inline;
-}
-
 .swiper {
-  width: 240px;
-  height: /*305px*/ auto;
+  width: 224px;
+  height:308px;
 }
 
 .swiper-slide {
   display: flex;
-  width: 220px;
-  height: 320px;
+ 
   overflow: hidden;
   justify-content: center;
   align-items: center;
@@ -21,14 +14,26 @@
   border: 1px solid rgb(231, 231, 231);
   color: #fff;
 }
-.swiper-slide img{
-  border-radius: 20px;
-  width: 920px;
+
+.swiper-slide img {
+  width: 800%;
 }
 
 .selected {
   border-radius: 20px;
   border: 4px solid rgb(206, 17, 17);
+  background-color: red;
+}
+
+.swiper-pagination-fraction,
+.swiper-pagination-custom,
+.swiper-horizontal>.swiper-pagination-bullets,
+.swiper-pagination-bullets.swiper-pagination-horizontal {
+  bottom: -40px;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: var(--primary-color);
 }
 
 /*

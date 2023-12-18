@@ -15,7 +15,7 @@ const SwiperVue = {
   setup(props) {
     const componentState = reactive({
       //cardCodes: ["AC", "5S", "KS", "2D", "KH"]
-      cardCodes: props.cardCodes || ["AC", "5S", "KS", "2D", "KH"],
+      cardCodes: props.cardCodes || ["AC", "KH", "KS"],
       selectedCard: ""
     });
 
@@ -40,11 +40,10 @@ const SwiperVue = {
       }
 
       function defaultDeck() {
-        return <div><SwiperSlide class="swiper-slide"><img value={card} src={`https://deckofcardsapi.com/static/img/AC.png`} /></SwiperSlide>
-          <SwiperSlide class="swiper-slide"><img src={`https://deckofcardsapi.com/static/img/5S.png`} /></SwiperSlide>
-          <SwiperSlide class="swiper-slide"><img src={`https://deckofcardsapi.com/static/img/KS.png`} /></SwiperSlide>
-          <SwiperSlide class="swiper-slide"><img src={`https://deckofcardsapi.com/static/img/2D.png`} /></SwiperSlide>
-          <SwiperSlide class="swiper-slide"><img src={`https://deckofcardsapi.com/static/img/KH.png`} /></SwiperSlide></div>
+        return <div><SwiperSlide class="swiper-slide"><img value={card} src={`https://deckofcardsapi.com/static/img/AC.svg`} /></SwiperSlide>
+          <SwiperSlide class="swiper-slide"><img src={`https://deckofcardsapi.com/static/img/KS.svg`} /></SwiperSlide>
+          <SwiperSlide class="swiper-slide"><img src={`https://deckofcardsapi.com/static/img/X1.svg`} /></SwiperSlide>
+          <SwiperSlide class="swiper-slide"><img src={`https://deckofcardsapi.com/static/img/KH.svg`} /></SwiperSlide></div>
       }
       console.log("componentState.cardCodes", componentState.cardCodes[0]);
       return <Swiper
