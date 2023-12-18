@@ -7,7 +7,7 @@ import { useRoute } from "vue-router";
 
 export default function GamePresenter(props) {
     console.log(useRoute().params.id, useRoute().params.user);
-    props.model.joinSession(useRoute().params.id, useRoute().params.user);
+    props.model.reJoinSession(useRoute().params.id, 'Dave');
     
     if (props.model.gameOver) {
         // If the game is over, render the GameOverView

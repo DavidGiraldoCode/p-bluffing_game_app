@@ -53,9 +53,10 @@ export default function GameView(props) {
         )
     }
 
-    function selectCardHandler(event) {
+    function selectCardHandler(/*event*/ card) {
         console.log('selectCardHandler')
-        props.player.selectedCard = event.target.value;
+        //props.player.selectedCard = event.target.value;
+        props.player.selectedCard = card;
     }
     //! End
 
@@ -69,28 +70,36 @@ export default function GameView(props) {
             cardText={"Cards:"}
             score={props.player.numberOfCards}
         />
-        <SwiperVue />
-        //! Temporary instead of Swiper
-        {props.player.pileOfCards.length > 0 && (
-            <div class="container">{props.player.pileOfCards.map(cardsRendering)}</div>
-        )}
-        //! End
-        {/*<Swiper pileOfCards={props.player.pileOfCards} onSelectCardSprite={null} />*/} {/*NEEDS FIX*/} {/*DAVID*/}
-
+        <div class="swiper-vue container m-top-l">
+            <SwiperVue cardCodes={props.player.pileOfCards} onSelectCard={selectCardHandler} />
+        </div>
         {yourTurn ? (
             <SingleAction
                 class="fixed-bottom"
                 title="Your turn!"
-                description="Select a card to bluff your way out"
+                description={`${props.player.selectedCard ? "You selected " + props.player.selectedCard + ", now bluff your way out" : "Select a card to bluff your way out"}`}
                 buttonState={cardNotSelected}
                 btnLabel="Confirm"
                 onCustomClick={blufferStageHandlerACB} />
         ) : (
-            <div class="wait-text">
-                <h3>⏳ Wait for your turn</h3>
-            </div>
+            <SingleAction
+                class="fixed-bottom"
+                title="Wait for your turn"
+                description=""
+                buttonState={true}
+                btnLabel="⏳"
+                onCustomClick={null} />
         )}
-
-
     </div>
 }
+
+/*
+/! Temporary instead of Swiper
+        {/*props.player.pileOfCards.length > 0 && (
+            <div class="container">{props.player.pileOfCards.map(cardsRendering)}</div>
+        )/}
+/! End
+
+<div class="wait-text">
+    <h3>⏳ Wait for your turn</h3>
+</div> */
