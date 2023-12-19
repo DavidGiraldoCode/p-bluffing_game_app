@@ -79,16 +79,12 @@ export default
     function AppRoot(props) {
     console.log('Update App!')
 
-    //! TODO Checking of the URLs ID
-    if (props.model.player === null && useRoute().params.id ) {
-        console.log("User re-load brower");
+    // Persistency if player refreshes page.
+    if (props.model.player === null && useRoute().params.id && useRoute().params.user) {
         props.model.reJoinSessionURL(useRoute().params.id, useRoute().params.user, watch);
     } else {
-        console.log("Wrong logic!");
     }
-    //!
 
-    //makeRouter(props.model);
     return (
         <div class="AppRoot container">
             <RouterView />
