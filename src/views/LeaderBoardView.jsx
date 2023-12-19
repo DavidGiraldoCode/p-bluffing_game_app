@@ -47,12 +47,6 @@ export default function LeaderBoardView(props) {
         gameOver: props.gameOver,
     }
 
-    //const sortedPlayers = players.sort((a, b) => a.numberOfCards - b.numberOfCards);
-    //const winnerName = props.winner ? props.leaderboard[props.winner]?.playerName : "Unknown";
-    console.log(" data.winnerName : ", data.winnerName, "data.winner : ", data.winner);
-
-
-
     return (
         <div class="container">
             <SectionTitle title={"King's bluffer 🃏"} />
