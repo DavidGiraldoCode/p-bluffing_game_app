@@ -20,9 +20,6 @@ export default function SessionMenuPresenter(props) {
         //await props.model.reJoinSessionURL(sessionIdURLparam, playerNameURLparam); // Assuming the player is not the host
     }
 
-    console.log(`${useRoute().params.id}`);
-    console.log(`${useRoute().params.user}`);
-
 
     function createPlayerOrderNames(playerID) {
         const localPromiseState = {}

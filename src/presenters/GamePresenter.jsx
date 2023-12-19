@@ -4,8 +4,6 @@ import GameOverView from "../views/GameOverView.jsx";
 import { useRoute } from "vue-router";
 import { watch } from "vue";
 
-//TODO Continuesly check for gameOver and then change view?
-
 export default function GamePresenter(props) {
 
     // Watch for changes in both yourTurn and playerOrder
