@@ -11,7 +11,7 @@ import { useRoute } from "vue-router";
 // TODO Add conditional rendering if its not your turn!
 
 export default function GameView(props) {
-
+    console.log(`We are at /game/${useRoute().params.id}/${useRoute().params.user}`);
     // Reworks the leaderboard to be able to easier work with it.
     const players = Object.keys(props.leaderboard).map((playerID) => ({
         playerID,
@@ -31,9 +31,12 @@ export default function GameView(props) {
     // Indicates if its the players turn
     const yourTurn = props.whosTurn == props.player.playerID;
 
-    function menuEvenHandlerACB() {
-        //goTo(`/session-menu:${props.sessionID}`);
-        goTo(`/session-menu/${useRoute().params.id}/${useRoute().params.user}`);
+    function menuEvenHandlerACB(event) {
+        //goTo(`/session-menu:${props.sessionID}`);\
+        const sessionIdURL = useRoute().params.id;
+        const userIdURL = useRoute().params.user;
+        console.log(`Goto: /session-menu/${sessionIdURL}/${userIdURL}`);
+        goTo(`/session-menu/${sessionIdURL}/${userIdURL}`);
     }
 
     function blufferStageHandlerACB() {
@@ -45,20 +48,9 @@ export default function GameView(props) {
             goTo(`/bluff:${props.sessionID}`);
         };
     }
-
-    //! Temporary instead of Swiper
-    function cardsRendering(card) {
-        return (
-            <button class="secondary" onClick={selectCardHandler} value={card}>{card}</button>
-        )
-    }
-
-    function selectCardHandler(/*event*/ card) {
-        console.log('selectCardHandler')
-        //props.player.selectedCard = event.target.value;
+    function selectCardHandler(card) {
         props.player.selectedCard = card;
     }
-    //! End
 
     return <div class="game-view container">
         <AppHeader onLeftClick={menuEvenHandlerACB} />
@@ -94,6 +86,21 @@ export default function GameView(props) {
 }
 
 /*
+
+    //! Temporary instead of Swiper
+    function cardsRendering(card) {
+        return (
+            <button class="secondary" onClick={selectCardHandler} value={card}>{card}</button>
+        )
+    }
+
+    function selectCardHandler(/event/ card) {
+        console.log('selectCardHandler')
+        //props.player.selectedCard = event.target.value;
+        props.player.selectedCard = card;
+    }
+    //! End
+
 /! Temporary instead of Swiper
         {/*props.player.pileOfCards.length > 0 && (
             <div class="container">{props.player.pileOfCards.map(cardsRendering)}</div>

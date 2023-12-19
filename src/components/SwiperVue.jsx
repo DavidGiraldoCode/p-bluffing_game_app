@@ -25,15 +25,15 @@ const SwiperVue = {
       //wrapperTag='div'
 
       function selectCardHandlerACB(event) {
-        console.log("Selected: ", event.target.dataset.card);
+        //console.log("Selected: ", event.target.dataset.card);
         componentState.selectedCard = event.target.dataset.card;
         props.onSelectCard(event.target.dataset.card);
       }
 
       function renderCardsArrayC(cardCode) {
-        console.log("cardCode: ", cardCode);
+        //console.log("cardCode: ", cardCode);
         const htmlClass = `swiper-slide ${cardCode === componentState.selectedCard ? "selected" : ""}`
-        console.log(htmlClass);
+        //console.log(htmlClass);
         return <SwiperSlide class={htmlClass}>
           <img  onClick={selectCardHandlerACB} data-card={cardCode} src={`https://deckofcardsapi.com/static/img/${cardCode}.svg`} />
         </SwiperSlide>
@@ -45,7 +45,7 @@ const SwiperVue = {
           <SwiperSlide class="swiper-slide"><img src={`https://deckofcardsapi.com/static/img/X1.svg`} /></SwiperSlide>
           <SwiperSlide class="swiper-slide"><img src={`https://deckofcardsapi.com/static/img/KH.svg`} /></SwiperSlide></div>
       }
-      console.log("componentState.cardCodes", componentState.cardCodes[0]);
+      //console.log("componentState.cardCodes", componentState.cardCodes[0]);
       return <Swiper
         class="swiper mySwiper"
         effect={"cards"}
@@ -62,7 +62,7 @@ const SwiperVue = {
     }
 
     function effectACB() {
-      console.log("componentState.selectedCard: ", componentState.selectedCard)
+      //console.log("componentState.selectedCard: ", componentState.selectedCard)
     }
 
     onMounted(bornACB);

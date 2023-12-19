@@ -36,11 +36,11 @@ export default function GamePresenter(props) {
         />;
     } else {
         // If the game is not over, render the GameView
-        return <GameView 
+        return <GameView
             sessionID={props.model.sessionID}
             whosTurn={props.model.yourTurn}
             leaderboard={props.model.leaderboard}
-            player={props.model.player[0]}
+            player={props.model.player/*[0]*/}
         />;
     }
 }
