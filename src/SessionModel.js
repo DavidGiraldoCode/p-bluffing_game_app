@@ -79,6 +79,7 @@ export let sessionModel = {
     leaderboard: {},
     readyToWriteFB: false,
     isLoading: false,
+    startWithCards: 2,
 
     // =================================== Session Management ==========================================
     async joinSession(sessionIdFromUI, newPlayerName) {
@@ -103,7 +104,7 @@ export let sessionModel = {
                 if (this.localNumberOfPlayers < 1 || this.localNumberOfPlayers === null) {
                     this.sessionID = sessionIdFromUI;
                     const player = await this.createPlayer(newPlayerName, this.user.uid, false)
-                    await this.dealCards(player.playerID, 5); // always deals five cards
+                    await this.dealCards(player.playerID, this.startWithCards); // always deals five cards
                     playerFBCounter(); // Adds one to the FBCounter
                     this.readyToWriteFB = true;
                 } else {
@@ -149,8 +150,8 @@ export let sessionModel = {
             // Call the createPlayer function on the model with the input value
             const player = await this.createPlayer(newPlayerName, this.user.uid, true); // Assuming the player is the host
             this.playerHost = player.playerID;
-            // TODO change 5 cards into a attribute in the model that can be changed
-            await this.dealCards(player.playerID, 5); // always deals five cards
+            // TODO change this.startWithCards cards into a attribute in the model that can be changed
+            await this.dealCards(player.playerID, this.startWithCards); // always deals five cards
             await this.nextPlayer(); // sets the host to start the first round
             playerFBCounter(); // Adds one player to the FBCounter
             sessionFBCounter(); // Adds one session to the FBCounter
@@ -185,7 +186,7 @@ export let sessionModel = {
                 this.yourTurn = this.playerOrder[nextIndex];
                 await saveToFirebase(this);  // Await the save operation
             } else {
-                this.shufflePlayers();
+                // this.shufflePlayers(); Could be implemented 
                 this.yourTurn = this.playerOrder[0];
                 await saveToFirebase(this);  // Await the save operation
             }
@@ -219,10 +220,10 @@ export let sessionModel = {
     async createPlayer(playerName, playerID, isHost) {
         // Creates an object from the player class and adds to the player array.
         // If no sessionID is active, no player will be added and an error is thrown
-        // If there is less than 5 cards in the deck, no player will be added and an error is thrown
-        if (this.sessionID !== null) {
+        // If there is less than this.startWithCards cards in the deck, no player will be added and an error is thrown
+        if(this.sessionID !== null){
             const remaining = await this.getRemaningCardsOfDeck();
-            if (remaining > 4) {
+            if(remaining >= this.startWithCards){
                 const newPlayer = new Player(playerName, playerID, isHost);
                 //this.player.push(newPlayer);   // adds newPlayer to players array
                 this.player = newPlayer;
