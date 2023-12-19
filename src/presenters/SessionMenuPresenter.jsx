@@ -17,7 +17,7 @@ export default function SessionMenuPresenter(props) {
 
     async function joinSessionACB(sessionIdURLparam, playerNameURLparam) {
         // Call the createPlayer function on the model with the input value. Not host
-        await props.model.reJoinSessionURL(sessionIdURLparam, playerNameURLparam); // Assuming the player is not the host
+        //await props.model.reJoinSessionURL(sessionIdURLparam, playerNameURLparam); // Assuming the player is not the host
     }
 
     console.log(`${useRoute().params.id}`);
@@ -41,7 +41,7 @@ export default function SessionMenuPresenter(props) {
     return <SessionMenuView
         onSkip={skipPlayer}
         sessionID={props.model.sessionID}
-        player={props.model.player[0]}
+        player={props.model.player/*[0]*/}
         playerOrder={props.model.playerOrder}
         leaderboard={props.model.leaderboard}
         whosTurn={props.model.yourTurn}

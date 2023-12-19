@@ -2,7 +2,7 @@
 // 2023-12-01, Albin Fransson & Martin Sandberg
 
 import { BASE_URL } from "/src/apiConfig.js";
-import { saveToFirebase, checkValidSessionID, checkIfPlayerExists, getPlayerData, playerFBCounter, sessionFBCounter, checkHostFB, deleteSessionFromFB, getPlayerOrderFB } from "./firebaseModel";
+import { saveToFirebase, checkValidSessionID, checkIfPlayerExists, getPlayerData, playerFBCounter, sessionFBCounter, checkHostFB, deleteSessionFromFB, getPlayerOrderFB, readFromFirebase, setupFirebase } from "./firebaseModel";
 //?---------------------------------------- Google authentication
 import { getAuth, signInWithPopup, signInWithRedirect, onAuthStateChanged, signOut, GoogleAuthProvider, getRedirectResult } from "firebase/auth";
 import { auth, provider } from "./main.jsx";
@@ -81,7 +81,8 @@ class Player {
 export let sessionModel = {
     user: null, //? GoogleUserData, relevant: uid: playerID, displayName: playerName, photoURL: playerImage
     sessionID: null, // the deck_id defined by the API
-    player: [], // array of player objects
+    player: null,//[], array of player objects
+    localPlayer: null, //! TESTING
     playerOrder: [], // array of playerIDs stating the plaing order of the game
     yourTurn: null, // a playerID of 
     playerHost: null, //a playerID of the host
@@ -90,7 +91,7 @@ export let sessionModel = {
     winner: null,
     leaderboard: {},
     readyToWriteFB: false,
-    isloading: false,
+    isLoading: false,
     //! Temporal -------
     promiseState: {},
     //!-----------------
@@ -142,15 +143,36 @@ export let sessionModel = {
             throw new Error("Only one player per device is supported!");
         }
     },
-
-    async reJoinSessionURL(sessionIdFromURL, userIDFromURL) {
+    //!------------------------ TESTING AREA
+    resetModel() {
+        this.user = null; //? GoogleUserData, relevant: uid: playerID, displayName: playerName, photoURL: playerImage
+        this.sessionID = null; // the deck_id defined by the API
+        this.player = []; // array of player objects
+        this.playerOrder = []; // array of playerIDs stating the plaing order of the game
+        this.yourTurn = null; // a playerID of 
+        this.playerHost = null; //a playerID of the host
+        this.localNumberOfPlayers = null; // players.length()
+        this.gameOver = false;
+        this.winner = null;
+        this.leaderboard = {};
+        this.readyToWriteFB = false;
+        this.isLoading = false;
+    },
+    //!------------------------ END TESTING AREA
+    async reJoinSessionURL(sessionIdFromURL, userIDFromURL, watcher) {
         console.log("reJoinSessionURL")
         if (this.localNumberOfPlayers < 1 || this.localNumberOfPlayers === null) {
+            //this.resetModel();
+            this.readyToWriteFB = false; //* NEW
+            //this.player = []; //* NEW›
             this.sessionID = sessionIdFromURL;
-            this.playerOrder = await getPlayerOrderFB(sessionIdFromURL); //*NEW update playerOrder
+            //readFromFirebase(this); // NEW
+            setupFirebase(this, watcher); //* NEW
+            //this.playerOrder = await getPlayerOrderFB(sessionIdFromURL); //NEW update playerOrder
             const player = await getPlayerData(sessionIdFromURL, userIDFromURL)
             const playerName = player.playerNameFB;
-            const isHost = player.isHost;
+            //const isHost = player.isHost;
+            const isHost = await checkHostFB(sessionIdFromURL, userIDFromURL);//* NEW
             await this.reCreatePlayer(playerName, userIDFromURL, isHost);
             this.readyToWriteFB = true;
         } else {
@@ -229,8 +251,8 @@ export let sessionModel = {
 
     gameOverCheck(playerID) {
         // Checks if the player is out of cards. If someone is out of cards, change the model variable gameOver to True
-        const player = this.player.find(p => p.playerID == playerID);
-        if (player.pileOfCards.length == 0) {
+        //const player = this.player.find(p => p.playerID == playerID);
+        if (this.player.pileOfCards.length == 0) {
             this.gameOver = true;
             this.winner = playerID;
             //deleteSessionFromFB(this); //! Temporarely removed.
@@ -247,9 +269,10 @@ export let sessionModel = {
             const remaining = await this.getRemaningCardsOfDeck();
             if (remaining > 4) {
                 const newPlayer = new Player(playerName, playerID, isHost);
-                this.player.push(newPlayer);   // adds newPlayer to players array
+                //this.player.push(newPlayer);   // adds newPlayer to players array
+                this.player = newPlayer;
                 this.playerOrder.push(newPlayer.playerID);
-                this.localNumberOfPlayers = this.player.length;
+                this.localNumberOfPlayers = 1 //this.player.length;
                 return newPlayer;
             } else {
                 throw Error('Not enough cards in the deck to add a new player.');
@@ -264,8 +287,10 @@ export let sessionModel = {
         if (this.sessionID !== null) {
             const player = new Player(playerName, playerID, isHost);
             await player.getPileOfCards();
-            this.player.push(player);
-            this.localNumberOfPlayers = this.player.length;
+            //this.player.push(player);
+            this.player = player;
+            //this.localNumberOfPlayers = this.player.length;
+            this.localNumberOfPlayers = 1; //! ALBIN pending for deleting variable
             return player;
         }
     },
@@ -277,7 +302,7 @@ export let sessionModel = {
         const queryString = arrayOfCardCodes.join(',');
         const API_URL = `${BASE_URL}/deck/${this.sessionID}/pile/${playerID}/add/?cards=${queryString}`;
         const data = await this.getDataFromAPI(API_URL);
-        const player = this.player.find(p => p.playerID == playerID);
+        const player = this.player;//.find(p => p.playerID == playerID);
         await player.getPileOfCards();
         this.gameOverCheck(playerID); //Might be a bit redundant to call gameOverCheck from here. You cannot get out of cards when dealing?
         player.selectedCard = null;
@@ -299,7 +324,7 @@ export let sessionModel = {
         // The selectedCard as argument will be passed from the player class attribute selectedCard.
         const API_URL = `${BASE_URL}/deck/${this.sessionID}/pile/${playerID}/draw/?cards=${selectedCard}`;
         const data = await this.getDataFromAPI(API_URL);
-        const player = this.player.find(p => p.playerID == playerID);
+        const player = this.player; //.find(p => p.playerID == playerID);
         await player.getPileOfCards();  //Updates the local pile of cards.
         this.gameOverCheck(playerID);
         player.selectedCard = null;

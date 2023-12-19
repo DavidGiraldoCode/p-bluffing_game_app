@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory, RouterView, useRouter } from "vue-router"; //run: npm i vue-router
+import { createRouter, createWebHashHistory, RouterView, useRoute, useRouter } from "vue-router"; //run: npm i vue-router
 import TestUI from "./components/TestUI.jsx";
 import DesignSystemPresenter from "./presenters/DesignSystemPresenter.jsx";
 import JoinSessesionPresenter from "./presenters/JoinSessionPresenter.jsx"
@@ -13,6 +13,7 @@ import LeaderBoardPresenter from "./presenters/LeaderBoardPresenter.jsx";
 import SessionMenuPreObj from "./presenters/SessionMenuPreObj.jsx";
 import SwiperVue from "./components/SwiperVue.jsx";
 import BluffPresenter from "./presenters/BluffPresenter.jsx";
+import { watch } from "vue";
 
 export function makeRouter(model) {
     return createRouter({
@@ -77,6 +78,16 @@ export function makeRouter(model) {
 export default
     function AppRoot(props) {
     console.log('Update App!')
+
+    //! TODO Checking of the URLs ID
+    if (props.model.player === null && useRoute().params.id ) {
+        console.log("User re-load brower");
+        props.model.reJoinSessionURL(useRoute().params.id, useRoute().params.user, watch);
+    } else {
+        console.log("Wrong logic!");
+    }
+    //!
+
     //makeRouter(props.model);
     return (
         <div class="AppRoot container">
