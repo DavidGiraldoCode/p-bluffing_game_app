@@ -45,7 +45,7 @@ export default function CreateSessionView(props) {
             <MenuItem
                 class="m-bottom-m"
                 title={"How to play?"}
-                routeDestination={`/instructions:${123456}`}
+                routeDestination={`/instructions`}
             />
             <Footer />
         </div>

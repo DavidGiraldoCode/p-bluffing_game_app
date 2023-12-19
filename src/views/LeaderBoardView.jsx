@@ -6,6 +6,7 @@ import Footer from "../components/Footer";
 import SingleAction from "../components/SingleAction";
 import "../global-style.css";
 import { goTo } from "../utilities";
+import WinnerBanner from "../components/WinnerBanner";
 
 function renderLeaderboard(sortedPlayers){
     return sortedPlayers.map((player, index) => (
@@ -19,6 +20,19 @@ function renderLeaderboard(sortedPlayers){
     ));
 }
 
+function renderGameOverBanner(winnerName, gameOver){
+    return gameOver ? (
+        <WinnerBanner
+            description={"The winner is..."}
+            descriptionIcon={""}
+            playerName={winnerName}
+            winnerIconLeft={"🃏"}
+            winnerIconRight={"🎉"}
+            />
+    ) : null;
+}
+
+
 export default function LeaderBoardView(props) {
 
     // creates an array from the leaderboard object
@@ -26,19 +40,25 @@ export default function LeaderBoardView(props) {
         playerID,
         ...props.leaderboard[playerID]
     }));
-    const sortedPlayers = players.sort((a, b) => a.numberOfCards - b.numberOfCards);
+
+    const data = {
+        sortedPlayers: players.sort((a, b) => a.numberOfCards - b.numberOfCards),
+        winnerName: props.winner ? props.leaderboard[props.winner]?.playerName : "Unknown",
+        gameOver: props.gameOver,
+    }
 
     return (
         <div class="container">
             <SectionTitle title={"King's bluffer 🃏"} />
             <SessionID sessionID={props.sessionID}/>
+            {renderGameOverBanner(data.winnerName, data.gameOver)}
             <SectionSubtitle title={"Leaderboard"}/>
-            {renderLeaderboard(sortedPlayers)}
+            {renderLeaderboard(data.sortedPlayers)}
             <SingleAction
-                title={""}
+                title={props.title}
                 description={""}
                 buttonstate={"/* TODO */"}
-                btnLabel={"Continue"}
+                btnLabel={props.btnLabel}
                 onCustomClick= {x => {goTo(props.routeDestination)}}
             />
             <Footer />

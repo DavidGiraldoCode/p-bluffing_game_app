@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory, RouterView, useRouter } from "vue-router"; //run: npm i vue-router
+import { createRouter, createWebHashHistory, RouterView, useRoute, useRouter } from "vue-router"; //run: npm i vue-router
 import TestUI from "./components/TestUI.jsx";
 import DesignSystemPresenter from "./presenters/DesignSystemPresenter.jsx";
 import JoinSessesionPresenter from "./presenters/JoinSessionPresenter.jsx"
@@ -13,6 +13,7 @@ import LeaderBoardPresenter from "./presenters/LeaderBoardPresenter.jsx";
 import SessionMenuPreObj from "./presenters/SessionMenuPreObj.jsx";
 import SwiperVue from "./components/SwiperVue.jsx";
 import BluffPresenter from "./presenters/BluffPresenter.jsx";
+import { watch } from "vue";
 
 import DesktopView from "./views/DesktopView.jsx";
 import {useMediaQuery} from '@vueuse/core'
@@ -31,7 +32,7 @@ export function makeRouter(model) {
                 path: `/home/:ID`, //? change from user:ID to home:ID, discuss with team
                 component: <UserPresenter model={model} />
             }, {
-                path: `/instructions:ID`,  //ALBIN
+                path: `/instructions`,  //ALBIN
                 component: <InstructionsPresenter model={model} />
             }, {
                 path: `/exit`, //? Think if we need the :ID here
@@ -103,8 +104,12 @@ export default {
 export default
     function AppRoot(props) {
     console.log('Update App!')
-    //makeRouter(props.model);
 
+    // Persistency if player refreshes page.
+    if (props.model.player === null && useRoute().params.id && useRoute().params.user) {
+        props.model.reJoinSessionURL(useRoute().params.id, useRoute().params.user, watch);
+    } else {
+    }
 
     return (
         <div class="AppRoot container">
