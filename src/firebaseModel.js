@@ -92,14 +92,6 @@ async function checkHostFB(sessionID, userID) {
     const hostID = playerHostSnapshot.val() || {};
     return (hostID == userID);
 }
-
-//* NEW FUNCTION to get the players Order once re-load browser
-async function getPlayerOrderFB(sessionID) {
-    const playerOrderRef = ref(realTimeDB, PATH + "/" + sessionID + "/playerOrderFB");
-    const playerOrderSnapshot = await get(playerOrderRef);
-    const playerOrder = playerOrderSnapshot.val() || [];
-    return playerOrder;
-}
 // =================================== Model Conversion Functions ==========================================
 
 function modelToPersistance(model) {
@@ -152,14 +144,23 @@ async function savePlayersFB(model) {
     const currentPlayers = playersSnapshot.val() || {};
 
     // Add new players from model.players to the current playersFB array
-    model.player.forEach(player => {
+    /*model.player.forEach(player => {
         currentPlayers[player.playerID] = {
             playerNameFB: player.playerName,
             numberOfCardsFB: player.numberOfCards,
             playerIdFB: player.playerID,
             // Add other properties as needed
         };
-    });
+    });*/
+    
+    currentPlayers[model.player.playerID] = {
+        playerNameFB: model.player.playerName,
+        numberOfCardsFB: model.player.numberOfCards,
+        playerIdFB: model.player.playerID,
+        // Add other properties as needed
+    };
+
+    //model.player = currentPlayers[player.playerID];
     // Save the updated playersFB array back to Firebase
     set(child(refDB, "playersFB"), currentPlayers);
 }
@@ -240,9 +241,9 @@ function setupFirebase(model, watchFunctionACB) {
     watchFunctionACB(modelChangeCheckACB, updateFirebaseACB);
 
     function modelChangeCheckACB() {
-        // players: model.player.map(player => ({playerID: player.playerID, ....}))
         return [
-            model.player.map(player => ({ playerID: player.playerID, numberOfCards: player.numberOfCards })),
+            model.player?.playerID,
+            model.player?.numberOfCards,
             model.playerOrder,
             model.yourTurn,
             model.gameOver,
@@ -259,6 +260,6 @@ function setupFirebase(model, watchFunctionACB) {
 }
 
 
-export { modelToPersistance, persistanceToModel, saveToFirebase, readFromFirebase, observeFirebaseModel, checkValidSessionID, checkIfPlayerExists, getPlayerData, playerFBCounter, sessionFBCounter, checkHostFB, deleteSessionFromFB, getPlayerOrderFB };
+export { modelToPersistance, persistanceToModel, saveToFirebase, readFromFirebase, observeFirebaseModel, checkValidSessionID, checkIfPlayerExists, getPlayerData, playerFBCounter, sessionFBCounter, checkHostFB, deleteSessionFromFB, setupFirebase };
 
 export default connectToFirebase;

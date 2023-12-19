@@ -7,10 +7,10 @@ import { useRoute } from "vue-router";
 
 export default function GamePresenter(props) {
 
-    if (props.model.player.length === 0) {
+    /*if (props.model.player.length === 0) {
         console.log("User re-load brower");
         props.model.reJoinSessionURL(useRoute().params.id, useRoute().params.user);
-    }
+    }*/
 
     console.log(useRoute().params.id, useRoute().params.user);
 
@@ -27,7 +27,7 @@ export default function GamePresenter(props) {
             sessionID={props.model.sessionID}
             whosTurn={props.model.yourTurn}
             leaderboard={props.model.leaderboard}
-            player={props.model.player[0]}
+            player={props.model.player/*[0]*/}
         />;
     }
 }
