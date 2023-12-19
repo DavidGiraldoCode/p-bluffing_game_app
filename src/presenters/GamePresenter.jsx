@@ -8,11 +8,6 @@ import { watch } from "vue";
 
 export default function GamePresenter(props) {
 
-    console.log(useRoute().params.id, useRoute().params.user);
-    props.model.reJoinSessionURL(useRoute().params.id, useRoute().params.user);
-    
-
-
     // Watch for changes in both yourTurn and playerOrder
     watch(() => props.model.yourTurn, (newYourTurn, oldYourTurn) => {        
         // Check if either yourTurn has changed
