@@ -1,6 +1,9 @@
 import "../global-style.css";
 import { goTo } from "../utilities";
 import "./AppHeader.css";
+import arrow_left_ternary from "../assets/arrow-left-ternary.png"
+import arrow_left_secondary from "../assets/arrow-left-secondary.png"
+import arrow_right_primary from "../assets/arrow-right-primary.png"
 
 export default function AppHeader(props) {
 
@@ -36,7 +39,8 @@ export default function AppHeader(props) {
       iconText = 'Player order';
       break;
     case "Logout":
-      iconSrc = "https://cdn.builder.io/api/v1/image/assets/TEMP/2072340872a354b8295983b332147f5945820670f76840260174181d6b8efafe?apiKey=4ff87b3424964660b6678b1b8d802ec6&";
+      iconSrc = arrow_left_ternary;
+      //"https://cdn.builder.io/api/v1/image/assets/TEMP/2072340872a354b8295983b332147f5945820670f76840260174181d6b8efafe?apiKey=4ff87b3424964660b6678b1b8d802ec6&";
       iconText = "Logout";
       break;
     case "Leave":
@@ -51,14 +55,23 @@ export default function AppHeader(props) {
 
   return (
     <div class="header-container">
-      <div class="menu-container" /*onClick={TODO}*/>
-        <button class="secondary-no-border" onClick={leftEventHandlerACB/*goTo(props.routeDestination) x => { }*/}>
-          <img class="menu-img" loading="lazy" src={iconSrc} alt="Logo" />
-        </button>
+
+      <button class="ternary header-action" onClick={leftEventHandlerACB/*goTo(props.routeDestination) x => { }*/}>
+        <img class="menu-img" loading="lazy" src={iconSrc} alt="Logo" />
         <h4 class="menu-text">{iconText}</h4>
-      </div>
-      <h4 class="title-container">Bluffer</h4>
-      <div class="solid"></div>
+      </button>
+
+      <h3 class="title-container">Bluffer</h3>
+
+      <button style="display: none" class="ternary header-action" onClick={leftEventHandlerACB/*goTo(props.routeDestination) x => { }*/}>
+        <img class="menu-img" loading="lazy" src={iconSrc} alt="Logo" />
+        <h4 class="menu-text">{iconText}</h4>
+      </button>
+
     </div>
   );
 }
+/*
+ <div class="menu-container" 
+ </div>
+<div class="solid"></div>*/
