@@ -14,6 +14,7 @@ import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
 //?---------------------------------------- thirparty component
 import { register } from 'swiper/element/bundle';
+import { useRoute } from "vue-router";
 
 //?---------------------------------------- thirparty component
 
@@ -35,10 +36,14 @@ export const provider = new GoogleAuthProvider();
 const ReactiveModel = reactive(sessionModel);
 
 // Connection to Firebase, missing the reactiveModel and reaction
-connectToFirebase(ReactiveModel, watch);
+//connectToFirebase(ReactiveModel, watch);
 
 // Check authentication status before creating the app
 async function initializeApp() {
+  //! TEST ======
+  // Connection to Firebase, missing the reactiveModel and reaction
+  connectToFirebase(ReactiveModel, watch);
+  //!===========
   //register(); //?thirparty component
   await ReactiveModel.checkAuthStatus();
   const rootJSX = <AppRoot model={ReactiveModel} />;

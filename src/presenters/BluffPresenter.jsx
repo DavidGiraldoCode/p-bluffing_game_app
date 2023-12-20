@@ -6,7 +6,7 @@ export default function BluffPresenter(props) {
     async function removeCardACB(){
 
         const success1 = await propsWithLoading(props.model.nextPlayer(), props);
-        const success2 = await propsWithLoading(props.model.removeCard(props.model.player[0].playerID, props.model.player[0].selectedCard), props);
+        const success2 = await propsWithLoading(props.model.removeCard(props.model.player.playerID/*[0]*/, props.model.player.selectedCard)/*[0]*/, props);
         if(success1 && success2){
             goTo(`/leader-board:${props.model.sessionID}`);
         }
@@ -15,7 +15,7 @@ export default function BluffPresenter(props) {
     async function dealCardACB(){
 
         const success1 = await propsWithLoading(props.model.nextPlayer(), props);
-        const success2 = await propsWithLoading(props.model.dealCards(props.model.player[0].playerID, 1), props);
+        const success2 = await propsWithLoading(props.model.dealCards(props.model.player.playerID/*[0]*/, 1), props);
         if(success1 && success2){
             goTo(`/leader-board:${props.model.sessionID}`);
         }
@@ -23,7 +23,7 @@ export default function BluffPresenter(props) {
 
     return <BluffView 
     sessionID = {props.model.sessionID}
-    selectedCard = {props.model.player[0].selectedCard}
+    selectedCard = {props.model.player.selectedCard/*[0]*/}
     onBluffSuccess = {removeCardACB}
     onBluffFailed = {dealCardACB}
     isLoading={props.model.isLoading}
