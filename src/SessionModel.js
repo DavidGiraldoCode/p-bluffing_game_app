@@ -179,6 +179,22 @@ export let sessionModel = {
         }
     },
 
+    reset() {
+        // Reset properties to their initial values
+        this.readyToWriteFB = false;
+        this.sessionID = null;
+        this.player = null;
+        this.playerOrder = [];
+        this.yourTurn = null;
+        this.playerHost = null;
+        this.localNumberOfPlayers = null;
+        this.gameOver = false;
+        this.winner = null;
+        this.leaderboard = {};
+        this.isLoading = false;
+        this.startWithCards = 2;
+    },
+
     // =================================== Game flow ==========================================
     async nextPlayer() {
         // This function will be called while creating a session to initilize yourTurn
