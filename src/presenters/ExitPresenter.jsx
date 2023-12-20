@@ -5,6 +5,7 @@ export default function ExitPresenter(props) {
 
     function logOutHandler(){
         //TODO Logout
+        props.model.reset();
         props.model.signOut();
         goTo(`/`);
     }
