@@ -11,7 +11,7 @@ import { useRoute } from "vue-router";
 // TODO Add conditional rendering if its not your turn!
 
 export default function GameView(props) {
-    console.log(`We are at /game/${useRoute().params.id}/${useRoute().params.user}`);
+    console.log(`We are at /game/${useRoute().params.uid}/${useRoute().params.session}`);
     // Reworks the leaderboard to be able to easier work with it.
     const players = Object.keys(props.leaderboard).map((playerID) => ({
         playerID,
@@ -32,11 +32,7 @@ export default function GameView(props) {
     const yourTurn = props.whosTurn == props.player.playerID;
 
     function menuEvenHandlerACB(event) {
-        //goTo(`/session-menu:${props.sessionID}`);\
-        const sessionIdURL = useRoute().params.id;
-        const userIdURL = useRoute().params.user;
-        console.log(`Goto: /session-menu/${sessionIdURL}/${userIdURL}`);
-        goTo(`/session-menu/${sessionIdURL}/${userIdURL}`);
+        goTo(`/session-menu/${props.uid}/${props.sessionID}`);
     }
 
     function blufferStageHandlerACB() {
@@ -45,9 +41,10 @@ export default function GameView(props) {
         image.src = `https://deckofcardsapi.com/static/img/${props.player.selectedCard}.png`;
         image.onload = () => {
             // After the image is loaded, navigate to BluffView
-            goTo(`/bluff:${props.sessionID}`);
+            goTo(`/bluff/${props.uid}/${props.sessionID}`);
         };
     }
+
     function selectCardHandler(card) {
         props.player.selectedCard = card;
     }

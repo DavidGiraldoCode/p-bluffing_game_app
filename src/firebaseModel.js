@@ -130,7 +130,7 @@ function persistanceToModel(firebaseData, model) {
 
             model.leaderboard = leaderboard;
         }
-    }
+    };
 }
 
 // =================================== Firebase Interaction Functions ==========================================
@@ -184,6 +184,7 @@ async function readFromFirebase(model) {
     const refDB = ref(realTimeDB, PATH);
 
     function resolveSnapshotACB(snapshot) {
+        
         if (snapshot.exists())
             persistanceToModel(snapshot.val(), model);
         if (!snapshot.exists())
@@ -221,6 +222,7 @@ function observeFirebaseModel(model) {
 function connectToFirebase(model, watchFunctionACB) {
     // Checks so that the model has a valid sessionID. When that is the case, setupFirebase is called.
     if (model.sessionID) {
+
         // If a sessionID exists, proceed with Firebase setup
         setupFirebase(model, watchFunctionACB);
     } else {
@@ -241,6 +243,7 @@ function setupFirebase(model, watchFunctionACB) {
     watchFunctionACB(modelChangeCheckACB, updateFirebaseACB);
 
     function modelChangeCheckACB() {
+        console.log("setupFirebase, change detected");//! TEST
         return [
             model.player?.playerID,
             model.player?.numberOfCards,

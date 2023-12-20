@@ -49,6 +49,8 @@ async function initializeApp() {
   const rootJSX = <AppRoot model={ReactiveModel} />;
   const app = createApp(rootJSX);
   app.use(makeRouter(ReactiveModel));
+
+  
   window.myModel = ReactiveModel;
   app.mount("#app");
 }

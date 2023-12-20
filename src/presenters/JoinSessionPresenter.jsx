@@ -16,7 +16,7 @@ export default function JoinSessesionPresenter(props) {
         const success = await propsWithLoading(props.model.joinSession(sessionID, playerName), props);
         console.log("Success?: ", success)
         if (success) {
-            goTo(`/game/${props.model.sessionID}/${props.model.user.uid}`);
+            goTo(`/game/${props.model.user.uid}/${props.model.sessionID}`);
         }
     }
 

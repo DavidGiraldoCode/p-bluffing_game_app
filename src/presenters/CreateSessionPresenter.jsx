@@ -7,7 +7,7 @@ export default function CreateSessionPresenter(props) {
 
         const success = await propsWithLoading(props.model.createHost(playerName), props);
         if (success) {
-            goTo(`/game/${props.model.sessionID}/${props.model.user.uid}`);
+            goTo(`/game/${props.model.user.uid}/${props.model.sessionID}`);
         }
     }
 
