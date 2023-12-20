@@ -47,6 +47,10 @@ export default function LeaderBoardView(props) {
         gameOver: props.gameOver,
     }
 
+    function buttonHandlerACB(){
+        props.onButtonClick(props.routeDestination)
+    }
+
     return (
         <div class="container">
             <SectionTitle title={"King's bluffer 🃏"} />
@@ -59,7 +63,7 @@ export default function LeaderBoardView(props) {
                 description={""}
                 buttonstate={"/* TODO */"}
                 btnLabel={props.btnLabel}
-                onCustomClick= {x => {goTo(props.routeDestination)}}
+                onCustomClick= {buttonHandlerACB}
             />
             <Footer />
         </div>
