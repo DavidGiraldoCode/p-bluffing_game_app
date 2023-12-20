@@ -25,8 +25,8 @@ export default function BluffView(props) {
     //<AppHeader routeDestination={`/session-menu:${props.sessionID}`} />˝˝
     return <div class="bluff-view container">
 
-        <AppHeader onLeftClick={logOutEvenHandlerACB} icon={"Logout"} icon-text={"Logout"} />
-        <SectionTitle title="Bluff!" />
+        <AppHeader onLeftClick={logOutEvenHandlerACB} icon={"Leave"} icon-text={"Leave the game"} />
+        <SectionTitle title={"Bluff"} />
         <div class="instruction-text m-bottom-m">
             <p>Tell a true or false statement about the card you have.</p>
             <p>The others need to guess if your are telling the truth.</p>
