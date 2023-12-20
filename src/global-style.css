@@ -1,4 +1,5 @@
 @import url('./reset.css');
+@import url('https://fonts.googleapis.com/css2?family=Paytone+One&family=Poppins&display=swap');
 
 * {
     box-sizing: border-box;
@@ -6,6 +7,33 @@
 }
 
 :root {
+    /*---------------------------- MAIN color of the brand */
+    --main-1: #141630;
+    --main-2: #272944;
+    --main-3: #323556;
+    --main-4: #5E6079;
+    --main-5: #DCE0F0;
+
+    --main-white: #FFF;
+    --main-black: #000;
+
+    /*---------------------------- Actions */
+    --primary: #16D950;
+    --primary-light: #16F654;
+    --primary-dark: #15A748;
+    --primary-text: #035D22;
+
+    --secondary: #FF8541;
+    --secondary-light: #FFA979;
+    --secondary-dark: #EB501F;
+    --secondary-text: #A83C00;
+
+    --ternary: #090B23;
+    --ternary-light: #20234B;
+    --ternary-dark: #040621;
+    --ternary-text: #FFF;
+
+    /*----------------------------*/
     --primary-color: #000000;
     --secondary-color: #ffffff;
     --accent-color: #2c34c3;
@@ -68,14 +96,18 @@
     /* 16px / 16px */
     /**/
 
-    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    /*font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;*/
+    /*font-family: Paytone One;*/
+
+
+
     line-height: 1;
     font-weight: 400;
 
     color-scheme: light dark;
-    color: var(--secondary-color);
+    color: var(--main-white);
     /* rgba(255, 255, 255, 0.87);*/
-    background-color: var(--background-color);
+    background-color: var(--main-1);
 
     font-synthesis: none;
     text-rendering: optimizeLegibility;
@@ -84,6 +116,7 @@
 }
 
 body {
+    font-family: 'Paytone One', sans-serif;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -91,6 +124,7 @@ body {
     /*min-height: 100vh;*/
     /* Takes the full viewport height */
     width: 100vw;
+    
     /* height: 100vw; */
 }
 
@@ -130,7 +164,7 @@ h1 {
     line-height: var(--lh-h1);
     /*2rem;*/
 
-    color: var(--primary-color);
+    color: var(--main-white);
     font-style: normal;
     font-weight: 400;
 }
@@ -141,7 +175,7 @@ h2 {
     line-height: var(--lh-h2);
     /*2rem*/
 
-    color: var(--primary-color);
+    color: var(--main-white);
     font-style: normal;
     font-weight: 400;
 }
@@ -152,7 +186,7 @@ h3 {
     line-height: var(--lh-h3);
     /*1.5rem*/
 
-    color: var(--primary-color);
+    color: var(--main-white);
     font-style: normal;
     font-weight: 400;
 }
@@ -163,59 +197,64 @@ h4 {
     line-height: var(--lh-h4);
     /*1.25rem*/
 
-    color: var(--primary-color);
+    color: var(--main-white);
     font-style: normal;
     font-weight: 700;
 }
 
 p {
+    font-family: 'Poppins', sans-serif;
     font-size: var(--fs-p1);
     /*0.875rem*/
     line-height: var(--lh-p1);
     /*1.25rem*/
-    color: var(--primary-color);
+    color: var(--main-white);
     font-style: normal;
     font-weight: 400;
 }
 
 label {
+    font-family: 'Poppins', sans-serif;
     font-size: var(--fs-label);
     /*0.875rem*/
     line-height: var(--lh-label);
     /*1.25rem*/
 
-    color: var(--primary-color);
+    color: var(--main-white);
     font-style: normal;
     font-weight: 400;
 }
 
 .p-small {
+    font-family: 'Poppins', sans-serif;
     font-size: var(--fs-label);
     /*0.75rem*/
     line-height: var(--lh-p1);
     /*1rem;*/
-    color: var(--grey-3);
+    color: var(--main-4);
     font-style: normal;
     font-weight: 400;
     /* 133.333% */
 }
 
 button {
-    color: var(--secondary-color);
-    font-size: 16px;
+    color: var(--primary-text);
+    font-size: var(--fs-h3);
     /*0.75rem;*/
     font-style: normal;
     font-weight: 700;
     font-family: inherit;
     line-height: 1rem;
+    text-transform: uppercase;
 
     border-radius: 1rem;
-    background: var(--primary-color);
-    border: 1px solid transparent;
+    background: var(--primary);
+    border: 1px solid var(--primary-light);
+    box-shadow: 0px 8px 0px 0px #15A748;
 
     display: flex;
     align-self: stretch;
-    height: 3rem;
+    height: var(--spacing-j);
     padding: var(--spacing-s);
     justify-content: center;
     align-items: center;
@@ -225,15 +264,16 @@ button {
 }
 
 *:disabled {
-    background-color: var(--grey-2);
+    background-color: var(--primary-dark);
     color: var(--grey-3);
     opacity: 0.9;
-  }
+}
 
 .secondary {
-    color: var(--primary-color);
-    background: var(--secondary-color);
-    border: 2px solid var(--primary-color);
+    color: var(--secondary-text);
+    border: 1px solid var(--secondary-light);
+    background: var(--secondary);
+    box-shadow: 0px 8px 0px 0px var(--secondary-dark);
 }
 
 .secondary-no-border {
@@ -244,7 +284,7 @@ button {
 
 a {
     font-weight: 500;
-    color: var(--accent-color);
+    color: var(--main-4);
     /*#646cff;*/
     text-decoration: inherit;
     font-size: 0.75rem;
@@ -256,41 +296,45 @@ a {
 }
 
 a:hover {
-    color: #535bf2;
+    color: var(--main-4);
 }
 
-input {}
+input {
+   
+}
 
 /* Default input style */
 input[type="text"],
 textarea {
 
     display: flex;
-    height: 2.5rem;
+    height: var(--spacing-j);
     padding: 0.08rem 0.75rem;
     align-items: center;
     gap: 0.625rem;
     align-self: stretch;
 
-    font-size: 16px;
+
     border-radius: 1rem;
     border: 1px solid var(--primary-color);
-    background: var(--secondary-color);
+    background: var(--main-2);
 
     /*Text*/
-    color: var(--grey-4);
-    font-size: 0.875rem;
+    font-family: 'Poppins', sans-serif;
+    
     font-style: normal;
     font-weight: var(--font-normal);
     line-height: 1.25rem;
+
+    color: var(--main-white);
 }
 
 /* Enabled state */
 input[type="text"]:enabled,
 textarea:enabled {
-
+    border: 1px solid var(--primary);
     /*Text*/
-    font-size: 0.875rem;
+    font-size: var(--fs-p1);
     font-style: normal;
     font-weight: var(--font-normal);
     line-height: 1.25rem;
@@ -300,12 +344,12 @@ textarea:enabled {
 /* Disabled state */
 input[type="text"]:disabled,
 textarea:disabled {
-    border-color: var(--grey-3);
-    background-color: var(--grey-1);
+    border: 2px solid var(--main-4);
+    background-color: var(--main-2);
     cursor: not-allowed;
 
-    color: var(--grey-4);
-    font-size: 0.875rem;
+    color: var(--main-2);
+    font-size: var(--fs-p1);
     font-style: normal;
     font-weight: var(--font-normal);
     line-height: 1.25rem;
@@ -315,13 +359,13 @@ textarea:disabled {
 input[type="text"]:focus,
 textarea:focus {
     outline: none;
-    border-color: var(--accent-color);
+    border: 2px solid var(--primary);
     /* Change to your desired focus color */
     box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
     /* Adjust shadow properties */
-
-    color: var(--interaction-enabled, #000);
-    font-size: 0.875rem;
+    
+    color: var(--main-white);
+    font-size: var(--fs-p1);
     font-style: normal;
     font-weight: var(--font-normal);
     line-height: 1.25rem;
@@ -330,10 +374,10 @@ textarea:focus {
 /* Filled state */
 input[type="text"]:not(:placeholder-shown),
 textarea:not(:placeholder-shown) {
-    background-color: var(--background-color);
+    background-color: var(--main-2);
 
-    color: var(--primary-color);
-    font-size: 0.875rem;
+    color: var(--main-white);
+    font-size: var(--fs-p1);
     font-style: normal;
     font-weight: var(--font-normal);
     line-height: 1.25rem;
