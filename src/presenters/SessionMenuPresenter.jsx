@@ -14,7 +14,7 @@ export default function SessionMenuPresenter(props) {
 
     if (route.params !== undefined) {
         console.log("Have Params", route.params.uid, " / ", route.params.session);
-        props.model.reJoinSessionURL(useRoute().params.uid, useRoute().params.session, watch);
+        props.model.reJoinSessionURL(useRoute().params.uid, useRoute().params.session, null);
     }
 
     //* A view needs to bubbles all the events that change model data

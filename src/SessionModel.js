@@ -131,22 +131,22 @@ export let sessionModel = {
     async reJoinSessionURL(userIDFromURL, sessionIdFromURL, watcher) {
         //if (this.localNumberOfPlayers < 1 || this.localNumberOfPlayers === null) {
         if (this.player === null) {
+            try {
+                console.log("reJoinSessionURL: ", userIDFromURL, " / ", sessionIdFromURL);
 
-            console.log("reJoinSessionURL: ", userIDFromURL, " / ", sessionIdFromURL);
+                this.readyToWriteFB = false;
+                this.sessionID = sessionIdFromURL;
+                //setupFirebase(this, watcher); //* In case of rejoin from URL we need to setup firebase again.
 
-            this.readyToWriteFB = false;
-            this.sessionID = sessionIdFromURL;
-            //setupFirebase(this, watcher); //* In case of rejoin from URL we need to setup firebase again.
-            
-            const player = await getPlayerData(sessionIdFromURL, userIDFromURL)
-            const playerName = player.playerNameFB;
-            const isHost = await checkHostFB(sessionIdFromURL, userIDFromURL);//* NEW
-            await this.reCreatePlayer(playerName, userIDFromURL, isHost);
-            readFromFirebase(this);
-            this.readyToWriteFB = true;
-
-        } else {
-            throw new Error("Error occured when trying to reJoinSession via URL!");
+                const player = await getPlayerData(sessionIdFromURL, userIDFromURL)
+                const playerName = player.playerNameFB;
+                const isHost = await checkHostFB(sessionIdFromURL, userIDFromURL);//* NEW
+                await this.reCreatePlayer(playerName, userIDFromURL, isHost);
+                readFromFirebase(this);
+                this.readyToWriteFB = true;
+            } catch (error) {
+                console.error("Error occured when trying to reJoinSession via URL!", error);
+            }
         }
 
     },

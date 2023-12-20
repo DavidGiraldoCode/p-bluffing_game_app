@@ -1,6 +1,7 @@
 import LeaderBoardView from "../views/LeaderBoardView.jsx";
 import GameOverView from "../views/GameOverView.jsx";
 import { goTo } from "../utilities.js";
+import { useRoute } from "vue-router";
 
 export default function LeaderBoardPresenter(props) {
 
@@ -11,7 +12,7 @@ export default function LeaderBoardPresenter(props) {
 
     if (route.params !== undefined) {
         console.log("Have Params", route.params.uid, " / ", route.params.session);
-        props.model.reJoinSessionURL(useRoute().params.uid, useRoute().params.session, watch);
+        props.model.reJoinSessionURL(useRoute().params.uid, useRoute().params.session, null);
     } 
     async function onButtonClickACB(route){
         if (props.model.gameOver){

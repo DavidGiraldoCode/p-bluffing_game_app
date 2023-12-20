@@ -1,3 +1,4 @@
+import { useRoute } from "vue-router";
 import { goTo, propsWithLoading } from "../utilities.js";
 import BluffView from "../views/BluffView.jsx";
 
@@ -10,7 +11,7 @@ export default function BluffPresenter(props) {
 
     if (route.params !== undefined) {
         console.log("Have Params", route.params.uid, " / ", route.params.session);
-        props.model.reJoinSessionURL(useRoute().params.uid, useRoute().params.session, watch);
+        props.model.reJoinSessionURL(useRoute().params.uid, useRoute().params.session, null);
     }
 
     async function removeCardACB(){
