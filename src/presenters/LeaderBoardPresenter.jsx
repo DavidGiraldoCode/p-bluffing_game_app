@@ -4,6 +4,15 @@ import { goTo } from "../utilities.js";
 
 export default function LeaderBoardPresenter(props) {
 
+    const route = useRoute();
+    console.log("Render of the LeaderBoardPresenter");
+    console.log(route);
+    console.log(route.params);
+
+    if (route.params !== undefined) {
+        console.log("Have Params", route.params.uid, " / ", route.params.session);
+        props.model.reJoinSessionURL(useRoute().params.uid, useRoute().params.session, watch);
+    } 
     async function onButtonClickACB(route){
         if (props.model.gameOver){
             console.log("Reseting model")
@@ -25,7 +34,7 @@ export default function LeaderBoardPresenter(props) {
             leaderboard={props.model.leaderboard}
             onButtonClick={onButtonClickACB}
             routeDestination={`/home/${props.model.user.uid}`} />
-        } else {
+    } else {
         return <LeaderBoardView
             gameOver={props.model.gameOver}
             winner={props.model.winner}
@@ -34,6 +43,6 @@ export default function LeaderBoardPresenter(props) {
             sessionID={props.model.sessionID}
             leaderboard={props.model.leaderboard}
             onButtonClick={onButtonClickACB}
-            routeDestination={`/game/${props.model.sessionID}/${props.model.user.uid}`} />
+            routeDestination={`/game/${props.model.user.uid}/${props.model.sessionID}`} />
         }
 }

@@ -128,20 +128,27 @@ export let sessionModel = {
             throw new Error("Only one player per device is supported!");
         }
     },
-    async reJoinSessionURL(sessionIdFromURL, userIDFromURL, watcher) {
-        console.log("reJoinSessionURL")
-        if (this.localNumberOfPlayers < 1 || this.localNumberOfPlayers === null) {
+    async reJoinSessionURL(userIDFromURL, sessionIdFromURL, watcher) {
+        //if (this.localNumberOfPlayers < 1 || this.localNumberOfPlayers === null) {
+        if (this.player === null) {
+
+            console.log("reJoinSessionURL: ", userIDFromURL, " / ", sessionIdFromURL);
+
             this.readyToWriteFB = false;
             this.sessionID = sessionIdFromURL;
-            setupFirebase(this, watcher); //* In case of rejoin from URL we need to setup firebase again.
+            //setupFirebase(this, watcher); //* In case of rejoin from URL we need to setup firebase again.
+            
             const player = await getPlayerData(sessionIdFromURL, userIDFromURL)
             const playerName = player.playerNameFB;
             const isHost = await checkHostFB(sessionIdFromURL, userIDFromURL);//* NEW
             await this.reCreatePlayer(playerName, userIDFromURL, isHost);
+            readFromFirebase(this);
             this.readyToWriteFB = true;
+
         } else {
             throw new Error("Error occured when trying to reJoinSession via URL!");
         }
+
     },
 
     async createHost(newPlayerName) {
@@ -237,9 +244,9 @@ export let sessionModel = {
         // Creates an object from the player class and adds to the player array.
         // If no sessionID is active, no player will be added and an error is thrown
         // If there is less than this.startWithCards cards in the deck, no player will be added and an error is thrown
-        if(this.sessionID !== null){
+        if (this.sessionID !== null) {
             const remaining = await this.getRemaningCardsOfDeck();
-            if(remaining >= this.startWithCards){
+            if (remaining >= this.startWithCards) {
                 const newPlayer = new Player(playerName, playerID, isHost);
                 //this.player.push(newPlayer);   // adds newPlayer to players array
                 this.player = newPlayer;

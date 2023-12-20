@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory, RouterView, useRoute, useRouter } from "vue-router"; //run: npm i vue-router
+import { createRouter, createWebHashHistory, RouterView, useRoute } from "vue-router"; //run: npm i vue-router
 import TestUI from "./components/TestUI.jsx";
 import DesignSystemPresenter from "./presenters/DesignSystemPresenter.jsx";
 import JoinSessesionPresenter from "./presenters/JoinSessionPresenter.jsx"
@@ -13,10 +13,13 @@ import LeaderBoardPresenter from "./presenters/LeaderBoardPresenter.jsx";
 import SessionMenuPreObj from "./presenters/SessionMenuPreObj.jsx";
 import SwiperVue from "./components/SwiperVue.jsx";
 import BluffPresenter from "./presenters/BluffPresenter.jsx";
-import { watch } from "vue";
+import { onMounted, watch } from "vue";
+
 
 import DesktopView from "./views/DesktopView.jsx";
-import {useMediaQuery} from '@vueuse/core'
+import { useMediaQuery } from '@vueuse/core'
+
+import GamePresenterTest from "./presenters/GamePresenterTest.jsx";
 
 export function makeRouter(model) {
     const router = createRouter({
@@ -31,7 +34,7 @@ export function makeRouter(model) {
                 component: <LoginSessionPresenter model={model} />,
                 meta: { requiresAuth: false }, // Authentication is required
             }, {
-                path: `/home/:ID`, //? change from user:ID to home:ID, discuss with team
+                path: `/home/:uid`,
                 component: <UserPresenter model={model} />,
                 meta: { requiresAuth: true }, // Authentication is required
             }, {
@@ -43,36 +46,39 @@ export function makeRouter(model) {
                 component: <ExitPresenter model={model} />,
                 meta: { requiresAuth: true }, // Authentication is required
             }, {
-                path: `/join-session:ID`, //TODO: Implement OAuth after reload
+                path: `/join-session/:uid`,
                 component: <JoinSessesionPresenter model={model} />,
                 meta: { requiresAuth: true }, // Authentication is required
             }, {
-                path: `/create-session:ID`, //TODO: Implement OAuth after reload
+                path: `/create-session/:uid`,
                 component: <CreateSessionPresenter model={model} />,
                 meta: { requiresAuth: true }, // Authentication is required
             }, {
-                path: `/lobby:ID`, //TODO: Discuss if we could include a lobby before starting https://eloking.com/glossary/general/lobby
+                path: `/lobby/:uid/:session`, //TODO: Discuss if we could include a lobby before starting https://eloking.com/glossary/general/lobby
                 component: <div><h1>Lobby</h1></div>, // <Lobby model={model} /> 
                 meta: { requiresAuth: true }, // Authentication is required
             }, {
-                path: `/game/:id/:user`, // obu2r2ndjhmu
+                path: `/game/:uid/:session`, // 
                 component: <GamePresenter model={model} />,
                 meta: { requiresAuth: true }, // Authentication is required
-            }, {
-                path: `/bluff:ID`, //previos name cards
+            }, {//! ================================================ TESTING
+                path: `/game-test/:uid/:session`, // 
+                component: <GamePresenterTest model={model} />
+            }, { //! ================================================ END
+                path: `/bluff/:uid/:session`, //previos name cards
                 component: <BluffPresenter model={model} />,
                 meta: { requiresAuth: true }, // Authentication is required
             }, {
-                path: `/session-menu/:id/:user`, //ALBIN
+                path: `/session-menu/:uid/:session`, //ALBIN
                 component: <SessionMenuPresenter model={model} />,
                 meta: { requiresAuth: true }, // Authentication is required
             }, {
-                path: `/session-menu-test/:id/:user`, //! TESTING ROUTE ------ 
-                component: <SessionMenuPreObj model={model} />,
+                path: `/leader-board/:uid/:session`,
+                component: <LeaderBoardPresenter model={model} />,
                 meta: { requiresAuth: true }, // Authentication is required
             }, {
-                path: `/leader-board:ID`,
-                component: <LeaderBoardPresenter model={model} />,
+                path: `/session-menu-test/:uid/:session`, //! TESTING ROUTE ------ 
+                component: <SessionMenuPreObj model={model} />,
                 meta: { requiresAuth: true }, // Authentication is required
             }, {
                 path: `/:notFound`,
@@ -135,25 +141,43 @@ export function makeRouter(model) {
 
 export default {
     name: 'AppRoot', // Optional: Provide a name for the component
-  
-    setup() {
-      const isLargeScreen = useMediaQuery('(min-width: 720px)');
-      console.log('Test largescreen', isLargeScreen);
-  
-      return {
-        isLargeScreen,
-      };
+    props: ["model"],
+    components: {
+        RouterView,
+        DesktopView
     },
-  
+    setup(props) {
+        const isLargeScreen = useMediaQuery('(min-width: 720px)');
+        //console.log('Test largescreen', isLargeScreen);
+
+        /*console.log("useRoute() ", useRoute());
+        if (useRoute().params !== undefined) {
+            console.log("Have Params", useRoute().params.uid, " / ", useRoute().params.session);
+            props.model.reJoinSessionURL(useRoute().params.uid, useRoute().params.session, watch);
+        }*/
+
+        function bornACB() {
+            const route = useRoute();
+            console.log("Have mounted the AppRoot");
+            console.log(route);
+            console.log(route.params);
+        }
+        //onMounted(bornACB);
+
+        return {
+            isLargeScreen,
+        };
+    },
+
     render() {
-      return (
-        <div class="AppRoot container">
-          {/* Check the screen size */}
-          {this.isLargeScreen ? <DesktopView /> : <RouterView />}
-        </div>
-      );
+        return (
+            <div class="AppRoot container">
+                {/* Check the screen size */}
+                {this.isLargeScreen ? <DesktopView /> : <RouterView />}
+            </div>
+        );
     },
-  };
+};
 
 /* AppRoot without MediaQuery 
 export default

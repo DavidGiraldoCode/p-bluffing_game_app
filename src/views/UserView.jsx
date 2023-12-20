@@ -20,11 +20,11 @@ export default function CreateSessionView(props) {
     }
 
     function createSessionACB() {
-        goTo(`/create-session:123`);
+        goTo(`/create-session/${props.uid}`);
     }
 
     function joinSessionACB() {
-        goTo(`/join-session:123`);
+        goTo(`/join-session/${props.uid}`);
     }
     //destinationTitle="Back"
     return <div class="container">
