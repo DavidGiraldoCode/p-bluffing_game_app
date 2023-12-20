@@ -50,7 +50,7 @@ export default function GameView(props) {
     }
 
     return <div class="game-view container">
-        <AppHeader onLeftClick={menuEvenHandlerACB} />
+        <AppHeader onLeftClick={menuEvenHandlerACB} icon="Playerorder"/>
         <SessionID sessionID={props.sessionID} />
         <LBitem
             rank={`No.${playerRank}`} // TODO Implement your current rank
@@ -66,7 +66,7 @@ export default function GameView(props) {
             <SingleAction
                 class="card-selector-action fixed-bottom"
                 title="Your turn!"
-                description={`${props.player.selectedCard ? "You selected " + props.player.selectedCard + ", now bluff your way out" : "Select a card to bluff your way out"}`}
+                description={`${props.player.selectedCard ? "You selected " + props.player.selectedCard + ", now bluff your way out" : "Pick a card to bluff your way out"}`}
                 buttonState={cardNotSelected}
                 btnLabel="Confirm"
                 onCustomClick={blufferStageHandlerACB} />
@@ -79,6 +79,9 @@ export default function GameView(props) {
                 btnLabel="⏳"
                 onCustomClick={null} />
         )}
+
+        <p> How to play? </p> {/*TODO LINK*/}
+
     </div>
 }
 

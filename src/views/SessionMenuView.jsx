@@ -46,16 +46,17 @@ export default function SessionMenuView(props) {
 
   return (
     <div class="container">
-      <AppHeader onLeftClick={backEvenHandlerACB} icon={"Backarrow"} icon-text={"Back"} />
+      <AppHeader title={"Menu"/*TODO*/} onLeftClick={backEvenHandlerACB} icon={"Backarrow"} icon-text={"Back"} />
       <SessionID sessionID={props.sessionID} />
+      <p>Who's turn?</p>
       {renderOrder(props.playerOrder)}
       <MenuItem
-        title={"Instructions"}
+        title={"HOW TO PLAY?"}
         routeDestination={`/instructions`/*${props.sessionID}*/} />
       <MenuItem
-        title={"Leave the game"}
+        title={"LEAVE THE GAME"}
         routeDestination={`/exit`/*${props.sessionID}*/} />
-      <Footer class="m-top-m" />
+      
     </div>
   );
 }

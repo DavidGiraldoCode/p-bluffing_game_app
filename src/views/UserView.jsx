@@ -31,14 +31,14 @@ export default function CreateSessionView(props) {
         <AppHeader onLeftClick={logOutEvenHandlerACB} icon={"Logout"} icon-text={"Logout"} />
         <UserGreeting
             userImage={props.userImage}
-            title={"Hello there"}
+            title={"Hello"}
             name={props.name} />
         <div class="fixed-bottom" >
             <DoubleAction
                 class="m-bottom-m"
                 description={"Ready for your next game?"}
-                primaryText={"Host session"}
-                secondaryText={"Join session"}
+                primaryText={"HOST SESSION"}
+                secondaryText={"JOIN SESSION"}
                 primaryOnClick={createSessionACB}
                 secondaryOnClick={joinSessionACB}
             />
