@@ -1,4 +1,4 @@
-.bluff-view{
+.bluff-view {
     /*display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -8,10 +8,33 @@
     text-align: center;
 }
 
-.bluff-view img {
-    margin-bottom: var(--spacing-l);
+.instruction-text {
+    align-items: center;
+    padding: var(--spacing-s);
 }
 
-.instruction-text{
-    margin: var(--spacing-s);
+.selected-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-mask {
+    width: 224px;
+    height: 308px;
+
+    display: flex;
+
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+    border-radius: 40px;
+    /*padding: 4px;*/
+    border: 4px solid rgb(242, 242, 242);
+    color: #fff;
+}
+
+.selected-card img {
+    width: 400%;
+
 }

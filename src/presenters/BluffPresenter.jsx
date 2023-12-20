@@ -23,7 +23,7 @@ export default function BluffPresenter(props) {
 
     return <BluffView 
     sessionID = {props.model.sessionID}
-    selectedCard = {props.model.player.selectedCard/*[0]*/}
+    selectedCard = {props.model.player?.selectedCard || "AC" /*[0]*/}
     onBluffSuccess = {removeCardACB}
     onBluffFailed = {dealCardACB}
     isLoading={props.model.isLoading}
