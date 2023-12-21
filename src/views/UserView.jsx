@@ -26,29 +26,38 @@ export default function CreateSessionView(props) {
     function joinSessionACB() {
         goTo(`/join-session/${props.uid}`);
     }
+
+    function howToHandlerCB(){
+        goTo(`/instructions`);
+    }
+
     //destinationTitle="Back"
     return <div class="container">
-        <AppHeader onLeftClick={logOutEvenHandlerACB} icon={"Logout"} icon-text={"Logout"} />
+        <AppHeader class="m-bottom-m" onLeftClick={logOutEvenHandlerACB} icon={"Logout"} icon-text={"Logout"} />
         <UserGreeting
             userImage={props.userImage}
-            title={"Hello there"}
+            title={"Hello"}
             name={props.name} />
-        <div class="fixed-bottom" >
-            <DoubleAction
-                class="m-bottom-m"
-                description={"Ready for your next game?"}
-                primaryText={"Host session"}
-                secondaryText={"Join session"}
-                primaryOnClick={createSessionACB}
-                secondaryOnClick={joinSessionACB}
-            />
-            <MenuItem
-                class="m-bottom-m"
-                title={"How to play?"}
-                routeDestination={`/instructions`}
-            />
+        <DoubleAction
+            class="home-actions m-bottom-m"
+            description={"Ready for your next game?"}
+            primaryText={"HOST SESSION"}
+            secondaryText={"JOIN SESSION"}
+            primaryOnClick={createSessionACB}
+            secondaryOnClick={joinSessionACB}
+        />
+        <div class="fixed-bottom container m-bottom-m" >
+            <button onClick={howToHandlerCB} class="primary-no-border"> How to play? </button>
             <Footer />
         </div>
 
     </div>
 }
+
+/*
+<MenuItem
+                class="m-bottom-m"
+                title={"How to play?"}
+                routeDestination={`/instructions`}
+            />
+*/

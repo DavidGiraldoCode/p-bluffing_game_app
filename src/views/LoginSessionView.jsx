@@ -15,16 +15,15 @@ export default function LoginSessionView(props) {
     {/*  Login Session  */ }
 
     return <div class="container">
-        <SectionTitle title={"King's Bluffer"} />
+        <SectionTitle title={"Bluffer"} />
         <div class="login-game-description m-bottom-m">
-            <p>Get 5 cards and bluff you way out to be the first one with no cards.</p>
+            <p></p>
         </div>
         <SwiperVue class="m-bottom-m" />
         <SingleAction
             title=" "
-            description="Please log in below to play!"
-            btnLabel="Continue with Google "
+            description="How to play?"
+            btnLabel="JOIN WITH GOOGLE"
             onCustomClick={LoginHandlerACB} />
-        <Footer class="" />
     </div>
 }

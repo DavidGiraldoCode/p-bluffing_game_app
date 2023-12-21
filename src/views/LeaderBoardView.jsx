@@ -53,7 +53,7 @@ export default function LeaderBoardView(props) {
 
     return (
         <div class="container">
-            <SectionTitle title={"King's bluffer 🃏"} />
+            <SectionTitle title={"Bluffer 🃏"} />
             <SessionID sessionID={props.sessionID}/>
             {renderGameOverBanner(data.winnerName, data.gameOver)}
             <SectionSubtitle title={"Leaderboard"}/>
@@ -65,7 +65,7 @@ export default function LeaderBoardView(props) {
                 btnLabel={props.btnLabel}
                 onCustomClick= {buttonHandlerACB}
             />
-            <Footer />
+            
         </div>
     );
 };

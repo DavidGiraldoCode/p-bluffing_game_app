@@ -23,13 +23,13 @@ export default function BluffView(props) {
     }
 
     //<AppHeader routeDestination={`/session-menu:${props.sessionID}`} />˝˝
+    //<SectionTitle title={"Bluff"} />
     return <div class="bluff-view container">
 
-        <AppHeader onLeftClick={logOutEvenHandlerACB} icon={"Logout"} icon-text={"Logout"} />
-        <SectionTitle title="Bluff!" />
+        <AppHeader class="m-bottom-m" onLeftClick={logOutEvenHandlerACB} icon={"Leave"} icon-text={"Leave the game"} />
         <div class="instruction-text m-bottom-m">
-            <p>Tell a true or false statement about the card you have.</p>
-            <p>The others need to guess if your are telling the truth.</p>
+            <p> Tell a true or false statement about the card you have.
+                The others need to guess if your are telling the truth.</p>
         </div>
         <div class="selected-card container">
             <div class="card-mask">
@@ -37,7 +37,6 @@ export default function BluffView(props) {
                     <img src={`https://deckofcardsapi.com/static/img/${props.selectedCard}.svg`} alt={props.selectedCard} />
                 )}
             </div>
-
         </div>
 
         {props.isLoading ? (
@@ -47,6 +46,7 @@ export default function BluffView(props) {
 
             <DoubleAction
                 class="fixed-bottom m-bottom-m"
+                isBluffin = {true}
                 description={"Did you manage to bluff your way out?"}
                 primaryText={"Yes"}
                 secondaryText={"No"}

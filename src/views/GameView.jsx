@@ -34,6 +34,10 @@ export default function GameView(props) {
         goTo(`/session-menu/${props.uid}/${props.sessionID}`);
     }
 
+    function howToHandlerCB() {
+        goTo(`/instructions`);
+    }
+
     function blufferStageHandlerACB() {
         // Pre-loads the image to avoid rendering delay of image at BluffView
         const image = new Image();
@@ -49,7 +53,7 @@ export default function GameView(props) {
     }
 
     return <div class="game-view container">
-        <AppHeader onLeftClick={menuEvenHandlerACB} />
+        <AppHeader onLeftClick={menuEvenHandlerACB} icon="Playerorder" />
         <SessionID sessionID={props.sessionID} />
         <LBitem
             rank={`No.${playerRank}`} // TODO Implement your current rank
@@ -61,28 +65,35 @@ export default function GameView(props) {
         <div class="swiper-vue container m-top-m">
             <SwiperVue cardCodes={props.player.pileOfCards} onSelectCard={selectCardHandler} />
         </div>
-        {yourTurn ? (
-            <SingleAction
-                class="card-selector-action fixed-bottom"
-                title="Your turn!"
-                description={`${props.player.selectedCard ? "You selected " + props.player.selectedCard + ", now bluff your way out" : "Select a card to bluff your way out"}`}
-                buttonState={cardNotSelected}
-                btnLabel="Confirm"
-                onCustomClick={blufferStageHandlerACB} />
-        ) : (
-            <SingleAction
-                class="card-selector-action fixed-bottom"
-                title="Wait for your turn"
-                description=""
-                buttonState={true}
-                btnLabel="⏳"
-                onCustomClick={null} />
-        )}
+        <div class="fixed-bottom container">
+            {yourTurn ? (
+                <SingleAction
+                    class="card-selector-action"
+                    title="Your turn!"
+                    description={`${props.player.selectedCard ? "You selected " + props.player.selectedCard + ", now bluff your way out" : "Pick a card to bluff your way out"}`}
+                    buttonState={cardNotSelected}
+                    btnLabel="Confirm"
+                    onCustomClick={blufferStageHandlerACB} />
+            ) : (
+                <SingleAction
+                    class="card-selector-action"
+                    title="Wait for your turn"
+                    description=""
+                    buttonState={true}
+                    btnLabel="⏳"
+                    onCustomClick={null} />
+            )}
+            <button onClick={howToHandlerCB} class="primary-no-border"> How to play? </button>
+        </div>
+
+
+
+
     </div>
 }
 
 /*
-
+<p> How to play? </p> {/TODO LINK/}
     //! Temporary instead of Swiper
     function cardsRendering(card) {
         return (
