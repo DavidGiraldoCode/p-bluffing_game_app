@@ -3,18 +3,15 @@ import SessionMenuView from "../views/SessionMenuView.jsx";
 import { getPlayerNamesFromIDs } from "../utilities.js";
 import { getPlayerData } from "../firebaseModel.js";
 import resolvePromise from "../resolvePromise.js";
+import { watch } from "vue";
 
 
 export default function SessionMenuPresenter(props) {
 
     const route = useRoute();
-    console.log("Render of the BluffPresenter");
-    console.log(route);
-    console.log(route.params);
 
     if (route.params !== undefined) {
-        console.log("Have Params", route.params.uid, " / ", route.params.session);
-        props.model.reJoinSessionURL(useRoute().params.uid, useRoute().params.session, null);
+        props.model.reJoinSessionURL(useRoute().params.uid, useRoute().params.session);
     }
 
     //* A view needs to bubbles all the events that change model data
@@ -39,7 +36,6 @@ export default function SessionMenuPresenter(props) {
     }
 
     const playerOrderNames = props.model.playerOrder.map(createPlayerOrderNames);
-    console.log(playerOrderNames);
 
     //getPlayerNamesFromIDs(props.model.playerOrder);
 

@@ -11,7 +11,6 @@ import { useRoute } from "vue-router";
 // TODO Add conditional rendering if its not your turn!
 
 export default function GameView(props) {
-    console.log(`We are at /game/${useRoute().params.uid}/${useRoute().params.session}`);
     // Reworks the leaderboard to be able to easier work with it.
     const players = Object.keys(props.leaderboard).map((playerID) => ({
         playerID,

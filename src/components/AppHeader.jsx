@@ -5,7 +5,6 @@ import "./AppHeader.css";
 export default function AppHeader(props) {
 
   function leftEventHandlerACB(event) {
-    console.log("primaryEventHandlerACB in AppHeader");
     props.onLeftClick(event);
   }
 

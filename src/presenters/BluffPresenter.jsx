@@ -1,17 +1,16 @@
 import { useRoute } from "vue-router";
 import { goTo, propsWithLoading } from "../utilities.js";
 import BluffView from "../views/BluffView.jsx";
+import { watch } from "vue";
 
 export default function BluffPresenter(props) {
 
     const route = useRoute();
-    console.log("Render of the BluffPresenter");
-    console.log(route);
-    console.log(route.params);
 
-    if (route.params !== undefined) {
-        console.log("Have Params", route.params.uid, " / ", route.params.session);
-        props.model.reJoinSessionURL(useRoute().params.uid, useRoute().params.session, null);
+    if (route.params !== undefined && props.model.player === null) {
+        props.model.reJoinSessionURL(useRoute().params.uid, useRoute().params.session);
+        // Go to game since selectedCard is only local. No selected card upon reload.
+        goTo(`/game/${props.model.user.uid}/${props.model.sessionID}`);
     }
 
     async function removeCardACB(){
