@@ -1,3 +1,14 @@
+.wrapper-styler{
+    margin: 0 var(--spacing-m);
+    overflow: hidden;
+    border-radius: var(--spacing-m);
+    display: flex;
+    align-self: stretch;
+    flex-direction: column;
+    background-color: var(--main-2);
+    border: 1px solid var(--main-3);
+}
+
 .wait-text{
     display: flex;
     padding: 24px 16px;
