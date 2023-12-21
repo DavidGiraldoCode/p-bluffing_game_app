@@ -55,7 +55,7 @@ const GamePresenterTest = {
 
         function handleYourTurnChangeACB(props) {
             // Someone has ended their turn => all users in the game will se the leaderboard
-            goTo(`/leader-board/${props.model.user.uid}/${props.model.sessionID}`);
+            goTo(`/leader-board/${props.model.user?.uid}/${props.model?.sessionID}`);
         };
 
         //onMounted(bornACB);

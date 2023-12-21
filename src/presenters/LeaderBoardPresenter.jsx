@@ -16,6 +16,7 @@ export default function LeaderBoardPresenter(props) {
             console.log("Reseting model!")
             await props.model.reset();
             goTo(route)
+            window.location.reload();
         }else{
             goTo(route)
         }

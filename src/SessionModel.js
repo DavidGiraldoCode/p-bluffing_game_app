@@ -191,6 +191,7 @@ export let sessionModel = {
         this.leaderboard = {};
         this.isLoading = false;
         this.startWithCards = 2;
+        console.log("Successfully reset the model!")
     },
 
     // =================================== Game flow ==========================================
