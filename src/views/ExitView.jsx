@@ -24,10 +24,8 @@ export default
       <div class="exit-text">
         <SectionSubtitle title="Leaving the game" />
         <p>If you leave your progress will be saved until the current session ends.</p>
-        <p>If you are the host, you will finish the session for everyone else in the
-          game, and someone will have to create a new session from scratch.</p>
+        <p>If you are the host, no one will be able to skip a players turn.</p>
       </div>
-            // TODO SingleAction should be on the bottom of screen.
       <SingleAction
         class="fixed-bottom"
         description="Are you sure you want to leave?"

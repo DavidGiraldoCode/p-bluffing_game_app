@@ -41,14 +41,14 @@ The saga concludes when a player successfully discards all their cards. The vict
 
 
       <div class="instruction-text">
-        <p>1. Each round, players take turns selection a card from their hand.</p>
-        <p>2. The strategic showdown begins! Players aim to outsmart opponents by:</p>
-        <p>   * <strong>Truth-telling with a twist</strong>, revealing the chosen card but adding a dash of confusion.</p>
-        <p>   * <strong>Crafting a well-executed lie</strong>, asserting they picked a different card than the actual choice.</p>
-        <p>3. Success! Players who skillfully deceive opponents earn the privilege of discarding the selected card.</p>
+        <p>1. Each round, pick a card from your hand.</p>
+        <p>2. Outsmart opponents by::</p>
+        <p>   * <strong>Truth with a twist</strong>,  reveal your card with a dash of confusion.</p>
+        <p>   * <strong>Bluff, a well-executed lie:</strong>, assert a different card than your actual choice.</p>
+        <p>3. Success! Deceive opponents to discard the selected card.</p>
         <p> </p>
         <p>Winning the Game:</p>
-        <p>The saga concludes when a player successfully discards all their cards. The victorious player stands as the ultimate Bluffing Royalty!</p>
+        <p>The saga concludes when you successfully discard all your cards. You become the Bluffing Royalty!</p>
       </div>
 
       <div class="sub-title-text">
@@ -56,7 +56,7 @@ The saga concludes when a player successfully discards all their cards. The vict
       </div>
 
       <div class="instruction-text">
-        <p>@github.com/Albin</p>
+        <p>@github.com/AlbinFransson</p>
         <p>@github.com/martinbergsand</p>
         <p>@github.com/DavidGiraldoCode</p>
         <p>@github.com/Oscar</p>
