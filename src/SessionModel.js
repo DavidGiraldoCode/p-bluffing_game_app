@@ -6,6 +6,7 @@ import { saveToFirebase, checkValidSessionID, checkIfPlayerExists, getPlayerData
 //?---------------------------------------- Google authentication
 import { getAuth, signInWithPopup, signInWithRedirect, onAuthStateChanged, signOut, GoogleAuthProvider, getRedirectResult } from "firebase/auth";
 import { auth, provider } from "./main.jsx";
+import { watch } from "vue";
 //?---------------------------------------- Google authentication
 /*
                 ☆           *
@@ -128,21 +129,18 @@ export let sessionModel = {
             throw new Error("Only one player per device is supported!");
         }
     },
-    async reJoinSessionURL(userIDFromURL, sessionIdFromURL, watcher) {
+    async reJoinSessionURL(userIDFromURL, sessionIdFromURL) {
         //if (this.localNumberOfPlayers < 1 || this.localNumberOfPlayers === null) {
         if (this.player === null) {
             try {
-                console.log("reJoinSessionURL: ", userIDFromURL, " / ", sessionIdFromURL);
-
                 this.readyToWriteFB = false;
                 this.sessionID = sessionIdFromURL;
-                //setupFirebase(this, watcher); //* In case of rejoin from URL we need to setup firebase again.
-
                 const player = await getPlayerData(sessionIdFromURL, userIDFromURL)
                 const playerName = player.playerNameFB;
                 const isHost = await checkHostFB(sessionIdFromURL, userIDFromURL);//* NEW
                 await this.reCreatePlayer(playerName, userIDFromURL, isHost);
                 readFromFirebase(this);
+                setupFirebase(this, watch);
                 this.readyToWriteFB = true;
             } catch (error) {
                 console.error("Error occured when trying to reJoinSession via URL!", error);
@@ -193,6 +191,7 @@ export let sessionModel = {
         this.leaderboard = {};
         this.isLoading = false;
         this.startWithCards = 2;
+        console.log("Successfully reset the model!")
     },
 
     // =================================== Game flow ==========================================
@@ -348,11 +347,9 @@ export let sessionModel = {
             onAuthStateChanged(auth, (user) => {
                 if (user) {
                     this.user = user;
-                    console.log("User was logged in already!")
                     resolve(true);
                 } else {
                     this.user = null;
-                    console.log("User was NOT logged!")
                     resolve(false);
                 }
             });

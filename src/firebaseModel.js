@@ -187,8 +187,6 @@ async function readFromFirebase(model) {
         
         if (snapshot.exists())
             persistanceToModel(snapshot.val(), model);
-        if (!snapshot.exists())
-            console.log('No Data on RealTime Database');
     }
 
     function setModelToReadyACB() {
@@ -208,10 +206,8 @@ function observeFirebaseModel(model) {
 
     function resolveSnapshotACB(snapshot) {
         if (!snapshot.exists()) {
-            console.log(`No Data on RealTime Database at path: ${SESSION_PATH}`);
             return;
         }
-        console.log("Observed a change!")
         persistanceToModel(snapshot.val(), model);
         model.ready = true;
     }
@@ -243,7 +239,6 @@ function setupFirebase(model, watchFunctionACB) {
     watchFunctionACB(modelChangeCheckACB, updateFirebaseACB);
 
     function modelChangeCheckACB() {
-        console.log("setupFirebase, change detected");//! TEST
         return [
             model.player?.playerID,
             model.player?.numberOfCards,

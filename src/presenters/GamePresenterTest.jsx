@@ -21,7 +21,7 @@ const GamePresenterTest = {
 
             if (route.params !== undefined) {
                 console.log("Have Params", route.params.uid, " / ", route.params.session);
-                props.model.reJoinSessionURL(useRoute().params.uid, useRoute().params.session, watch);
+                props.model.reJoinSessionURL(useRoute().params.uid, useRoute().params.session);
             }
 
             if (props.model.gameOver) {
@@ -55,7 +55,7 @@ const GamePresenterTest = {
 
         function handleYourTurnChangeACB(props) {
             // Someone has ended their turn => all users in the game will se the leaderboard
-            goTo(`/leader-board/${props.model.user.uid}/${props.model.sessionID}`);
+            goTo(`/leader-board/${props.model.user?.uid}/${props.model?.sessionID}`);
         };
 
         //onMounted(bornACB);
@@ -66,7 +66,7 @@ const GamePresenterTest = {
             console.log(route.params);
             if (useRoute().params !== undefined) {
                 console.log("Have Params", useRoute().params.uid, " / ", useRoute().params.session);
-                props.model.reJoinSessionURL(useRoute().params.uid, useRoute().params.session, watch);
+                props.model.reJoinSessionURL(useRoute().params.uid, useRoute().params.session);
             }
         }
 

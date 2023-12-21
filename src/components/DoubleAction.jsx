@@ -11,7 +11,6 @@ import "./DoubleAction.css";
 export default function DoubleAction(props) {
 
     function primaryEventHandlerACB(event) {
-        console.log("primaryEventHandlerACB in DoubleAction");
         props.primaryOnClick(event);
     }
 

@@ -21,15 +21,5 @@ function getPlayerNamesFromIDs(arrayOfPlayerIDs) {
     //const dir = `/sessions/${sessionID}/playersFB/${arrayOfPlayerIDs[i]}/playerNameFB`
     //arrayOfPlayerIDs.map()
 }
-//! TESTING
-function reBuildModelFormURLACB(props, URLObjParams, watch) {
-    if (props.model.payer === undefined) {
-        console.log("Lost session, re-building...");
-        console.log(URLObjParams);
-        props.model.reJoinSessionURL(URLObjParams.uid, URLObjParams.session, watch);
-    }else{
-        console.log("Wrong logic!")
-    }
-}
-//!----
-export { goTo, propsWithLoading, getPlayerNamesFromIDs, reBuildModelFormURLACB };
+
+export { goTo, propsWithLoading, getPlayerNamesFromIDs };

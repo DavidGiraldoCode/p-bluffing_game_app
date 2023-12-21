@@ -4,7 +4,6 @@ import "./SingleAction.css"
 export default function SingleAction(props) {
     
     function eventHandlerACB(event) {
-        console.log('Event in SingleAction');
         props.onCustomClick(event);
     }
 
