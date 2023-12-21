@@ -110,13 +110,10 @@ export function makeRouter(model) {
             } else {
                 // Check if the route has a user parameter
                 const routeUserID = to.params.user;
-                console.log("routeUserID: ", routeUserID)
                 
                 if (routeUserID !== undefined) {
                     // Compare the userID in the route with the authenticated user's uid
                     const authenticatedUserID = model.user.uid;
-                    
-                    console.log("authenticatedUserID: ", authenticatedUserID)
         
                     if (routeUserID !== authenticatedUserID) {
                         // Redirect to login page if user tries to access another user's route
@@ -148,13 +145,6 @@ export default {
     },
     setup(props) {
         const isLargeScreen = useMediaQuery('(min-width: 720px)');
-        //console.log('Test largescreen', isLargeScreen);
-
-        /*console.log("useRoute() ", useRoute());
-        if (useRoute().params !== undefined) {
-            console.log("Have Params", useRoute().params.uid, " / ", useRoute().params.session);
-            props.model.reJoinSessionURL(useRoute().params.uid, useRoute().params.session, watch);
-        }*/
 
         function bornACB() {
             const route = useRoute();
@@ -178,22 +168,3 @@ export default {
         );
     },
 };
-
-/* AppRoot without MediaQuery 
-export default
-    function AppRoot(props) {
-    console.log('Update App!')
-
-    // Persistency if player refreshes page.
-    if (props.model.player === null && useRoute().params.id && useRoute().params.user) {
-        props.model.reJoinSessionURL(useRoute().params.id, useRoute().params.user, watch);
-    } else {
-    }
-
-    return (
-        <div class="AppRoot container">
-            <RouterView />
-        </div>
-    );
-}
-*/

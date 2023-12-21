@@ -6,21 +6,17 @@ import { useRoute } from "vue-router";
 export default function LeaderBoardPresenter(props) {
 
     const route = useRoute();
-    console.log("Render of the LeaderBoardPresenter");
-    console.log(route);
-    console.log(route.params);
 
     if (route.params !== undefined) {
-        console.log("Have Params", route.params.uid, " / ", route.params.session);
-        props.model.reJoinSessionURL(useRoute().params.uid, useRoute().params.session, null);
+        props.model.reJoinSessionURL(useRoute().params.uid, useRoute().params.session);
+
     } 
     async function onButtonClickACB(route){
         if (props.model.gameOver){
-            console.log("Reseting model")
+            console.log("Reseting model!")
             await props.model.reset();
             goTo(route)
         }else{
-            console.log("Normal redirect")
             goTo(route)
         }
     }
