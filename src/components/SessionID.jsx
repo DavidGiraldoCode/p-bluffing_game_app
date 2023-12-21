@@ -5,7 +5,8 @@ export default
 function SessionID(props) {
     return (
       <div className="session-container">
-       Session ID: {props.sessionID}
+       <p> Session ID: </p>
+       <h4>{props.sessionID}</h4>
       </div>
     );
   }

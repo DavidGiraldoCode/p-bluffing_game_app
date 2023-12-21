@@ -5,14 +5,13 @@
     align-items: center;
     align-self: stretch;
 
-    border-bottom: 1px solid var(--grey-1-grey-moon, #DFDFDF);
 }
 
 .player-name-text {
     align-items: center;
     flex: 1 0 0;
     align-self: center;
-    background: var(--principal-white, #FFF);
+    background: var(--main-2);
     padding: 0 var(--spacing-s);
 }
 

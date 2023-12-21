@@ -9,11 +9,12 @@ function LBitem(props) {
             <h4 className="rank-number">{props.rank}</h4>
           </div>
           <div className="text-container">
-            <p className="user-text">{props.playerName}</p>
-            <p className="cards-text">{props.cardIcon} {props.cardText}</p> 
+            <img loading="lazy" class="loading-image-class user-image-2" src={props.playerImage}></img> 
+            <h4 className="user-text">{props.playerName}</h4>
+            <h4 className="cards-text">{props.cardIcon} {props.cardText}</h4> 
           </div>
           <div className="score-container">
-            <p className="score-number">{props.score}</p>
+            <h4 className="score-number">{props.score}</h4>
           </div>
     </div>
   );
