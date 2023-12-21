@@ -12,7 +12,8 @@
     --main-2: #272944;
     --main-3: #323556;
     --main-4: #5E6079;
-    --main-5: #DCE0F0;
+    --main-5: #b0b4c5;
+    --main-6: #DCE0F0;
 
     --main-white: #FFF;
     --main-black: #000;
@@ -72,12 +73,9 @@
     /* 1.5 * 16px = 24px */
     --fs-h4: 1.125rem;
     /* 1.125 * 16px = 18px */
-    --fs-p1: 1.125rem;
-    /* 1.125 * 16px = 18px */
-    --fs-label: 1rem;
-    /* 0.625 * 16px = 10px */
-    --fs-button-label: 1rem;
-    /* 1 * 16px = 16px */
+    --fs-p1: 1rem; /* 1.125 * 16px = 18px */
+    --fs-label: 1rem; /* 0.625 * 16px = 10px */
+    --fs-button-label: 1rem; /* 1 * 16px = 16px */
 
     /* Define line-heights */
     --lh-h1: 1.7777778;
@@ -313,7 +311,6 @@ a:hover {
 }
 
 input {
-   
 }
 
 /* Default input style */
@@ -330,7 +327,7 @@ textarea {
 
     border-radius: 1rem;
     border: 1px solid var(--primary-color);
-    background: var(--main-2);
+    background: var(--ternary);
 
     /*Text*/
     font-family: 'Poppins', sans-serif;
@@ -339,7 +336,6 @@ textarea {
     font-weight: var(--font-normal);
     line-height: 1.25rem;
 
-    color: var(--main-white);
 }
 
 /* Enabled state */
@@ -374,7 +370,7 @@ textarea:focus {
     outline: none;
     border: 2px solid var(--primary);
     /* Change to your desired focus color */
-    box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+    box-shadow: 0 1px 5px var(--primary-text);
     /* Adjust shadow properties */
     
     color: var(--main-white);
@@ -384,11 +380,17 @@ textarea:focus {
     line-height: 1.25rem;
 }
 
+input[type="text"]::placeholder,
+textarea::placeholder {
+  color: var(--main-5);
+  
+}
+
 /* Filled state */
 input[type="text"]:not(:placeholder-shown),
 textarea:not(:placeholder-shown) {
-    background-color: var(--main-2);
-
+    background-color: var(--main-1);
+    border: 2px solid var(--primary);
     color: var(--main-white);
     font-size: var(--fs-p1);
     font-style: normal;

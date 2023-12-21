@@ -10,7 +10,7 @@
 
 .instruction-text {
     align-items: center;
-    padding: var(--spacing-s);
+    padding: 0 var(--spacing-m);
 }
 
 .selected-card {
@@ -30,8 +30,9 @@
     align-items: center;
     border-radius: 40px;
     /*padding: 4px;*/
-    border: 4px solid rgb(242, 242, 242);
-    color: #fff;
+    border: 1px solid var(--main-white);
+    outline: 8px solid var(--main-white);
+    outline-offset: -2px;
 }
 
 .selected-card img {

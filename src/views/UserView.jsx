@@ -33,7 +33,7 @@ export default function CreateSessionView(props) {
 
     //destinationTitle="Back"
     return <div class="container">
-        <AppHeader onLeftClick={logOutEvenHandlerACB} icon={"Logout"} icon-text={"Logout"} />
+        <AppHeader class="m-bottom-m" onLeftClick={logOutEvenHandlerACB} icon={"Logout"} icon-text={"Logout"} />
         <UserGreeting
             userImage={props.userImage}
             title={"Hello"}
