@@ -16,14 +16,18 @@ export default function LoginSessionView(props) {
 
     return <div class="container">
         <SectionTitle title={"Bluffer"} />
+        <p class="login-descripton">Get a deck of cards and try to bluff 
+        your way out, and be the first to discard all of them</p>
         <div class="login-game-description m-bottom-m">
             <p></p>
         </div>
         <SwiperVue class="m-bottom-m" />
         <SingleAction
+            class = "m-bottom-m"
             title=" "
             description="How to play?"
             btnLabel="JOIN WITH GOOGLE"
             onCustomClick={LoginHandlerACB} />
+        <Footer/>
     </div>
 }

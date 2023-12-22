@@ -20,23 +20,23 @@
 }
 
 .card-mask {
-    width: 208px;
-    height: 280px;
+    width: 200px;
+    height: 270px;
 
     display: flex;
 
     overflow: hidden;
     justify-content: center;
     align-items: center;
-    border-radius: 40px;
+    border-radius: 32px;
     /*padding: 4px;*/
-    border: 1px solid var(--main-white);
+    border: 2px solid var(--main-white);
     /*outline: 8px solid var(--main-white);
     outline-offset: -2px;*/
 }
 
 .selected-card img {
-    width: 400%;
+    width: 340%;
 
 }
 /*Larger devices*/

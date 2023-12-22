@@ -25,11 +25,11 @@ The saga concludes when a player successfully discards all their cards. The vict
   }
 
   return (
-    <div class="container">
+    <div class="container m-bottom-m">
       <AppHeader class="fixed-top" onLeftClick={backEvenHandlerACB} icon={"Backarrow"} icon-text={"Back"} />
 
       <div class="title-text"> { /*<h2> OLD King bluffer /h2> */}  <br></br> </div>
-        
+
 
       <div class="sub-title-text">
         <h3>Instructions</h3>
@@ -40,11 +40,11 @@ The saga concludes when a player successfully discards all their cards. The vict
         <br></br>
 
         <p>2. Outsmart opponents by </p>
-          <ul> 
-            <li><p><strong>Truth with a twist: </strong> reveal your card with a dash of confusion.</p></li>
-            <br></br>
-            <li><p><strong>Bluff, a well-executed lie: </strong> assert a different card than your actual choice.</p></li>
-          </ul>
+        <ul>
+          <li><p><strong>Truth with a twist: </strong> reveal your card with a dash of confusion.</p></li>
+          <br></br>
+          <li><p><strong>Bluff, a well-executed lie: </strong> assert a different card than your actual choice.</p></li>
+        </ul>
         <br></br>
 
 
@@ -57,16 +57,19 @@ The saga concludes when a player successfully discards all their cards. The vict
       </div>
 
       <div class="sub-title-text">
-        <h2>About the developers</h2>
+        <h3>About the developers</h3>
       </div>
 
-      <div class="instruction-text-2">
-        <p> Check out our GitHub profiles: </p>
+      <div class="instruction-text-2 m-bottom-m">
+        <p class="p-small">
+          We're proudly KTH students, merging tech
+          and design for innovative solutions.
+          Check out our GitHub profiles: </p>
         <ul>
-          <li><p> <a href="https://github.com/AlbinFransson" target="_blank">AlbinFransson</a> </p></li>
-          <li><p> <a href="https://github.com/martinbergsand" target="_blank">MartinSandberg</a> </p></li>
-          <li><p> <a href="https://github.com/DavidGiraldoCode" target="_blank">DavidGiraldoCode</a> </p></li>
-          <li><p> <a href="https://github.com/osbac" target="_blank">OscarBackstrom</a> </p></li>
+          <li><p>👨‍💻<a class="p-small" href="https://github.com/AlbinFransson" target="_blank">AlbinFransson</a> </p></li>
+          <li><p>👨‍💻<a class="p-small" href="https://github.com/martinbergsand" target="_blank">MartinSandberg</a> </p></li>
+          <li><p>👨‍💻<a class="p-small" href="https://github.com/DavidGiraldoCode" target="_blank">DavidGiraldoCode</a> </p></li>
+          <li><p>👨‍💻<a class="p-small" href="https://github.com/osbac" target="_blank">OscarBackstrom</a> </p></li>
         </ul>
       </div>
 

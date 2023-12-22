@@ -1,4 +1,4 @@
-.leaderBoard-container {
+.leaderBoard-container{
     display: flex;
     padding: 0 var(--spacing-xs);
     flex-direction: column;

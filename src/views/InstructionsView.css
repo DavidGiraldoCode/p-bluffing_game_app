@@ -1,4 +1,3 @@
-
 .title-text {
     display: flex;
     padding: var(--spacing-m) 0px;
@@ -12,17 +11,22 @@
     display: flex;
     padding: var(--spacing-xs) var(--spacing-l);
     flex-direction: column;
-    justify-content:flex-start;
-    align-items:flex-start;
+    justify-content: flex-start;
+    align-items: flex-start;
     gap: var(--spacing-s);
     align-self: stretch;
-    
+
 }
 
 .instruction-text-2 ul {
-    padding-left: 20px; /* Adjust the indentation for the list */
-    margin-top: 5px; /* Optional: Add some space at the top of the list */
-  }
+    padding-left: 20px;
+    /* Adjust the indentation for the list */
+    margin-top: 5px;
+    /* Optional: Add some space at the top of the list */
+}
+.instruction-text-2 li {
+    margin-bottom: var(--spacing-s);
+}
 
 .sub-title-text {
     display: flex;
@@ -32,4 +36,3 @@
     align-items: flex-start;
     align-self: stretch;
 }
-

@@ -4,3 +4,8 @@
 .login-game-description p{
     text-align: center;
 }
+
+.login-descripton{
+    padding: 0 var(--spacing-s);
+    text-align: center;
+}
