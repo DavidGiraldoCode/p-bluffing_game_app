@@ -7,6 +7,7 @@ import PlayerOrderItem from "../components/PlayerOrderItem.jsx";
 import "../global-style.css";
 import "./SessionMenuView.css";
 import { useRouter } from "vue-router";
+import SessionShare from "../components/SessionShare.jsx";
 
 export default function SessionMenuView(props) {
 
@@ -15,6 +16,7 @@ export default function SessionMenuView(props) {
   function backEvenHandlerACB() {
     router.back()
   }
+
   function renderOrder(playerArray) {
 
     function skipHandler() {
@@ -48,9 +50,9 @@ export default function SessionMenuView(props) {
   return (
     <div class="container">
       <AppHeader title={"Menu"/*TODO*/} onLeftClick={backEvenHandlerACB} icon={"Backarrow"} icon-text={"Back"} />
-      <SessionID sessionID={props.sessionID} />
-      <button class="primary-no-border">Session ID - copy code</button>
-
+      <SessionShare 
+      sessionID={props.sessionID}
+      />
       <SectionSubtitle title="Who's turn?" />
 
       {renderOrder(props.playerOrder)}
