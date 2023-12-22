@@ -1,0 +1,19 @@
+.menu-item-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+  text-transform: none;
+}
+
+
+/*.main-title {
+  display: flex;
+  padding: var(--spacing-s);
+  justify-content: left;
+  align-items: center;
+  gap: var(--spacing-s);
+  flex: 1 0 0;
+  align-self: stretch;
+}*/

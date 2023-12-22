@@ -1,0 +1,13 @@
+.desktop-header-container{
+display: flex;
+width: 100%;
+height: 56px;
+padding: 8px 16px;
+justify-content: center;
+align-items: center;
+flex-shrink: 0;
+align-self: stretch;
+
+background: var(--main-1);
+
+} 

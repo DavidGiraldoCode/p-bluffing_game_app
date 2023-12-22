@@ -1,0 +1,25 @@
+.session-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: var(--spacing-xs);
+  align-self: stretch;
+  padding-left:  var(--spacing-m);
+  padding-top: var(--spacing-xs);
+}
+
+/*
+.session-container-2{
+  display: flex;
+  height: 40px;
+  justify-content: center;
+  align-items: left;
+  gap: 10px;
+  padding: var(--spacing-small);
+  align-self: stretch;
+  background-color: var(--main-2);
+  color: var(--primary-color);
+  text-align: left;
+  border-bottom: 1px solid var(--grey-6, #d4d4d4);
+
+}*/

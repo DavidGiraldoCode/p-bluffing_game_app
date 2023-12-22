@@ -1,0 +1,14 @@
+.section-title{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  padding: var(--spacing-m) var(--spacing-m) ;
+}
+
+/*
+.header {
+  font: 400 26px/32px Roboto, -apple-system, Roboto, Helvetica, sans-serif;
+  padding: 1px;
+}*/

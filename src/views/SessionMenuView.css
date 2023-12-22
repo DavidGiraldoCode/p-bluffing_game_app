@@ -1,0 +1,10 @@
+.players-order {
+    padding: 0 var(--spacing-m);
+    gap: var(--spacing-s);
+}
+
+.menu-items {
+    gap: var(--spacing-m);
+    padding: var(--spacing-m) var(--spacing-m);
+    background-color: var(--main-1);
+}

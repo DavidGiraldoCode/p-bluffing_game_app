@@ -195,7 +195,7 @@ The Player class represents a player in the card game.
 - `observeFirebaseModel(model)`: Observes changes in the model and updates Firebase accordingly.
 - `connectToFirebase(model, watchFunctionACB)`: Connects to Firebase and sets up Firebase if a session ID exists.
 - `setupFirebase(model, watchFunctionACB)`: Sets up Firebase by calling readFromFirebase and observeFirebaseModel.
-  
+
 ## Project setup
 
 Step by step of what we did to setup Vite project with Vue and `.jsx` (instead of `.vue`)

@@ -1,0 +1,14 @@
+.home-actions button{
+
+}
+
+.home-actions .double-action-btn-layout button {
+    height: 8rem;
+}
+
+/*Larger devices*/
+@media screen and (min-width: 420px) {
+    .home-actions .double-action-btn-layout button {
+        height: 9rem;
+    }
+}

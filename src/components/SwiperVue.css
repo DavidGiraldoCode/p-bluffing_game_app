@@ -1,0 +1,118 @@
+.swiper {
+  width: 208px;
+  height: 280px;
+  border-radius: 40px;
+  /* big-size
+  width: 220px;
+  height:304px;
+  */
+}
+
+.swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 40px;
+  border: 1px solid var(--main-white);
+  color: #fff;
+}
+
+.swiper-slide img {
+  width: 338%;
+
+  /*
+  width: 800%;
+  */
+}
+
+.selected {
+  border-radius: 40px;
+  border: 8px solid var(--primary-dark);
+  /*outline: 4px solid var(--primary-dark);
+  outline-offset: -2px;*/
+}
+
+.swiper-pagination-fraction,
+.swiper-pagination-custom,
+.swiper-horizontal>.swiper-pagination-bullets,
+.swiper-pagination-bullets.swiper-pagination-horizontal {
+  bottom: 8px;
+}
+
+.swiper-pagination-bullet {
+  background-color: var(--main-5);
+}
+
+.swiper-pagination-bullet-active {
+  background-color: var(--primary);
+}
+
+@media screen and (min-width: 420px) {
+
+  /* Styles for devices with a screen width less than 568px */
+  /* Your CSS rules here */
+  .swiper {
+    width: 236px;
+    height: 324px;
+  }
+
+  .swiper-slide {
+    border: 8px solid var(--main-white);
+  }
+
+  .swiper-slide img {
+    width: 400%;
+  }
+
+  .selected {
+    border: 8px solid var(--primary);
+  }
+}
+
+
+
+
+
+/*
+
+
+.swiper-slide:nth-child(1n) {
+  background-color: rgb(206, 17, 17);
+}
+
+.swiper-slide:nth-child(2n) {
+  background-color: rgb(0, 140, 255);
+}
+
+.swiper-slide:nth-child(3n) {
+  background-color: rgb(10, 184, 111);
+}
+
+.swiper-slide:nth-child(4n) {
+  background-color: rgb(211, 122, 7);
+}
+
+.swiper-slide:nth-child(5n) {
+  background-color: rgb(118, 163, 12);
+}
+
+.swiper-slide:nth-child(6n) {
+  background-color: rgb(180, 10, 47);
+}
+
+.swiper-slide:nth-child(7n) {
+  background-color: rgb(35, 99, 19);
+}
+
+.swiper-slide:nth-child(8n) {
+  background-color: rgb(0, 68, 255);
+}
+
+.swiper-slide:nth-child(9n) {
+  background-color: rgb(218, 12, 218);
+}
+
+.swiper-slide:nth-child(10n) {
+  background-color: rgb(54, 94, 77);
+}
+*/

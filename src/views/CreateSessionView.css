@@ -1,0 +1,6 @@
+.create-session-view {}
+
+.create-session-input {
+    padding: 0 var(--spacing-m);
+    gap: var(--spacing-s);
+}

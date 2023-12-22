@@ -1,0 +1,86 @@
+.join-form {
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing-l) var(--spacing-m);
+  gap: var(--spacing-l);
+  border-bottom: 1px solid var(--grey-2);
+}
+
+.join-form-input {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+/*     Unecesary code     */
+
+
+
+/*.title {
+  color: #000;
+  align-self: stretch;
+  font: 400 18px/24px Roboto, -apple-system, Roboto, Helvetica, sans-serif;
+}*/
+
+/*
+.container {
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+  gap: var(--spacing-m);
+
+  margin-top: var(--spacing-m);
+  width: 100%;
+  height: auto;
+  padding: var(--spacing-l) var(--spacing-m);
+  border-bottom: 1px solid var(--grey-3);
+}
+
+.input-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-s);
+}
+
+/*
+@media (max-width: 991px) {
+  .input-container {
+    white-space: initial;
+  }
+}*/
+/*
+.input {
+  align-items: center;
+  align-self: stretch;
+  border-radius: 16px;
+  border: 1px solid var(--interaction-enabled, #000);
+  background-color: var(--White, #fff);
+  display: flex;
+  margin-top: 4px;
+  height: 40px;
+  flex-direction: column;
+}*/
+
+/*.join-session-button {
+  color: var(--principal-ideas, #000);
+  text-align: center;
+  white-space: nowrap;
+  justify-content: center;
+  align-items: center;
+  align-self: stretch;
+  border-radius: 16px;
+  border: 2px solid var(--principal-ideas, #000);
+  background-color: var(--principal-white, #fff);
+  margin-top: 24px;
+  padding: 12px 60px;
+  font: 400 14px/24px Roboto, -apple-system, Roboto, Helvetica, sans-serif;
+}*/
+
+
+/*@media (max-width: 280px) {
+  .join-session-button {
+    white-space: initial;
+    padding: 0 20px;
+  }
+}*/

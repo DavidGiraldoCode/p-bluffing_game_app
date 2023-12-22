@@ -1,0 +1,53 @@
+.bluff-view {
+    /*display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;*/
+    flex: 1 0 0;
+    align-self: stretch;
+    text-align: center;
+}
+
+.instruction-text {
+    align-items: center;
+    padding: 0 var(--spacing-m);
+}
+
+.selected-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-mask {
+    width: 200px;
+    height: 270px;
+
+    display: flex;
+
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+    border-radius: 32px;
+    /*padding: 4px;*/
+    border: 2px solid var(--main-white);
+    /*outline: 8px solid var(--main-white);
+    outline-offset: -2px;*/
+}
+
+.selected-card img {
+    width: 340%;
+
+}
+/*Larger devices*/
+@media screen and (min-width: 420px) {
+    .card-mask {
+        width: 224px;
+        height: 308px;
+    }
+
+    .selected-card img {
+        width: 400%;
+
+    }
+}

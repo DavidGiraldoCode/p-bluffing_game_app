@@ -1,0 +1,36 @@
+
+.winner-banner-container{
+    display: flex;
+    flex-direction: column;
+    background: var(--main-2, #272944);
+    align-items: center;
+    align-self: stretch;
+    text-align: center;
+    gap: var(--spacing-s);
+    padding: var(--spacing-m) 0;
+}
+
+
+.image-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.large-star{
+    flex-shrink: 0;
+    width: 78px;
+    height: 78px;
+}
+
+.center-star{
+    flex-shrink: 0;
+    width: 100px;
+    height: 100px;
+}
+
+.small-star{
+    flex-shrink: 0;
+    width: 39px;
+    height: 39px;
+}
