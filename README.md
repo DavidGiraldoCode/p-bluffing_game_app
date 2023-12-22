@@ -20,12 +20,14 @@ npm run dev
 
 | Backlog (ToDo)                                | Doing (Develop)                                | Done (Deploy) |
 |-----------------------------------------------|-------------------------------------------------|---------------|
-| - Fix bugs on third-party component           | - Planing Presenters Architecture               | - Working Model |
-| - Implement Presenter with views              | - Debugging multiplayer functionality           | - Configure hosting on Firebase and Deploy app |
-| - Run usability test                          |                                                 | - Connect app to RealTimeDatabase |
-| - Implement final UI brand design             |                                                 | - Select and test third-party component |
-| - Implement mobile-only experience            |                                                 | - Create Firebase RealTime communication scheme |
+|  - Create lobby                               | - Running usability test                        | - Working Model |
+|                                               | - Implement final UI brand design               | - Configure hosting on Firebase and Deploy app |
+|                                               |                                                 | - Connect app to RealTimeDatabase |
+|                                               |                                                 | - Select and test third-party component |
+|                                               |                                                 | - Create Firebase RealTime communication scheme |
 |                                               |                                                 | - Connect to API |
+|                                               |                                                 | - Multiplayer functionality |
+|                                               |                                                 | - Mobile-only-experience |
 |                                               |                                                 | - Setup project with in Vite + Vue + JSX |
 
 ## Ongoing branches
@@ -58,7 +60,7 @@ p-bluffing_game_app/
 │ ├── views/
 │ │ ├── DesignSystemView.jsx
 │ │ └── ...
-│ ├── App.jsx
+│ ├── AppRoot.jsx
 │ ├── main.jsx
 │ ├── SessionModel.js
 │ ├── firebaseModel.js
@@ -76,10 +78,10 @@ This folder follows a modular structure, grouping related files into distinct di
 
 1. **Components**: Contains reusable UI components like `AppHeader` and `Footer`, each paired with its corresponding `.jsx` and `.css` files. This allows for component-specific styles and logic to be neatly encapsulated.
 2. **Presenters**: Contains presenter components responsible for handling logic and state management for specific views or sections of the application. Each presenter has its own `.jsx`.
-3. **Views**: Stores individual view components like `DesignSystemView`, each representing a distinct page or section of the application. These components likely render the UI and handle the layout using imported components from the `Components` directory.
+3. **Views**: Stores individual view components like `DesignSystemView`, each representing a distinct page or section of the application. These components render the UI and handle the layout using imported components from the `Components` directory.
 4. **Assets**: Stores assets like images, providing a centralized location for project-related media.
 5. **main.jsx:** Bootstraps the application and mounts the App.js to the HTML.
-6. **App.jsx** : Entry point for Routers and presenters that define the application structure. It import views, presenters, and other necessary files to build the app.
+6. **AppRoot.jsx** : Entry point for Routers and presenters that define the application structure. It import views, presenters, and other necessary files to build the app.
 7. **SessionModel.js**, **firebaseModel.js**, Contains the business logic, API interactions, the models for managing data and interactions within the application.
 8. **utilities.js**: Contain utility functions.
 9. **Reset.css** and **global-style.css**: Contain global styles and resets for consistent styling across the application.
@@ -95,33 +97,51 @@ The sessionModel object represents the overall game state and functionality.
 **Attributes:**
 
 - `sessionID`: The unique identifier for the game session.
-- `players`: An array containing instances of the Player class. For the local player.
+- `player`: Local player object.
 - `playerOrder`: An array representing the order in which players take their turns.
 - `yourTurn`: The `playerID` indicating whose turn it is.
+- `playerHost`: PlayerID of the host.
 - `localNumberOfPlayers`: The number of players in the local machine.
 - `gameOver`: A boolean indicating whether the game is over.
 - `winner`: The `playerID` of the winner.
 - `leaderboard`: A dictionary containing player information.
 - `readyToWriteFB`: A boolean indicating whether the model is ready to be saved to Firebase.
+- `isLoading`: Boolean indicating whether data is being loaded.
+- `startWithCards`: Number of cards to start the game with.
 
-**Functions for online functionality:**
+**Functions for Session Management:**
 
 - `joinSession(sessionIdFromUI, newPlayerName)`: Joins a session, creates a new player, and deals 5 cards to that player.
+- `reJoinSession(sessionIdFromUI, newPlayerName)`: Rejoins a session the player already been a part of. Able to choose a new name.
+- `reJoinSessionURL`: Function to handle add the user again for persistency of page refresh.
 - `createHost(newPlayerName)`: Creates a host player, initializes the deck, and deals 5 cards.
-- `nextPlayer()`: Advances to the next player in the turn order.
-- `shufflePlayers()`: Shuffles the player order array using Fisher-Yates Shuffle Algorithm.
+- `removePlayer(playerIdToRemove)`: Removes the playerID from playerOrder.
 - `removePlayer(playerIdToRemove)`: Removes a player from the game.
-- `removeCard(playerID, selectedCard)`: Removes a card from a player's pile.
+- `reset()`: Resets the model, except the users google data.
+  
+**Functions for Game Flow:**
+  
+- `nextPlayer()`: Advances to the next player in the turn order.
+- `shufflePlayers()`: Shuffles the player order array using Fisher-Yates Shuffle Algorithm. */This function is never used in current version./*
 - `gameOverCheck(playerID)`: Checks if a player is out of cards and updates the game state accordingly.
 
-**Functions for local functionality:**
+**Functions for Player Management:**
+  
+- `createPlayer(playerName, playerID, isHost)`: Creates a player object and sets local player and adds to the playerOrder.
+- `reCreatePlayer(playerName, playerID, isHost)`: Recreates the player (only locally) if the player already has joined once.
+- `dealCards(playerID, amountOfCards)`: Draws cards and adds them to a player's pile.
+- `removeCard(playerID, selectedCard)`: Removes a card from a player's pile.
 
+  
+**Functions for Authentification:**
+- `getAuthentification()`: Gets the authentification from the Google provider and saves the user to the model.
+- `signOut()`: Removes the user from the model and signs out from the Google provider.
+- `checkAuthStatus()`: Checks if the user already is logged in to Google and saves the user to the model.
+
+**Functions for API Interaction:**
 - `getDataFromAPI(API_URL)`: Fetches data from the API, handling errors.
 - `getDeckID()`: Gets a new deck ID from the API.
 - `getRemainingCardsOfDeck()`: Retrieves the remaining cards of the current deck.
-- `createPlayer(playerName, isHost)`: Creates a new player and adds it to the players array.
-- `dealCards(playerID, amountOfCards)`: Draws cards and adds them to a player's pile.
-- `async getPileOfCards()`: Gets card codes from the API for the player's pile.
 
 ### **Player Class**
 
@@ -140,19 +160,36 @@ The Player class represents a player in the card game.
 
 **Methods:**
 
-- `createPlayerID()`: Generates a random and unique player ID.
 - `getPileOfCards()`: Fetches the card codes from the API for the player's pile. For rendering purpose.
 
 ### Firebase persistence
 
 📜 file **firebaseModel.js**
 
-**Functions:**
+**Functions for Statistics:**
 
+- `playerFBCounter()`: Adds one number of how many players have played the game to the FB database. For statistic purpose.
+- `sessionFBCounter()`: Adds one number of how many sessions have created to the FB database. For statistic purpose.
+
+**Functions for Session Validation:**
+
+- `deleteSessionFromFB(model)`: Deletes the session from FB. */This function is not used in current version/*
 - `checkValidSessionID(sessionID)`: Checks whether a session ID is valid on Firebase.
+- `checkIfPlayerExists(sessionID, userID)`: Checks if the userID already exists on the session on FB.
+
+**Functions for Player Data:**
+
+- `getPlayerData(sessionID, userID)`: Gets the a certain players information from the session on FB.
+- `checkHostFB(sessionID, userID)`: Gets a certain players information if the player is host or not.
+
+**Functions for Model Conversion:**
+
 - `modelToPersistance(model)`: Converts the model into data to be stored in Firebase.
 - `persistanceToModel(firebaseData, model)`: Converts Firebase data and saves it to the model.
-- `savePlayersFB(model)`: Updates the playersFB on Firebase.
+
+**Functions for Firebase Interaction:**
+
+- `savePlayersFB(model)`: Updates the playersFB on Firebase. Separate function since no information regarding cards should be stored on FB.
 - `saveToFirebase(model)`: Checks if the model is ready and saves it to Firebase.
 - `readFromFirebase(model)`: Reads data from Firebase and sets the model to ready.
 - `observeFirebaseModel(model)`: Observes changes in the model and updates Firebase accordingly.
