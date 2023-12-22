@@ -7,62 +7,56 @@ import "../global-style.css";
 import "./LobbyView.css";
 import { goTo } from "../utilities";
 
+export default function LobbyView(props) {
+  function renderPlayers(playerArray) {
+    //playerArray = props.playerOrder
+    // TODO fix this one.
+    return (
+      <div class="player-order container">
+        {playerArray.map((playerID) => {
+          const playerInfo = props.leaderboard[playerID];
+          const playerName = playerInfo ? playerInfo.playerName : "Unknown";
+          const playerNameWithHost =
+            playerID == props.whosHost ? `${playerName} (host)` : playerName;
 
-
-export default function LobbyView(props){
-
-    function renderPlayers(playerArray){ //playerArray = props.playerOrder
-        // TODO fix this one.
-        return (    
-            <div class = "player-order container">
-                {playerArray.map((playerID) =>{
-                    const playerInfo = props.leaderboard[playerID];
-                    const playerName = playerInfo ? playerInfo.playerName : "Unknown";
-                    const playerNameWithHost = (playerID == props.whosHost) ? `${playerName} (host)` : playerName;
-
-                    return(
-                        <PlayerOrderItem
-                            isBluffing={""}
-                            canBeSkip={false}
-                            bluffIndicator={""}
-                            playerName={playerNameWithHost}
-                            buttonText={""}
-                            onSkipPlayer={""}/>
-                    );
-                })}
-            </div>
-        );
-    }
-        
-
-    function howToClickHandlerACB(){
-        goTo(`/instructions`);
-    }
-
-
-    return ( <div>
-        <div class="container">
-            <SectionTitle title="Lobby"/>
-            <SessionShare sessionID={props.sessionID}/>
-            <SectionSubtitle title="Who´s playing"/>
-            {renderPlayers(props.playerOrder)}
-        </div>
-        <div class="fixed-bottom container">
-            <SingleAction
-                onCustomClick={props.onCustomClickACB}
-                title = ""
-                description = "Start the game whenever you are ready"
-                buttonState = {false}
-                btnLabel = "START!"
-                class = "card-selector-action"
+          return (
+            <PlayerOrderItem
+              isBluffing={""}
+              canBeSkip={false}
+              bluffIndicator={""}
+              playerName={playerNameWithHost}
+              buttonText={""}
+              onSkipPlayer={""}
             />
-            
-
-        </div>
-        <button class="primary-no-boarder"
-            onClick={howToClickHandlerACB}>
-            How to play?</button>
-    </div>
+          );
+        })}
+      </div>
     );
+  }
 
+  function howToClickHandlerACB() {
+    goTo(`/instructions`);
+  }
+
+  return (
+    <div class="container">
+      <SectionTitle title="Lobby" />
+      <SessionShare sessionID={props.sessionID} />
+      <SectionSubtitle title="Who´s playing" />
+      {renderPlayers(props.playerOrder)}
+      <div class="fixed-bottom container">
+        <SingleAction
+          onCustomClick={props.onCustomClickACB}
+          title=""
+          description="Start the game whenever you are ready"
+          buttonState={false}
+          btnLabel="START!"
+          class="card-selector-action m-bottom-s"
+        />
+        <button class="primary-no-border" onClick={howToClickHandlerACB}>
+          How to play?
+        </button>
+      </div>
+    </div>
+  );
 }
