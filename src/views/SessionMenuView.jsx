@@ -8,6 +8,7 @@ import "../global-style.css";
 import "./SessionMenuView.css";
 import { useRouter } from "vue-router";
 import SessionShare from "../components/SessionShare.jsx";
+import { goTo } from "../utilities.js";
 
 export default function SessionMenuView(props) {
 

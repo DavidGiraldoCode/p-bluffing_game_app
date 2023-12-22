@@ -8,11 +8,12 @@ import "./LobbyView.css";
 import { goTo } from "../utilities";
 
 export default function LobbyView(props) {
+
   function renderPlayers(playerArray) {
     //playerArray = props.playerOrder
     // TODO fix this one.
     return (
-      <div class="player-order container">
+      <div class="lobby-player-order container">
         {playerArray.map((playerID) => {
           const playerInfo = props.leaderboard[playerID];
           const playerName = playerInfo ? playerInfo.playerName : "Unknown";
@@ -51,9 +52,9 @@ export default function LobbyView(props) {
           description="Start the game whenever you are ready"
           buttonState={false}
           btnLabel="START!"
-          class="card-selector-action m-bottom-s"
+          class="card-selector-action m-bottom-m"
         />
-        <button class="primary-no-border" onClick={howToClickHandlerACB}>
+        <button class="primary-no-border m-bottom-s" onClick={howToClickHandlerACB}>
           How to play?
         </button>
       </div>
