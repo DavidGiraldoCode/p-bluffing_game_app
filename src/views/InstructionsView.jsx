@@ -64,7 +64,7 @@ The saga concludes when a player successfully discards all their cards. The vict
         <p> Check out our GitHub profiles: </p>
         <ul>
           <li><p> <a href="https://github.com/AlbinFransson" target="_blank">AlbinFransson</a> </p></li>
-          <li><p> <a href="https://github.com/martinbergsand" target="_blank">martinbergsand</a> </p></li>
+          <li><p> <a href="https://github.com/martinbergsand" target="_blank">MartinSandberg</a> </p></li>
           <li><p> <a href="https://github.com/DavidGiraldoCode" target="_blank">DavidGiraldoCode</a> </p></li>
           <li><p> <a href="https://github.com/osbac" target="_blank">OscarBackstrom</a> </p></li>
         </ul>
