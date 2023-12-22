@@ -8,8 +8,8 @@ export default function SingleAction(props) {
     }
 
     return <div class="single_action_container" >
-        <h2>{props.title}</h2>
-        <p>{props.description}</p>
+        <h3>{props.title}</h3>
+        <p class="p-small">{props.description}</p>
         <button disabled={props.buttonState} onClick={eventHandlerACB}>{props.btnLabel}</button>
     </div>
 }

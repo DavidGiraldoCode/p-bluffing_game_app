@@ -1,5 +1,6 @@
 .wrapper-styler{
-    margin: 0 var(--spacing-m);
+    margin-left: var(--spacing-m);
+    margin-right: var(--spacing-m);
     overflow: hidden;
     border-radius: var(--spacing-m);
     display: flex;

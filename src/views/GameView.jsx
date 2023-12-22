@@ -34,7 +34,7 @@ export default function GameView(props) {
         goTo(`/session-menu/${props.uid}/${props.sessionID}`);
     }
 
-    function howToHandlerCB() {
+    function howToHandlerACB() {
         goTo(`/instructions`);
     }
 
@@ -53,8 +53,8 @@ export default function GameView(props) {
     }
 
     return <div class="game-view container">
-        <AppHeader class="m-bottom-m" onLeftClick={menuEvenHandlerACB} icon="Playerorder" />
-        <div class="wrapper-styler">
+        <AppHeader class="m-bottom-s" onLeftClick={menuEvenHandlerACB} icon="Playerorder" />
+        <div class="wrapper-styler m-bottom-m">
             <SessionID sessionID={props.sessionID} />
             <LBitem
                 rank={`No.${playerRank}`} // TODO Implement your current rank
@@ -65,13 +65,13 @@ export default function GameView(props) {
             />
         </div>
 
-        <div class="swiper-vue container m-top-m">
+        <div class="swiper-vue container">
             <SwiperVue cardCodes={props.player.pileOfCards} onSelectCard={selectCardHandler} />
         </div>
         <div class="fixed-bottom container">
             {yourTurn ? (
                 <SingleAction
-                    class="card-selector-action"
+                    class="card-selector-action m-bottom-s"
                     title="Your turn!"
                     description={`${props.player.selectedCard ? "You selected " + props.player.selectedCard + ", now bluff your way out" : "Pick a card to bluff your way out"}`}
                     buttonState={cardNotSelected}
@@ -79,19 +79,15 @@ export default function GameView(props) {
                     onCustomClick={blufferStageHandlerACB} />
             ) : (
                 <SingleAction
-                    class="card-selector-action"
+                    class="card-selector-action m-bottom-s"
                     title="Wait for your turn"
                     description=""
                     buttonState={true}
                     btnLabel="⏳"
                     onCustomClick={null} />
             )}
-            <button onClick={howToHandlerCB} class="primary-no-border"> How to play? </button>
+            <button onClick={howToHandlerACB} class="primary-no-border"> How to play? </button>
         </div>
-
-
-
-
     </div>
 }
 
