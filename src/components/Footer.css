@@ -6,7 +6,7 @@
   align-items: center;
   align-self: stretch;
   gap: var(--spacing-s);
-  padding: var(--spacing-m) 0;
+  padding: 0;
 }
 
 /*
