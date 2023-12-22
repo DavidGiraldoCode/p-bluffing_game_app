@@ -1,19 +1,15 @@
-import SessionID from "../components/SessionID";
 import SectionTitle from "../components/SectionTitle";
-import SectionSubtitle from "../components/SectionSubtitle";
 import LBitem from "../components/LBitem";
-import Footer from "../components/Footer";
 import SingleAction from "../components/SingleAction";
-import "../global-style.css";
-import { goTo } from "../utilities";
 import WinnerBanner from "../components/WinnerBanner";
+import "../global-style.css";
+import "./LeaderBoardView.css";
 
 function renderLeaderboard(sortedPlayers){
     return sortedPlayers.map((player, index) => (
         <LBitem
             rank={`No.${index + 1}`}
             playerName={player.playerName}
-            /*playerImage={props.UserImage}*/
             cardIcon={"🃏"}
             cardText={"Cards:"}
             score={`${player.numberOfCards}`}        
@@ -27,7 +23,6 @@ function renderGameOverBanner(winnerName, gameOver){
             description={"The winner is"}
             descriptionIcon={""}
             playerName={winnerName}
-            /*playerImage={props.userImage}*/
             winnerIconLeft={"🃏"}
             winnerIconRight={"🎉"}
             />
@@ -59,7 +54,10 @@ export default function LeaderBoardView(props) {
             {/*<SessionID sessionID={props.sessionID}/>*/}
             {renderGameOverBanner(data.winnerName, data.gameOver)}
             {/*<SectionSubtitle title={"Leaderboard"}/>*/}
-            {renderLeaderboard(data.sortedPlayers)}
+            <div class="leaderBoard-container">
+                {renderLeaderboard(data.sortedPlayers)}
+            </div>
+
             <SingleAction
                 title={props.title}
                 description={""}
