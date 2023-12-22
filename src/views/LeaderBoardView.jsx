@@ -59,6 +59,7 @@ export default function LeaderBoardView(props) {
             </div>
 
             <SingleAction
+                class = "fixed-bottom m-bottom-m"
                 title={props.title}
                 description={""}
                 buttonstate={"/* TODO */"}

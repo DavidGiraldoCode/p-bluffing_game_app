@@ -35,11 +35,12 @@ export default function CreateSessionView(props) {
 
         {props.isLoading ? (
             <Loading
-                class="create-session-singleaction-container"
+            
+                class="create-session-singleaction-container fixed-bottom m-bottom-m"
                 message="Creating Session..." />
         ) : (
             <SingleAction
-                class="fixed-bottom"
+                class ="fixed-bottom m-bottom-m"
                 description="You are going to be the host of this session"
                 btnLabel="Continue"
                 onCustomClick={creationHandlerACB}

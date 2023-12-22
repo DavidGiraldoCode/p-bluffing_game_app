@@ -4,7 +4,7 @@
   align-items: center;
   justify-content: center;
   align-self: stretch;
-  padding: var(--spacing-l) var(--spacing-m) ;
+  padding: var(--spacing-m) var(--spacing-m) ;
 }
 
 /*

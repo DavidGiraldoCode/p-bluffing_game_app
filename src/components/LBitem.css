@@ -1,12 +1,13 @@
 .lb {
   flex-direction: row;
-  height: 64px;
+  height: var(--spacing-j);
   align-items: center;
   align-self: stretch;
   justify-content: space-between;
   background: var(--main-2);
   border-radius: 16px;
-  /*border: 1px solid var(--main-3);*/
+  padding: 0 var(--spacing-s);
+  border: 1px solid var(--main-3);
   gap: 0px;
 }
 

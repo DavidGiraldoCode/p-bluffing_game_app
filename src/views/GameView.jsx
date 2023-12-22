@@ -53,8 +53,8 @@ export default function GameView(props) {
     }
 
     return <div class="game-view container">
-        <AppHeader class="m-bottom-s" onLeftClick={menuEvenHandlerACB} icon="Playerorder" />
-        <div class="wrapper-styler m-bottom-m">
+        <AppHeader title="Game" class="m-bottom-s" onLeftClick={menuEvenHandlerACB} icon="Playerorder" iconText="Player Order" />
+        <div class="wrapper-styler m-bottom-s">
             <SessionID sessionID={props.sessionID} />
             <LBitem
                 rank={`No.${playerRank}`} // TODO Implement your current rank

@@ -49,10 +49,11 @@ export default
       </div>
       {props.isLoading ? (
         <Loading
+          class ="fixed-bottom m-bottom-m"
           message="Joining Session" />
       ) : (
         <SingleAction
-          class="fixed-bottom"
+          class="fixed-bottom m-bottom-m"
           description="You will join the session as a guest"
           btnLabel="Confirm"
           onCustomClick={joinSessionHandlerACB}

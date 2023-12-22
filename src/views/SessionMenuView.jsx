@@ -17,6 +17,10 @@ export default function SessionMenuView(props) {
     router.back()
   }
 
+  function howToHandlerACB() {
+    goTo(`/instructions`);
+  }
+
   function renderOrder(playerArray) {
 
     function skipHandler() {
@@ -49,25 +53,24 @@ export default function SessionMenuView(props) {
 
   return (
     <div class="container">
-      <AppHeader title={"Menu"/*TODO*/} onLeftClick={backEvenHandlerACB} icon={"Backarrow"} icon-text={"Back"} />
-      <SessionShare 
-      sessionID={props.sessionID}
+      <AppHeader class="m-bottom-s" title="Menu" actionType={"secondary"} onLeftClick={backEvenHandlerACB} icon={"Playerorder"} iconText={"Back to game"} />
+      <SessionShare
+        sessionID={props.sessionID}
       />
       <SectionSubtitle title="Who's turn?" />
 
       {renderOrder(props.playerOrder)}
       <div class="menu-items container fixed-bottom">
-        <MenuItem
-          title={"How to play?"}
-          actionTye={"primary"}
-          routeDestination={`/instructions`/*${props.sessionID}*/} />
+        <button onClick={howToHandlerACB} class="primary-no-border"> How to play? </button>
         <MenuItem
           title={"Leave the game"}
-          actionTye={"secondary"}
+          actionTye={"ternary"}
           routeDestination={`/exit`/*${props.sessionID}*/} />
       </div>
-
-
     </div>
   );
 }
+/* <MenuItem
+          title={"How to play?"}
+          actionTye={"primary"}
+          routeDestination={`/instructions`} />*/
