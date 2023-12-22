@@ -8,7 +8,6 @@ align-items: center;
 flex-shrink: 0;
 align-self: stretch;
 
-border-bottom: 1px solid var(--grey-1, #DFDFDF);
-background: var(--Background-color, #FFF);
+background: var(--main-1);
 
 } 
