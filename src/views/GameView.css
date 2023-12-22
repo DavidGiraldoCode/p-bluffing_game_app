@@ -1,6 +1,6 @@
 .wrapper-styler{
-    margin-left: var(--spacing-m);
-    margin-right: var(--spacing-m);
+    margin-left: var(--spacing-s);
+    margin-right: var(--spacing-s);
     overflow: hidden;
     border-radius: var(--spacing-m);
     display: flex;
@@ -8,6 +8,10 @@
     flex-direction: column;
     background-color: var(--main-2);
     border: 1px solid var(--main-3);
+}
+.wrapper-styler .lb{
+    border: none;
+    height: var(--spacing-lxxx);
 }
 
 .wait-text{

@@ -3,7 +3,7 @@
   flex-direction: column;
   align-items: left;
   justify-content: center;
-  padding: var(--spacing-l) var(--spacing-m) ;
+  padding: var(--spacing-m) var(--spacing-m) ;
 }
 
 /*

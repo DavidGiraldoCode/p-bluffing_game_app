@@ -27,7 +27,7 @@ export default
         <p>If you are the host, no one will be able to skip a players turn.</p>
       </div>
       <SingleAction
-        class="fixed-bottom"
+        class="fixed-bottom m-bottom-m"
         description="Are you sure you want to leave?"
         buttonState={false}
         btnLabel="Yes"

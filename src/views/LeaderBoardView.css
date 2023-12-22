@@ -1,6 +1,6 @@
 .leaderBoard-container {
     display: flex;
-    padding: var(--spacing-m) var(--spacing-s);
+    padding: 0 var(--spacing-xs);
     flex-direction: column;
     align-items: flex-start;
     gap: var(--spacing-s);

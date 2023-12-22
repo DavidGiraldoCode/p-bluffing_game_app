@@ -62,15 +62,15 @@ export default function AppHeader(props) {
   return (
     <div class="header-container">
 
-      {!onTheGame ? (<button class="ternary header-action" onClick={leftEventHandlerACB/*goTo(props.routeDestination) x => { }*/}>
+      {!onTheGame ? (<button class={`ternary header-action`} onClick={leftEventHandlerACB/*goTo(props.routeDestination) x => { }*/}>
         <img class="menu-img" loading="lazy" src={iconSrc} alt="Logo" />
         {iconText}
       </button>) : null}
       
-      <h3 class="title-container">Bluffer</h3>
+      <h3 class="title-container">{props.title}</h3>
 
       { onTheGame? (<button class="secondary header-action" onClick={leftEventHandlerACB/*goTo(props.routeDestination) x => { }*/}>
-        {iconText}
+        {props.iconText}
         <img class="menu-img" loading="lazy" src={iconSrc} alt="Logo" />
       </button>) : null }
       
