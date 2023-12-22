@@ -53,15 +53,18 @@ export default function GameView(props) {
     }
 
     return <div class="game-view container">
-        <AppHeader onLeftClick={menuEvenHandlerACB} icon="Playerorder" />
-        <SessionID sessionID={props.sessionID} />
-        <LBitem
-            rank={`No.${playerRank}`} // TODO Implement your current rank
-            playerName={props.player.playerName}
-            cardIcon={"🃏"}
-            cardText={"Cards:"}
-            score={props.player.numberOfCards}
-        />
+        <AppHeader class="m-bottom-m" onLeftClick={menuEvenHandlerACB} icon="Playerorder" />
+        <div class="wrapper-styler">
+            <SessionID sessionID={props.sessionID} />
+            <LBitem
+                rank={`No.${playerRank}`} // TODO Implement your current rank
+                playerName={props.player.playerName}
+                cardIcon={"🃏"}
+                cardText={"Cards:"}
+                score={props.player.numberOfCards}
+            />
+        </div>
+
         <div class="swiper-vue container m-top-m">
             <SwiperVue cardCodes={props.player.pileOfCards} onSelectCard={selectCardHandler} />
         </div>

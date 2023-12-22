@@ -1,19 +1,22 @@
 .lb {
   flex-direction: row;
-  height: 48px;
+  height: 64px;
   align-items: center;
   align-self: stretch;
   justify-content: space-between;
-  border-bottom: 1px solid var(--grey-1, #dfdfdf);
-  background-color: var(--background-color);
+  background: var(--main-2);
+  border-radius: 16px;
+  /*border: 1px solid var(--main-3);*/
   gap: 0px;
 }
 
 .rank-container,
 .score-container {
+  display: flex;
   justify-content: center;
-  padding: var(--spacing-s);
-  background: var(--grey-5);
+  align-items: center;
+  gap: var(--spacing-s);
+  padding: 0 var(--spacing-s);
   width: auto;
   height: 100%;
 }
@@ -21,6 +24,7 @@
 .rank-number,
 .score-number {
   text-align: center;
+  height: auto;
 }
 
 .text-container {
@@ -30,9 +34,8 @@
   flex-grow: 1;
   /* Allows the container take up the remaning space */
   padding: var(--spacing-s);
-  gap: var(--spacing-xs);
+  gap: var(--spacing-s);
   align-items: center;
-  background-color: var(--secondary-color);
   width: 100%;
   height: 100%;
 }
@@ -40,11 +43,18 @@
 .user-text {
   flex: 1;
   text-align: left;
-  color: var(--primary-color);
+  
 }
 
 .cards-text {
   flex: 1;
   text-align: right;
-  color: var(--primary-color);
 }
+
+
+.user-image-2 {
+  width: 32px;
+  height: 32px;
+  border-radius: 3rem;
+}
+

@@ -71,10 +71,9 @@
     /* 1.875 * 16px = 30px */
     --fs-h3: 1.5rem;
     /* 1.5 * 16px = 24px */
-    --fs-h4: 1.125rem;
-    /* 1.125 * 16px = 18px */
+    --fs-h4: 1rem; /* 1.125 * 16px = 18px */
     --fs-p1: 1rem; /* 1.125 * 16px = 18px */
-    --fs-label: 1rem; /* 0.625 * 16px = 10px */
+    --fs-label: 0.9rem; /* 0.625 * 16px = 10px */
     --fs-button-label: 1rem; /* 1 * 16px = 16px */
 
     /* Define line-heights */
@@ -229,7 +228,7 @@ label {
     /*0.75rem*/
     line-height: var(--lh-p1);
     /*1rem;*/
-    color: var(--main-4);
+    color: var(--main-5);
     font-style: normal;
     font-weight: 400;
     /* 133.333% */

@@ -1,18 +1,20 @@
 .player-order-item {
     flex-direction: row;
     height: var(--spacing-j);
+    padding: 0 var(--spacing-s);
     justify-content: center;
     align-items: center;
     align-self: stretch;
-
-    border-bottom: 1px solid var(--grey-1-grey-moon, #DFDFDF);
+    background-color: var(--main-2);
+    border: 1px solid var(--main-3);
+    border-radius: var(--spacing-m);
+    overflow: hidden;  
 }
 
 .player-name-text {
     align-items: center;
     flex: 1 0 0;
     align-self: center;
-    background: var(--principal-white, #FFF);
     padding: 0 var(--spacing-s);
 }
 
@@ -21,4 +23,9 @@
     align-self: center;
     align-items: center;
     padding: 0 var(--spacing-m);
+}
+
+.bluffer-true{
+    background-color: var(--ternary);
+    border: 1px solid var(--main-3);
 }

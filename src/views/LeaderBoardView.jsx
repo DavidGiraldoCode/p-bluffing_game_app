@@ -13,6 +13,7 @@ function renderLeaderboard(sortedPlayers){
         <LBitem
             rank={`No.${index + 1}`}
             playerName={player.playerName}
+            /*playerImage={props.UserImage}*/
             cardIcon={"🃏"}
             cardText={"Cards:"}
             score={`${player.numberOfCards}`}        
@@ -23,9 +24,10 @@ function renderLeaderboard(sortedPlayers){
 function renderGameOverBanner(winnerName, gameOver){
     return gameOver ? (
         <WinnerBanner
-            description={"The winner is..."}
+            description={"The winner is"}
             descriptionIcon={""}
             playerName={winnerName}
+            /*playerImage={props.userImage}*/
             winnerIconLeft={"🃏"}
             winnerIconRight={"🎉"}
             />
@@ -53,10 +55,10 @@ export default function LeaderBoardView(props) {
 
     return (
         <div class="container">
-            <SectionTitle title={"Bluffer 🃏"} />
-            <SessionID sessionID={props.sessionID}/>
+            <SectionTitle title={"Leaderboard 🃏"} />
+            {/*<SessionID sessionID={props.sessionID}/>*/}
             {renderGameOverBanner(data.winnerName, data.gameOver)}
-            <SectionSubtitle title={"Leaderboard"}/>
+            {/*<SectionSubtitle title={"Leaderboard"}/>*/}
             {renderLeaderboard(data.sortedPlayers)}
             <SingleAction
                 title={props.title}

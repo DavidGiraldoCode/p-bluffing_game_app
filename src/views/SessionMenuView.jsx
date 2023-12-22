@@ -2,6 +2,7 @@ import AppHeader from "../components/AppHeader.jsx";
 import Footer from "../components/Footer.jsx";
 import SessionID from "../components/SessionID.jsx";
 import MenuItem from "../components/MenuItem.jsx";
+import SectionSubtitle from "../components/SectionSubtitle.jsx"
 import PlayerOrderItem from "../components/PlayerOrderItem.jsx";
 import "../global-style.css";
 import "./SessionMenuView.css";
@@ -21,7 +22,7 @@ export default function SessionMenuView(props) {
     }
 
     return (
-      <div className="player-order container">
+      <div className="players-order container">
         {playerArray.map((playerID) => {
           const playerInfo = props.leaderboard[playerID];
           const playerName = playerInfo ? playerInfo.playerName : "Unknown";
@@ -48,15 +49,23 @@ export default function SessionMenuView(props) {
     <div class="container">
       <AppHeader title={"Menu"/*TODO*/} onLeftClick={backEvenHandlerACB} icon={"Backarrow"} icon-text={"Back"} />
       <SessionID sessionID={props.sessionID} />
-      <p>Who's turn?</p>
+      <button class="primary-no-border">Session ID - copy code</button>
+
+      <SectionSubtitle title="Who's turn?" />
+
       {renderOrder(props.playerOrder)}
-      <MenuItem
-        title={"HOW TO PLAY?"}
-        routeDestination={`/instructions`/*${props.sessionID}*/} />
-      <MenuItem
-        title={"LEAVE THE GAME"}
-        routeDestination={`/exit`/*${props.sessionID}*/} />
-      
+      <div class="menu-items container fixed-bottom">
+        <MenuItem
+          title={"How to play?"}
+          actionTye={"primary"}
+          routeDestination={`/instructions`/*${props.sessionID}*/} />
+        <MenuItem
+          title={"Leave the game"}
+          actionTye={"secondary"}
+          routeDestination={`/exit`/*${props.sessionID}*/} />
+      </div>
+
+
     </div>
   );
 }
