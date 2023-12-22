@@ -15,11 +15,26 @@
 .double-action-btn-layout button {
     flex: 1;
     flex-direction: column;
-    justify-content: flex-end; 
-    height: 10rem;
+    justify-content: flex-end;
+    height: 7rem;
     padding: var(--spacing-m);
 }
 
+.double-action-btn-layout .secondary {
+    box-shadow: 0px 8px 0px 0px var(--secondary-dark);
+}
+
 .double-action-btn-layout img {
-    width: var(--spacing-j);
+    width: var(--spacing-lxxx);
+}
+
+/*Larger devices*/
+@media screen and (min-width: 420px) {
+    .double-action-btn-layout button {
+        height: 9rem;
+    }
+    .double-action-btn-layout img {
+        width: var(--spacing-j);
+    }
+
 }

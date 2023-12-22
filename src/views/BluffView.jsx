@@ -26,8 +26,8 @@ export default function BluffView(props) {
     //<SectionTitle title={"Bluff"} />
     return <div class="bluff-view container">
 
-        <AppHeader class="m-bottom-m" onLeftClick={logOutEvenHandlerACB} icon={"Leave"} icon-text={"Leave the game"} />
-        <div class="instruction-text m-bottom-m">
+        <AppHeader class="m-bottom-s" onLeftClick={logOutEvenHandlerACB} icon={"Leave"} icon-text={"Leave the game"} />
+        <div class="instruction-text m-bottom-s">
             <p> Tell a true or false statement about the card you have.
                 The others need to guess if your are telling the truth.</p>
         </div>
