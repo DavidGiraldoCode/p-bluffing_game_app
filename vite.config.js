@@ -11,4 +11,11 @@ export default defineConfig({
       }
     }
   }), vueJsx()],
+  server: {
+    port: 8080,
+  },
+  build: {
+    sourcemap: true,
+    minify: false
+  }
 })
