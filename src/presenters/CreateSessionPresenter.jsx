@@ -6,8 +6,9 @@ export default function CreateSessionPresenter(props) {
     async function createSessionHandlerACB(playerName) {
 
         const success = await propsWithLoading(props.model.createHost(playerName), props);
+        
         if (success) {
-            goTo(`/game/${props.model.user.uid}/${props.model.sessionID}`);
+            goTo(`/lobby/${props.model.user.uid}/${props.model.sessionID}`);
         }
     }
 

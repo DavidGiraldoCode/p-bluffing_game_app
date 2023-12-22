@@ -20,6 +20,7 @@ import DesktopView from "./views/DesktopView.jsx";
 import { useMediaQuery } from '@vueuse/core'
 
 import GamePresenterTest from "./presenters/GamePresenterTest.jsx";
+import LobbyPresenter from "./presenters/LobbyPresenter.jsx";
 
 export function makeRouter(model) {
     const router = createRouter({
@@ -55,7 +56,7 @@ export function makeRouter(model) {
                 meta: { requiresAuth: true }, // Authentication is required
             }, {
                 path: `/lobby/:uid/:session`, //TODO: Discuss if we could include a lobby before starting https://eloking.com/glossary/general/lobby
-                component: <div><h1>Lobby</h1></div>, // <Lobby model={model} /> 
+                component: <LobbyPresenter model={model}/>,
                 meta: { requiresAuth: true }, // Authentication is required
             }, {
                 path: `/game/:uid/:session`, // 

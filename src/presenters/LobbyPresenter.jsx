@@ -1,17 +1,18 @@
 import LobbyView from "../views/LobbyView";
-import { getPlayerNamesFromIDs } from "../utilities";
+import { goTo } from "../utilities";
 
 export default function LobbyPresenter(props){
 
-    function onCustomClickHandlerACB(userID, sessionID){
-
+    function onCustomClickHandlerACB(){
+        goTo(`/game/${props.model.user.uid}/${props.model.sessionID}`);
     }
 
     return <LobbyView
         sessionID = {props.model.sessionID}
-        playerNames = {getPlayerNamesFromIDs(props.model.playerOrder)}
-        onCustomClickACB = {onCustomClickHandlerACB(props.model.user.uid, props.model.sessionID)}
-
+        onCustomClickACB = {onCustomClickHandlerACB}
+        leaderboard = {props.model.leaderboard}
+        playerOrder = {props.model.playerOrder}
+        whosHost = {props.model.playerHost}
     />
 
 }

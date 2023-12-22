@@ -1,35 +1,51 @@
 import SectionTitle from "../components/SectionTitle.jsx";
 import SectionSubtitle from "../components/SectionSubtitle.jsx";
-import PlayerOrderIter from "../components/PlayerOrderItem.jsx";
+import PlayerOrderItem from "../components/PlayerOrderItem.jsx";
 import SingleAction from "../components/SingleAction.jsx";
-//import SessionShare from "../components/SessionShare.jsx";
+import SessionShare from "../components/SessionShare.jsx";
+import "../global-style.css";
+import "./LobbyView.css";
+import { goTo } from "../utilities";
 
 
 
 export default function LobbyView(props){
 
-    function renderPlayers(playerNames){
+    function renderPlayers(playerArray){ //playerArray = props.playerOrder
         // TODO fix this one.
-        return
-            <div>
-                <p>player 1</p>
-                <p>player 2</p>
+        return (    
+            <div class = "player-order container">
+                {playerArray.map((playerID) =>{
+                    const playerInfo = props.leaderboard[playerID];
+                    const playerName = playerInfo ? playerInfo.playerName : "Unknown";
+                    const playerNameWithHost = (playerID == props.whosHost) ? `${playerName} (host)` : playerName;
+
+                    return(
+                        <PlayerOrderItem
+                            isBluffing={""}
+                            canBeSkip={false}
+                            bluffIndicator={""}
+                            playerName={playerNameWithHost}
+                            buttonText={""}
+                            onSkipPlayer={""}/>
+                    );
+                })}
             </div>
+        );
+    }
+        
+
+    function howToClickHandlerACB(){
+        goTo(`/instructions`);
     }
 
 
     return ( <div>
         <div class="container">
             <SectionTitle title="Lobby"/>
-            {/* <SessionShare sessionID=props.sessionID>*/}
+            <SessionShare sessionID={props.sessionID}/>
             <SectionSubtitle title="Who´s playing"/>
-            {renderPlayers(props.playerNames)}
-
-
-        
-        
-        
-        
+            {renderPlayers(props.playerOrder)}
         </div>
         <div class="fixed-bottom container">
             <SingleAction
@@ -43,7 +59,9 @@ export default function LobbyView(props){
             
 
         </div>
-        
+        <button class="primary-no-boarder"
+            onClick={howToClickHandlerACB}>
+            How to play?</button>
     </div>
     );
 
