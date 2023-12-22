@@ -100,6 +100,7 @@
 
     line-height: 1;
     font-weight: 400;
+    letter-spacing: .05rem;
 
     color-scheme: light dark;
     color: var(--main-white);
@@ -200,6 +201,7 @@ h4 {
 }
 
 p {
+    letter-spacing: normal;
     font-family: 'Poppins', sans-serif;
     font-size: var(--fs-p1);
     /*0.875rem*/
@@ -244,14 +246,14 @@ button {
     line-height: var(--fs-h3);
     text-transform: uppercase;
 
-    border-radius: 1rem;
+    border-radius: var(--spacing-m);
     background: var(--primary);
     border: 1px solid var(--primary-light);
     box-shadow: 0px 8px 0px 0px #15A748;
 
     display: flex;
     align-self: stretch;
-    height: var(--spacing-j);
+    height: var(--spacing-lxxx);
     padding: var(--spacing-s);
     justify-content: center;
     align-items: center;
@@ -272,7 +274,7 @@ button {
     color: var(--secondary-text);
     border: 1px solid var(--secondary-light);
     background: var(--secondary);
-    box-shadow: 0px 8px 0px 0px var(--secondary-dark);
+    box-shadow: 0px 4px 0px 0px var(--secondary-dark);
 }
 
 .ternary {
@@ -280,7 +282,7 @@ button {
     color: var(--ternary-text);
     border: 1px solid var(--ternary-light);
     background: var(--ternary);
-    box-shadow: 0px 8px 0px 0px var(--ternary-dark);
+    box-shadow: 0px 4px 0px 0px var(--ternary-dark);
 }
 
 .primary-no-border {
@@ -411,6 +413,10 @@ textarea:not(:placeholder-shown) {
 
 .m-bottom-m {
     margin-bottom: var(--spacing-l);
+}
+
+.m-bottom-s {
+    margin-bottom: var(--spacing-s);
 }
 
 /*Fixed positions*/
