@@ -80,7 +80,7 @@ export let sessionModel = {
     leaderboard: {},
     readyToWriteFB: false,
     isLoading: false,
-    startWithCards: 2,
+    startWithCards: 3,
 
     // =================================== Session Management ==========================================
     async joinSession(sessionIdFromUI, newPlayerName) {
