@@ -23,6 +23,12 @@
     height: 78px;
 }
 
+.center-star{
+    flex-shrink: 0;
+    width: 100px;
+    height: 100px;
+}
+
 .small-star{
     flex-shrink: 0;
     width: 39px;

@@ -13,7 +13,6 @@ function renderLeaderboard(sortedPlayers){
         <LBitem
             rank={`No.${index + 1}`}
             playerName={player.playerName}
-            /*playerImage={props.UserImage}*/
             cardIcon={"🃏"}
             cardText={"Cards:"}
             score={`${player.numberOfCards}`}        
@@ -27,7 +26,6 @@ function renderGameOverBanner(winnerName, gameOver){
             description={"The winner is"}
             descriptionIcon={""}
             playerName={winnerName}
-            /*playerImage={props.userImage}*/
             winnerIconLeft={"🃏"}
             winnerIconRight={"🎉"}
             />

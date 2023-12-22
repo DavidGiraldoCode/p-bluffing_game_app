@@ -9,7 +9,6 @@ export default
         <h4 className="rank-number">{props.rank}</h4>
       </div>
       <div className="text-container">
-        <img loading="lazy" class="loading-image-class user-image-2" src={props.playerImage}></img>
         <h4 className="user-text">{props.playerName}</h4>
       </div>
       <div className="score-container">
