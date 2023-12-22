@@ -13,7 +13,7 @@ function DesktopContent(props){
 
         <div class="desktop-text-qr-container">
           <h3>This is a mobile-first gaming experience</h3>
-          <p> If you want to play, open the web or scan this code with your phone.</p>
+          <p> If you want to play scan this code with your phone.</p>
           <img src={qr_code} className="desktop-qr-image" /> 
         </div>
 
