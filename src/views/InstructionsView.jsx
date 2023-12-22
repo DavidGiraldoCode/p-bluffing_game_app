@@ -28,40 +28,50 @@ The saga concludes when a player successfully discards all their cards. The vict
     <div class="container">
       <AppHeader class="fixed-top" onLeftClick={backEvenHandlerACB} icon={"Backarrow"} icon-text={"Back"} />
 
-      <div class="title-text">
-        <h2>Kings’s Bluffer</h2>
-      </div>
+      <div class="title-text"> { /*<h2> OLD King bluffer /h2> */}  <br></br> </div>
+        
 
       <div class="sub-title-text">
-        <h3>Instructions:</h3>
+        <h3>Instructions</h3>
       </div>
 
-
-
-
-
-      <div class="instruction-text">
+      <div class="instruction-text-2">
         <p>1. Each round, pick a card from your hand.</p>
-        <p>2. Outsmart opponents by::</p>
-        <p>   * <strong>Truth with a twist</strong>,  reveal your card with a dash of confusion.</p>
-        <p>   * <strong>Bluff, a well-executed lie:</strong>, assert a different card than your actual choice.</p>
+        <br></br>
+
+        <p>2. Outsmart opponents by </p>
+          <ul> 
+            <li><p><strong>Truth with a twist: </strong> reveal your card with a dash of confusion.</p></li>
+            <br></br>
+            <li><p><strong>Bluff, a well-executed lie: </strong> assert a different card than your actual choice.</p></li>
+          </ul>
+        <br></br>
+
+
         <p>3. Success! Deceive opponents to discard the selected card.</p>
-        <p> </p>
+        <br></br>
+
         <p>Winning the Game:</p>
         <p>The saga concludes when you successfully discard all your cards. You become the Bluffing Royalty!</p>
+
       </div>
 
       <div class="sub-title-text">
         <h2>About the developers</h2>
       </div>
 
-      <div class="instruction-text">
-        <p>@github.com/AlbinFransson</p>
-        <p>@github.com/martinbergsand</p>
-        <p>@github.com/DavidGiraldoCode</p>
-        <p>@github.com/Oscar</p>
+      <div class="instruction-text-2">
+        <p> Check out our GitHub profiles: </p>
+        <ul>
+          <li><p> <a href="https://github.com/AlbinFransson" target="_blank">AlbinFransson</a> </p></li>
+          <li><p> <a href="https://github.com/martinbergsand" target="_blank">martinbergsand</a> </p></li>
+          <li><p> <a href="https://github.com/DavidGiraldoCode" target="_blank">DavidGiraldoCode</a> </p></li>
+          <li><p> <a href="https://github.com/osbac" target="_blank">OscarBackstrom</a> </p></li>
+        </ul>
       </div>
+
       <Footer />
+
     </div>
   );
 }

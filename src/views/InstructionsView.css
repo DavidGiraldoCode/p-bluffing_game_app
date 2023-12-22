@@ -1,13 +1,3 @@
-.instruction-text {
-    display: flex;
-    padding: var(--spacing-xs) var(--spacing-l);
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items:flex-start;
-    gap: var(--spacing-s);
-    align-self: stretch;
-    text-align: left;
-}
 
 .title-text {
     display: flex;
@@ -18,6 +8,22 @@
     align-self: stretch;
 }
 
+.instruction-text-2 {
+    display: flex;
+    padding: var(--spacing-xs) var(--spacing-l);
+    flex-direction: column;
+    justify-content:flex-start;
+    align-items:flex-start;
+    gap: var(--spacing-s);
+    align-self: stretch;
+    
+}
+
+.instruction-text-2 ul {
+    padding-left: 20px; /* Adjust the indentation for the list */
+    margin-top: 5px; /* Optional: Add some space at the top of the list */
+  }
+
 .sub-title-text {
     display: flex;
     padding: var(--spacing-m) var(--spacing-m);
@@ -26,3 +32,4 @@
     align-items: flex-start;
     align-self: stretch;
 }
+
